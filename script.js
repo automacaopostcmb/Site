@@ -309,6 +309,7 @@ function configurarLightbox() {
   if (!modal || !imagemModal) return;
 
   let ultimoElementoClicado = null;
+  let elementoPressionado = null;
   let inicioX = 0;
   let inicioY = 0;
 
@@ -344,16 +345,15 @@ function configurarLightbox() {
     ultimoElementoClicado?.focus();
   }
 
-  /*
-   * Guarda a posição inicial para diferenciar
-   * clique de arraste no carrossel.
-   */
   document.addEventListener(
     "pointerdown",
     (evento) => {
-      const elemento = evento.target.closest("[data-lightbox]");
+      elementoPressionado =
+        evento.target instanceof Element
+          ? evento.target.closest("[data-lightbox]")
+          : null;
 
-      if (!elemento) return;
+      if (!elementoPressionado) return;
 
       inicioX = evento.clientX;
       inicioY = evento.clientY;
@@ -361,23 +361,30 @@ function configurarLightbox() {
     true
   );
 
-  /*
-   * O true faz o lightbox receber o clique antes
-   * do bloqueio existente no carrossel.
-   */
   document.addEventListener(
     "click",
     (evento) => {
-      const elemento = evento.target.closest("[data-lightbox]");
+      const elementoDoClique =
+        evento.target instanceof Element
+          ? evento.target.closest("[data-lightbox]")
+          : null;
+
+      /*
+       * Quando o carrossel captura o ponteiro, usamos
+       * a imagem guardada durante o pointerdown.
+       */
+      const elemento =
+        elementoDoClique || elementoPressionado;
 
       if (!elemento) return;
 
       const movimentoX = Math.abs(evento.clientX - inicioX);
       const movimentoY = Math.abs(evento.clientY - inicioY);
 
+      elementoPressionado = null;
+
       /*
        * Se houve movimento, foi um arraste.
-       * Nesse caso, não abre a imagem.
        */
       if (movimentoX > 15 || movimentoY > 15) return;
 
