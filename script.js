@@ -300,15 +300,17 @@ function atualizarAno() {
 
 /* IMAGEM AMPLIADA */
 
+
 function configurarLightbox() {
   const modal = document.querySelector("[data-image-modal]");
   const imagemModal = document.querySelector("[data-image-modal-content]");
   const botaoFechar = document.querySelector("[data-image-modal-close]");
-  const imagensClicaveis = document.querySelectorAll("[data-lightbox]");
 
-  if (!modal || !imagemModal || imagensClicaveis.length === 0) return;
+  if (!modal || !imagemModal) return;
 
   let ultimoElementoClicado = null;
+  let inicioX = 0;
+  let inicioY = 0;
 
   function abrirModal(elemento) {
     const imagemDentro = elemento.querySelector("img");
@@ -321,6 +323,7 @@ function configurarLightbox() {
     if (!enderecoImagem) return;
 
     ultimoElementoClicado = elemento;
+
     imagemModal.src = enderecoImagem;
     imagemModal.alt =
       imagemDentro?.alt || "Imagem ampliada";
@@ -341,11 +344,48 @@ function configurarLightbox() {
     ultimoElementoClicado?.focus();
   }
 
-  imagensClicaveis.forEach((elemento) => {
-    elemento.addEventListener("click", () => {
+  /*
+   * Guarda a posição inicial para diferenciar
+   * clique de arraste no carrossel.
+   */
+  document.addEventListener(
+    "pointerdown",
+    (evento) => {
+      const elemento = evento.target.closest("[data-lightbox]");
+
+      if (!elemento) return;
+
+      inicioX = evento.clientX;
+      inicioY = evento.clientY;
+    },
+    true
+  );
+
+  /*
+   * O true faz o lightbox receber o clique antes
+   * do bloqueio existente no carrossel.
+   */
+  document.addEventListener(
+    "click",
+    (evento) => {
+      const elemento = evento.target.closest("[data-lightbox]");
+
+      if (!elemento) return;
+
+      const movimentoX = Math.abs(evento.clientX - inicioX);
+      const movimentoY = Math.abs(evento.clientY - inicioY);
+
+      /*
+       * Se houve movimento, foi um arraste.
+       * Nesse caso, não abre a imagem.
+       */
+      if (movimentoX > 15 || movimentoY > 15) return;
+
+      evento.preventDefault();
       abrirModal(elemento);
-    });
-  });
+    },
+    true
+  );
 
   botaoFechar?.addEventListener("click", fecharModal);
 
