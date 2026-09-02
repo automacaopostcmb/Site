@@ -479,59 +479,205 @@ function configurarLightbox() {
   });
 }
 function configurarCarrosselVideos() {
-  const carrossel = document.querySelector("[data-videos-carousel]");
+  const carrossel = document.querySelector(
+    "[data-videos-carousel]"
+  );
 
   if (!carrossel) return;
 
-  const track = carrossel.querySelector("[data-videos-track]");
+  const viewport = carrossel.querySelector(
+    ".videos-cmb-viewport"
+  );
+
+  const track = carrossel.querySelector(
+    "[data-videos-track]"
+  );
+
   const cards = Array.from(
     carrossel.querySelectorAll(".videos-cmb-card")
   );
 
-  const anterior = carrossel.querySelector("[data-videos-prev]");
-  const proximo = carrossel.querySelector("[data-videos-next]");
-  const atual = carrossel.querySelector("[data-videos-current]");
-  const total = carrossel.querySelector("[data-videos-total]");
+  const anterior = carrossel.querySelector(
+    "[data-videos-prev]"
+  );
 
-  if (!track || !cards.length || !anterior || !proximo) return;
+  const proximo = carrossel.querySelector(
+    "[data-videos-next]"
+  );
+
+  const areaDots = carrossel.querySelector(
+    "[data-videos-dots]"
+  );
+
+  if (
+    !viewport ||
+    !track ||
+    !cards.length ||
+    !anterior ||
+    !proximo ||
+    !areaDots
+  ) {
+    return;
+  }
 
   let indice = 0;
+  let posicaoInicialX = 0;
+  let posicaoAtualX = 0;
+  let arrastando = false;
 
   function quantidadeVisivel() {
     if (window.innerWidth <= 700) return 1;
     if (window.innerWidth <= 1000) return 2;
+
     return 3;
   }
 
-  function atualizarCarrossel() {
-    const visiveis = quantidadeVisivel();
-    const indiceMaximo = Math.max(0, cards.length - visiveis);
-
-    indice = Math.min(indice, indiceMaximo);
-
-    const primeiroCard = cards[0];
-    const estilosTrack = window.getComputedStyle(track);
-    const espaco = parseFloat(estilosTrack.columnGap) || 0;
-    const deslocamento =
-      indice * (primeiroCard.getBoundingClientRect().width + espaco);
-
-    track.style.transform = `translateX(-${deslocamento}px)`;
-
-    anterior.disabled = indice === 0;
-    proximo.disabled = indice === indiceMaximo;
-
-    if (atual) atual.textContent = String(indice + 1);
-    if (total) total.textContent = String(indiceMaximo + 1);
+  function indiceMaximo() {
+    return Math.max(
+      0,
+      cards.length - quantidadeVisivel()
+    );
   }
 
-  anterior.addEventListener("click", () => {
+  function larguraDoPasso() {
+    const larguraCard =
+      cards[0].getBoundingClientRect().width;
+
+    const estiloTrack =
+      window.getComputedStyle(track);
+
+    const espaco =
+      parseFloat(estiloTrack.columnGap) || 0;
+
+    return larguraCard + espaco;
+  }
+
+  function criarDots() {
+    const quantidade = indiceMaximo() + 1;
+
+    areaDots.innerHTML = "";
+
+    for (let numero = 0; numero < quantidade; numero++) {
+      const dot = document.createElement("button");
+
+      dot.type = "button";
+      dot.className = "videos-cmb-dot";
+      dot.setAttribute(
+        "aria-label",
+        `Mostrar posição ${numero + 1}`
+      );
+
+      dot.addEventListener("click", () => {
+        indice = numero;
+        atualizarCarrossel();
+      });
+
+      areaDots.appendChild(dot);
+    }
+  }
+
+  function atualizarDots() {
+    const dots = areaDots.querySelectorAll(
+      ".videos-cmb-dot"
+    );
+
+    dots.forEach((dot, numero) => {
+      const ativo = numero === indice;
+
+      dot.classList.toggle("is-active", ativo);
+
+      dot.setAttribute(
+        "aria-current",
+        ativo ? "true" : "false"
+      );
+    });
+  }
+
+  function atualizarCarrossel(animar = true) {
+    const maximo = indiceMaximo();
+
+    indice = Math.max(0, Math.min(indice, maximo));
+
+    track.style.transition = animar
+      ? "transform 450ms ease"
+      : "none";
+
+    track.style.transform =
+      `translateX(-${indice * larguraDoPasso()}px)`;
+
+    anterior.disabled = indice === 0;
+    proximo.disabled = indice === maximo;
+
+    atualizarDots();
+  }
+
+  function irParaAnterior() {
+    if (indice <= 0) return;
+
     indice -= 1;
     atualizarCarrossel();
-  });
+  }
 
-  proximo.addEventListener("click", () => {
+  function irParaProximo() {
+    if (indice >= indiceMaximo()) return;
+
     indice += 1;
     atualizarCarrossel();
+  }
+
+  anterior.addEventListener("click", irParaAnterior);
+  proximo.addEventListener("click", irParaProximo);
+
+  viewport.addEventListener(
+    "touchstart",
+    (evento) => {
+      posicaoInicialX = evento.touches[0].clientX;
+      posicaoAtualX = posicaoInicialX;
+      arrastando = true;
+
+      viewport.classList.add("is-dragging");
+    },
+    { passive: true }
+  );
+
+  viewport.addEventListener(
+    "touchmove",
+    (evento) => {
+      if (!arrastando) return;
+
+      posicaoAtualX = evento.touches[0].clientX;
+
+      const diferenca =
+        posicaoAtualX - posicaoInicialX;
+
+      const deslocamentoBase =
+        indice * larguraDoPasso();
+
+      track.style.transition = "none";
+
+      track.style.transform =
+        `translateX(${diferenca - deslocamentoBase}px)`;
+    },
+    { passive: true }
+  );
+
+  viewport.addEventListener("touchend", () => {
+    if (!arrastando) return;
+
+    const diferenca =
+      posicaoAtualX - posicaoInicialX;
+
+    arrastando = false;
+
+    viewport.classList.remove("is-dragging");
+
+    if (diferenca < -45) {
+      irParaProximo();
+    } else if (diferenca > 45) {
+      irParaAnterior();
+    } else {
+      atualizarCarrossel();
+    }
   });
 
   let temporizadorResize;
@@ -540,9 +686,11 @@ function configurarCarrosselVideos() {
     clearTimeout(temporizadorResize);
 
     temporizadorResize = setTimeout(() => {
-      atualizarCarrossel();
-    }, 120);
+      criarDots();
+      atualizarCarrossel(false);
+    }, 150);
   });
 
-  atualizarCarrossel();
+  criarDots();
+  atualizarCarrossel(false);
 }
