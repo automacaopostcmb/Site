@@ -775,7 +775,18 @@ body.modal-open {
   font-weight: 800;
 }
 
+/* Permite fechar o card no desktop mesmo com o mouse sobre ele */
+@media (min-width: 701px) {
+  .sector-card.is-collapsed .sector-extra {
+    max-height: 0 !important;
+    margin-top: 0 !important;
+    opacity: 0 !important;
+  }
 
+  .sector-card.is-collapsed .sector-more span {
+    transform: none !important;
+  }
+}
 /* =========================================================
    TABLET E TELAS MÉDIAS — ATÉ 1100PX
    ========================================================= */
