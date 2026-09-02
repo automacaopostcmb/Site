@@ -699,6 +699,20 @@ button { color: inherit; }
   .ticket-card h3 { font-size: 3.2rem; }
   .ticket-card .button { width: 100%; }
   .map-frame { min-height: 360px; }
+
+   /* Centraliza as informações principais dos ingressos */
+.ticket-card > .ticket-type {
+  align-self: center;
+  text-align: center;
+}
+
+.ticket-card > h3,
+.ticket-card > .ticket-note,
+.ticket-card > strong {
+  width: 100%;
+  text-align: center;
+}
+   
 }
 
 
@@ -976,7 +990,7 @@ body.modal-open {
   }
 
   .sector-logo {
-    margin: 25 auto 22px;
+    margin: 25px auto 22px;
     object-position: center;
   }
 
@@ -1037,4 +1051,8 @@ body.modal-open {
   .sector-card:not(.is-expanded) .sector-more span {
     transform: none !important;
   }
+}
+.highlight-card,
+.gallery-item {
+  box-shadow: none;
 }
