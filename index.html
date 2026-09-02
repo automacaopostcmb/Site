@@ -15,8 +15,8 @@
     <header class="site-header" data-header>
       <div class="container header-inner">
         <a class="brand" href="index.html" aria-label="Comic Market Brasil — página inicial">
-          <span class="brand-comic">COMIC</span>
-          <span class="brand-market">MARKET BRASIL</span>
+          <!-- TROQUE O ARQUIVO ABAIXO PELO SEU LOGO OFICIAL -->
+          <img class="brand-logo" src="logo-cmb.svg" alt="Comic Market Brasil" />
         </a>
         <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-controls="menu-principal" aria-expanded="false" data-menu-toggle>
           <span></span><span></span><span></span>
@@ -97,13 +97,17 @@
 
       <section class="section intro-section">
         <div class="container intro-grid">
-          <div>
+          <div class="intro-text-block">
             <p class="section-kicker">Comic Market Brasil</p>
             <h2 class="section-title">Um evento.<br /><span>Três setores.</span></h2>
+            <div class="intro-copy">
+              <p class="lead">A palavra-chave é <strong>oportunidade.</strong></p>
+              <p>O CMB fortalece o mercado de quadrinhos por meio da educação, do empreendedorismo e da conexão entre profissionais. Aqui, criatividade e negócios caminham lado a lado para transformar ideias em projetos reais.</p>
+            </div>
           </div>
-          <div class="intro-copy">
-            <p class="lead">A palavra-chave é <strong>oportunidade.</strong></p>
-            <p>O CMB fortalece o mercado de quadrinhos por meio da educação, do empreendedorismo e da conexão entre profissionais. Aqui, criatividade e negócios caminham lado a lado para transformar ideias em projetos reais.</p>
+          <div class="video-frame">
+            <!-- TROQUE M7lc1UVf-VE PELO ID DO SEU VÍDEO DO YOUTUBE -->
+            <iframe src="https://www.youtube-nocookie.com/embed/M7lc1UVf-VE" title="Vídeo sobre o Comic Market Brasil" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
           </div>
         </div>
       </section>
@@ -117,15 +121,27 @@
           <div class="sector-grid">
             <article class="sector-card sector-market">
               <span class="sector-number">01</span>
-              <div><p class="sector-tag">Venda • lançamentos • público</p><h3>Comic Market</h3><p>Artistas e editoras independentes apresentam obras, produtos e lançamentos diretamente ao público.</p></div>
+              <div class="sector-content">
+                <p class="sector-tag">Venda • lançamentos • público</p><h3>Comic Market</h3><p>Artistas e editoras independentes apresentam obras, produtos e lançamentos diretamente ao público.</p>
+                <button class="sector-more" type="button" aria-expanded="false" data-sector-toggle>Saiba mais <span>+</span></button>
+                <div class="sector-extra"><p>Um espaço de contato direto com leitores, colecionadores e fãs. O visitante encontra quadrinhos, ilustrações, produtos autorais, lançamentos e experiências criadas por artistas e editoras de todo o país.</p></div>
+              </div>
             </article>
             <article class="sector-card sector-business">
               <span class="sector-number">02</span>
-              <div><p class="sector-tag">Empresas • serviços • networking</p><h3>Comic Business</h3><p>Empresas e profissionais que ajudam a transformar projetos criativos em produtos e negócios.</p></div>
+              <div class="sector-content">
+                <p class="sector-tag">Empresas • serviços • networking</p><h3>Comic Business</h3><p>Empresas e profissionais que ajudam a transformar projetos criativos em produtos e negócios.</p>
+                <button class="sector-more" type="button" aria-expanded="false" data-sector-toggle>Saiba mais <span>+</span></button>
+                <div class="sector-extra"><p>Gráficas, plataformas, agências, ferramentas, investidores e prestadores de serviço se conectam a criadores para viabilizar projetos, formar parcerias e abrir novas oportunidades comerciais.</p></div>
+              </div>
             </article>
             <article class="sector-card sector-learning">
               <span class="sector-number">03</span>
-              <div><p class="sector-tag">Aulas • carreira • prática</p><h3>Comic Learning</h3><p>Master Classes com profissionais do mercado sobre criação, produção, carreira e empreendedorismo.</p></div>
+              <div class="sector-content">
+                <p class="sector-tag">Aulas • carreira • prática</p><h3>Comic Learning</h3><p>Master Classes com profissionais do mercado sobre criação, produção, carreira e empreendedorismo.</p>
+                <button class="sector-more" type="button" aria-expanded="false" data-sector-toggle>Saiba mais <span>+</span></button>
+                <div class="sector-extra"><p>Aulas teóricas e práticas para quem deseja desenvolver técnica, compreender o mercado e construir uma carreira sustentável em quadrinhos, ilustração, animação e áreas relacionadas.</p></div>
+              </div>
             </article>
           </div>
         </div>
@@ -143,22 +159,22 @@
                 <article class="carousel-slide highlight-card is-active" data-carousel-slide>
                   <!-- TROQUE A URL ABAIXO -->
                   <img src="https://comicmarketbrasil.com.br/wp-content/uploads/2026/08/MAPA-CMB-1-1080x1350.png" alt="Mapa do CMB 2026" loading="lazy" decoding="async" />
-                  <div class="highlight-card-body"><span>Informação</span><h3>Mapa do evento</h3><p>Conheça os setores, expositores e espaços antes de chegar.</p></div>
+                  <div class="highlight-card-body"><span>Informação</span><h3>Mapa do evento</h3><p>Conheça os setores, expositores e espaços antes de chegar.</p><a class="button button-magenta card-button" href="#local">Ver mapa</a></div>
                 </article>
                 <article class="carousel-slide highlight-card" data-carousel-slide>
                   <!-- TROQUE A URL ABAIXO -->
                   <img src="https://comicmarketbrasil.com.br/wp-content/uploads/2026/08/palco-1080x1350.png" alt="Programação do palco principal" loading="lazy" decoding="async" />
-                  <div class="highlight-card-body"><span>Programação</span><h3>Palco principal</h3><p>Bate-papos, apresentações e atrações abertas ao público.</p></div>
+                  <div class="highlight-card-body"><span>Programação</span><h3>Palco principal</h3><p>Bate-papos, apresentações e atrações abertas ao público.</p><a class="button button-magenta card-button" href="pagina.html">Ver programação</a></div>
                 </article>
                 <article class="carousel-slide highlight-card" data-carousel-slide>
                   <!-- TROQUE A URL ABAIXO -->
                   <img src="https://comicmarketbrasil.com.br/wp-content/uploads/2026/07/pitch.png" alt="Comic Pitch" loading="lazy" decoding="async" />
-                  <div class="highlight-card-body"><span>Negócios</span><h3>Comic Pitch</h3><p>Projetos selecionados são apresentados a investidores do mercado criativo.</p></div>
+                  <div class="highlight-card-body"><span>Negócios</span><h3>Comic Pitch</h3><p>Projetos selecionados são apresentados a investidores do mercado criativo.</p><a class="button button-magenta card-button" href="pagina.html">Saiba mais</a></div>
                 </article>
                 <article class="carousel-slide highlight-card" data-carousel-slide>
                   <!-- TROQUE A URL ABAIXO -->
                   <img src="https://comicmarketbrasil.com.br/wp-content/uploads/2026/07/FUNDO-MOBILE2-1.png" alt="Interesse em ser expositor" loading="lazy" decoding="async" />
-                  <div class="highlight-card-body"><span>Expositores</span><h3>Participe do CMB</h3><p>Cadastre seu interesse para acompanhar as próximas oportunidades.</p></div>
+                  <div class="highlight-card-body"><span>Expositores</span><h3>Participe do CMB</h3><p>Cadastre seu interesse para acompanhar as próximas oportunidades.</p><a class="button button-magenta card-button" href="contato.html">Tenho interesse</a></div>
                 </article>
               </div>
             </div>
@@ -171,14 +187,51 @@
         </div>
       </section>
 
-      <section class="section tickets-section">
-        <div class="container ticket-panel">
-          <div><p class="section-kicker light-kicker">Ingressos</p><h2>Garanta seu lugar no CMB 2026.</h2><p>Escolha entre o ingresso Comum ou o Learning, com acesso às Master Classes e kit exclusivo.</p></div>
-          <a class="button button-black" href="https://comicmarketbrasilingreso.com.br/" target="_blank" rel="noopener">Ver ingressos</a>
+      <section class="section gallery-section" id="registros">
+        <div class="container">
+          <div class="section-heading-row">
+            <div><p class="section-kicker">Galeria</p><h2 class="section-title">Alguns registros do <span>CMB</span></h2></div>
+            <p>Momentos, encontros e experiências das edições anteriores.</p>
+          </div>
+          <div class="carousel card-carousel event-gallery" data-carousel data-autoplay="0" data-per-view="3" aria-roledescription="carrossel">
+            <div class="carousel-viewport">
+              <div class="carousel-track" data-carousel-track>
+                <!-- TROQUE AS URLs ABAIXO PELAS FOTOS QUE PREFERIR -->
+                <figure class="carousel-slide gallery-item is-active" data-carousel-slide><img src="https://comicmarketbrasil.com.br/wp-content/uploads/2026/03/ROMAO_COMICMARKET_123717_L-1024x683.jpg" alt="Público e expositores no Comic Market Brasil" loading="lazy" decoding="async" /></figure>
+                <figure class="carousel-slide gallery-item" data-carousel-slide><img src="https://comicmarketbrasil.com.br/wp-content/uploads/2026/03/ROMAO_COMICMARKET_120931_L-1024x683.jpg" alt="Área de exposição do Comic Market Brasil" loading="lazy" decoding="async" /></figure>
+                <figure class="carousel-slide gallery-item" data-carousel-slide><img src="https://comicmarketbrasil.com.br/wp-content/uploads/2026/03/ROMAO_COMICMARKET_150747_L-683x1024.jpg" alt="Artistas e visitantes no Comic Market Brasil" loading="lazy" decoding="async" /></figure>
+                <figure class="carousel-slide gallery-item" data-carousel-slide><img src="https://comicmarketbrasil.com.br/wp-content/uploads/2026/03/ROMAO_COMICMARKET_123028_L-300x200.jpg" alt="Mesa de artista no Comic Market Brasil" loading="lazy" decoding="async" /></figure>
+                <figure class="carousel-slide gallery-item" data-carousel-slide><img src="https://comicmarketbrasil.com.br/wp-content/uploads/2026/03/ROMAO_COMICMARKET_103730_L-300x200.jpg" alt="Edição anterior do Comic Market Brasil" loading="lazy" decoding="async" /></figure>
+              </div>
+            </div>
+            <div class="card-carousel-controls">
+              <button class="round-arrow" type="button" aria-label="Foto anterior" data-carousel-prev>←</button>
+              <div class="carousel-dots dark-dots" role="tablist" aria-label="Escolher foto" data-carousel-dots></div>
+              <button class="round-arrow" type="button" aria-label="Próxima foto" data-carousel-next>→</button>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section class="section location-section">
+      <section class="section tickets-section">
+        <div class="container">
+          <div class="ticket-heading"><p class="section-kicker light-kicker">Ingressos</p><h2>Garanta seu lugar no CMB 2026.</h2><p>Escolha a experiência que combina com você.</p></div>
+          <div class="pricing-grid">
+            <article class="ticket-card">
+              <span class="ticket-type">Ingresso Comum — Dia</span><h3>R$35,00</h3><p class="ticket-note">Meia social com doação de 1 kg de alimento não perecível.</p><strong>Comic Market + Comic Business</strong>
+              <ul><li>Setor bazarista</li><li>Feira do empreendedor</li><li>Exposição e palco</li><li>Área dos Artistas</li><li>Meet &amp; Greet</li></ul>
+              <a class="button button-magenta" href="https://comicmarketbrasilingreso.com.br/" target="_blank" rel="noopener">Comprar</a>
+            </article>
+            <article class="ticket-card ticket-card-featured">
+              <span class="ticket-type">Ingresso Learning — Dia</span><h3>R$225,00</h3><p class="ticket-note">Vagas limitadas. Valor acrescido da taxa de administração.</p><strong>Market + Business + Learning</strong>
+              <ul><li>Todos os itens do ingresso Comum</li><li>Acesso às Master Classes</li><li>Kit Comic Learning</li><li>Entrada antecipada</li><li>Acesso a todas as áreas</li></ul>
+              <a class="button button-magenta" href="https://comicmarketbrasilingreso.com.br/" target="_blank" rel="noopener">Comprar</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section location-section" id="local">
         <div class="container location-grid">
           <div>
             <p class="section-kicker">Local</p>
@@ -186,14 +239,16 @@
             <p>R. Maj. Maragliano, 191 — São Paulo, SP. Aproximadamente 10 minutos a pé das estações Ana Rosa e Vila Mariana.</p>
             <a class="text-link" href="https://maps.google.com/?q=R.+Maj.+Maragliano,+191,+São+Paulo" target="_blank" rel="noopener">Abrir no mapa →</a>
           </div>
-          <div class="location-card" aria-label="Resumo da localização"><span>São Paulo</span><strong>15—16<br />AGO 2026</strong><small>Sábado 9h–19h<br />Domingo 9h–18h</small></div>
+          <div class="map-frame">
+            <iframe src="https://www.google.com/maps?q=FAPCOM%20R.%20Maj.%20Maragliano%20191%20S%C3%A3o%20Paulo&output=embed" title="Mapa da FAPCOM" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+          </div>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
       <div class="container footer-grid">
-        <div><a class="brand footer-brand" href="index.html"><span class="brand-comic">COMIC</span><span class="brand-market">MARKET BRASIL</span></a><p>Quadrinhos, aprendizado e negócios.</p></div>
+        <div><a class="brand footer-brand" href="index.html"><img class="brand-logo footer-logo" src="logo-cmb.svg" alt="Comic Market Brasil" /></a><p>Quadrinhos, aprendizado e negócios.</p></div>
         <div><strong>Navegação</strong><a href="#setores">Setores</a><a href="#destaques">Destaques</a><a href="contato.html">Contato</a></div>
         <div><strong>Contato</strong><a href="mailto:contato@comicmarketbrasil.com.br">contato@comicmarketbrasil.com.br</a><a href="https://instagram.com/comicmarketbrasil" target="_blank" rel="noopener">@comicmarketbrasil</a></div>
       </div>
