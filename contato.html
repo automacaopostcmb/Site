@@ -3,9 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Entre em contato com o Comic Market Brasil." />
     <meta name="theme-color" content="#d5007f" />
-    <title>Contato | Comic Market Brasil</title>
+    <title>Nova página | Comic Market Brasil</title>
     <link rel="stylesheet" href="style.css" />
     <script src="script.js" defer></script>
   </head>
@@ -16,66 +15,27 @@
         <a class="brand" href="index.html" aria-label="Comic Market Brasil — página inicial"><img class="brand-logo" src="logo-cmb.svg" alt="Comic Market Brasil" /></a>
         <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-controls="menu-principal" aria-expanded="false" data-menu-toggle><span></span><span></span><span></span></button>
         <nav class="main-nav" id="menu-principal" aria-label="Menu principal" data-menu>
-          <a href="index.html">Início</a><a href="index.html#setores">Setores</a><a href="pagina.html">Outra página</a><a class="active" href="contato.html">Contato</a><a class="button button-small button-yellow" href="https://comicmarketbrasilingreso.com.br/" target="_blank" rel="noopener">Ingressos</a>
+          <a href="index.html">Início</a><a href="index.html#setores">Setores</a><a class="active" href="pagina.html">Outra página</a><a href="contato.html">Contato</a><a class="button button-small button-yellow" href="https://comicmarketbrasilingreso.com.br/" target="_blank" rel="noopener">Ingressos</a>
         </nav>
       </div>
     </header>
 
-    <main id="conteudo" class="inner-page contact-page">
-      <section class="inner-hero contact-hero">
+    <main id="conteudo" class="inner-page">
+      <section class="inner-hero">
         <div class="container narrow">
-          <p class="section-kicker light-kicker">Fale com a equipe</p>
-          <h1>Como podemos ajudar?</h1>
-          <p>Envie sua dúvida, proposta ou solicitação. A mensagem será encaminhada diretamente para a equipe.</p>
+          <!-- EDITE O TÍTULO E O TEXTO DESTA PÁGINA AQUI -->
+          <p class="section-kicker light-kicker">Página livre</p>
+          <h1>Use este espaço para criar uma nova página.</h1>
+          <p>O cabeçalho, o rodapé e toda a adaptação para celular já estão prontos. Substitua este bloco pelo conteúdo que quiser.</p>
         </div>
       </section>
-
-      <section class="section contact-section">
-        <div class="container contact-grid">
-          <div class="contact-info">
-            <p class="section-kicker">Contato</p>
-            <h2>Conte um pouco sobre o que você precisa.</h2>
-            <p>Para facilitar o atendimento, escolha um assunto e inclua os detalhes importantes na mensagem.</p>
-            <div class="contact-detail"><span>E-mail do evento</span><a href="mailto:contato@comicmarketbrasil.com.br">contato@comicmarketbrasil.com.br</a></div>
-            <div class="contact-detail"><span>Instagram</span><a href="https://instagram.com/comicmarketbrasil" target="_blank" rel="noopener">@comicmarketbrasil</a></div>
-          </div>
-
-          <!--
-            PARA ADICIONAR OU REMOVER CAMPOS:
-            1. Copie um bloco .form-field abaixo.
-            2. Troque o texto do <label>, o name e o id.
-            3. Campos com required são obrigatórios.
-            O e-mail de destino fica no início do arquivo script.js.
-          -->
-          <form class="contact-form" action="https://formsubmit.co/limasketch@gmail.com" method="POST" data-contact-form>
-            <input type="hidden" name="_subject" value="Novo contato pelo site do Comic Market Brasil" />
-            <input type="hidden" name="_captcha" value="false" />
-            <input type="hidden" name="_template" value="table" />
-            <input type="hidden" name="_next" value="" data-form-next />
-            <input class="form-honeypot" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" />
-
-            <div class="form-success" role="status" tabindex="-1" data-form-success hidden>
-              <strong>Mensagem enviada!</strong><span>Obrigado pelo contato. Responderemos assim que possível.</span>
-            </div>
-
-            <div class="form-row">
-              <div class="form-field"><label for="nome">Nome</label><input id="nome" name="nome" type="text" autocomplete="name" required /></div>
-              <div class="form-field"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" required /></div>
-            </div>
-            <div class="form-row">
-              <div class="form-field"><label for="telefone">Telefone <small>(opcional)</small></label><input id="telefone" name="telefone" type="tel" autocomplete="tel" /></div>
-              <div class="form-field">
-                <label for="assunto">Assunto</label>
-                <select id="assunto" name="assunto" required>
-                  <option value="">Selecione</option><option>Informações gerais</option><option>Quero ser expositor</option><option>Imprensa e parcerias</option><option>Ingressos</option><option>Outro assunto</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-field"><label for="mensagem">Mensagem</label><textarea id="mensagem" name="mensagem" rows="7" required></textarea></div>
-            <label class="checkbox-field"><input type="checkbox" name="aceite" value="Sim" required /><span>Concordo em enviar meus dados para que a equipe responda a esta solicitação.</span></label>
-            <button class="button button-magenta submit-button" type="submit">Enviar mensagem</button>
-            <p class="form-note">Ao usar este formulário pela primeira vez, o serviço de envio poderá solicitar a confirmação do e-mail destinatário.</p>
-          </form>
+      <section class="section blank-content">
+        <div class="container narrow editable-placeholder">
+          <!-- INÍCIO DO CONTEÚDO EDITÁVEL -->
+          <h2>Seu conteúdo começa aqui</h2>
+          <p>Você pode adicionar textos, imagens, vídeos, botões, tabelas ou novas seções dentro desta área.</p>
+          <a class="button button-magenta" href="contato.html">Botão de exemplo</a>
+          <!-- FIM DO CONTEÚDO EDITÁVEL -->
         </div>
       </section>
     </main>
