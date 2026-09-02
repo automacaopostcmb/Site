@@ -949,4 +949,7 @@ body.modal-open {
   .faq-answer {
     padding: 20px 18px 24px;
   }
+   .gallery-item {
+  cursor: zoom-in;
+}
 }
