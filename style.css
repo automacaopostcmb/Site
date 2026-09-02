@@ -787,6 +787,65 @@ body.modal-open {
     transform: none !important;
   }
 }
+
+/* INGRESSOS EM TRÊS COLUNAS — DESKTOP */
+.tickets-layout {
+  display: grid;
+  grid-template-columns:
+    minmax(280px, 0.9fr)
+    minmax(0, 1fr)
+    minmax(0, 1fr);
+  align-items: stretch;
+  gap: 22px;
+}
+
+/*
+A div pricing-grid deixa de ser uma caixa separada.
+Assim, os dois ingressos passam a ocupar as colunas 2 e 3.
+*/
+.tickets-layout .pricing-grid {
+  display: contents;
+}
+
+.tickets-layout .ticket-heading {
+  max-width: none;
+  min-height: 620px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0;
+  padding: clamp(30px, 4vw, 50px);
+  color: var(--white);
+  border-radius: calc(var(--radius) + 8px);
+
+  /* TROQUE A URL ABAIXO PELA FOTO QUE PREFERIR */
+  background:
+    linear-gradient(
+      rgba(8, 7, 10, 0.68),
+      rgba(8, 7, 10, 0.88)
+    ),
+    url("https://comicmarketbrasil.com.br/wp-content/uploads/2026/03/ROMAO_COMICMARKET_123717_L-1024x683.jpg")
+    center / cover no-repeat;
+}
+
+.tickets-layout .ticket-heading h2 {
+  margin: 0 0 28px;
+  font-size: clamp(2.8rem, 4.5vw, 4.8rem);
+  line-height: 0.92;
+}
+
+.tickets-layout .ticket-heading > p:last-child {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+.tickets-layout .ticket-card {
+  width: 100%;
+  height: 100%;
+}
+
 /* =========================================================
    TABLET E TELAS MÉDIAS — ATÉ 1100PX
    ========================================================= */
@@ -809,7 +868,13 @@ body.modal-open {
   .menu-toggle { position: relative; z-index: 1001; }
 
   .menu-toggle { display: block; }
+.tickets-layout {
+  grid-template-columns: 1fr;
+}
 
+.tickets-layout .ticket-heading {
+  min-height: 420px;
+}
   .main-nav {
     position: fixed;
     inset: 0;
