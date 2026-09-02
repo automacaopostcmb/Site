@@ -8,13 +8,15 @@ const SITE_CONFIG = {
   intervaloBanner: 6500,
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  await window.componentesProntos;
+
   configurarMenu();
   configurarCabecalho();
   configurarCarrosseis();
   configurarSetores();
   configurarFormulario();
-   configurarLightbox();
+  configurarLightbox();
   atualizarAno();
 });
 
