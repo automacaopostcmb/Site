@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     configurarMenu();
     configurarCabecalho();
     configurarCarrosseis();
+     configurarCarrosselVideos();
     configurarSetores();
     configurarFormulario();
     configurarLightbox();
@@ -476,4 +477,72 @@ function configurarLightbox() {
       fecharModal();
     }
   });
+}
+function configurarCarrosselVideos() {
+  const carrossel = document.querySelector("[data-videos-carousel]");
+
+  if (!carrossel) return;
+
+  const track = carrossel.querySelector("[data-videos-track]");
+  const cards = Array.from(
+    carrossel.querySelectorAll(".videos-cmb-card")
+  );
+
+  const anterior = carrossel.querySelector("[data-videos-prev]");
+  const proximo = carrossel.querySelector("[data-videos-next]");
+  const atual = carrossel.querySelector("[data-videos-current]");
+  const total = carrossel.querySelector("[data-videos-total]");
+
+  if (!track || !cards.length || !anterior || !proximo) return;
+
+  let indice = 0;
+
+  function quantidadeVisivel() {
+    if (window.innerWidth <= 700) return 1;
+    if (window.innerWidth <= 1000) return 2;
+    return 3;
+  }
+
+  function atualizarCarrossel() {
+    const visiveis = quantidadeVisivel();
+    const indiceMaximo = Math.max(0, cards.length - visiveis);
+
+    indice = Math.min(indice, indiceMaximo);
+
+    const primeiroCard = cards[0];
+    const estilosTrack = window.getComputedStyle(track);
+    const espaco = parseFloat(estilosTrack.columnGap) || 0;
+    const deslocamento =
+      indice * (primeiroCard.getBoundingClientRect().width + espaco);
+
+    track.style.transform = `translateX(-${deslocamento}px)`;
+
+    anterior.disabled = indice === 0;
+    proximo.disabled = indice === indiceMaximo;
+
+    if (atual) atual.textContent = String(indice + 1);
+    if (total) total.textContent = String(indiceMaximo + 1);
+  }
+
+  anterior.addEventListener("click", () => {
+    indice -= 1;
+    atualizarCarrossel();
+  });
+
+  proximo.addEventListener("click", () => {
+    indice += 1;
+    atualizarCarrossel();
+  });
+
+  let temporizadorResize;
+
+  window.addEventListener("resize", () => {
+    clearTimeout(temporizadorResize);
+
+    temporizadorResize = setTimeout(() => {
+      atualizarCarrossel();
+    }, 120);
+  });
+
+  atualizarCarrossel();
 }
