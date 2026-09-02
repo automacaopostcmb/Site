@@ -8,24 +8,38 @@ const SITE_CONFIG = {
   intervaloBanner: 6500,
 };
 
-document.addEventListener("DOMContentLoaded", async () => {
-  await window.componentesProntos;
+document.addEventListener("DOMContentLoaded", () => {
+  const iniciarSite = () => {
+    configurarMenu();
+    configurarCabecalho();
+    configurarCarrosseis();
+    configurarSetores();
+    configurarFormulario();
+    configurarLightbox();
+    atualizarAno();
+  };
 
-  configurarMenu();
-  configurarCabecalho();
-  configurarCarrosseis();
-  configurarSetores();
-  configurarFormulario();
-  configurarLightbox();
-  atualizarAno();
+  if (window.componentesProntos) {
+    window.componentesProntos
+      .then(iniciarSite)
+      .catch((erro) => {
+        console.error("Erro ao iniciar o site:", erro);
+      });
+  } else {
+    iniciarSite();
+  }
 });
 
 function configurarMenu() {
   const botao = document.querySelector("[data-menu-toggle]");
   const menu = document.querySelector("[data-menu]");
-  if (!botao || !menu) return;
 
-  const fechar = () => {
+  if (!botao || !menu) {
+    console.error("Botão ou menu não encontrado.");
+    return;
+  }
+
+  const fecharMenu = () => {
     botao.setAttribute("aria-expanded", "false");
     botao.setAttribute("aria-label", "Abrir menu");
     menu.classList.remove("is-open");
@@ -33,19 +47,31 @@ function configurarMenu() {
   };
 
   botao.addEventListener("click", () => {
-    const aberto = botao.getAttribute("aria-expanded") === "true";
-    botao.setAttribute("aria-expanded", String(!aberto));
-    botao.setAttribute("aria-label", aberto ? "Abrir menu" : "Fechar menu");
-    menu.classList.toggle("is-open", !aberto);
-    document.body.classList.toggle("menu-open", !aberto);
+    const estaAberto =
+      botao.getAttribute("aria-expanded") === "true";
+
+    botao.setAttribute(
+      "aria-expanded",
+      String(!estaAberto)
+    );
+
+    botao.setAttribute(
+      "aria-label",
+      estaAberto ? "Abrir menu" : "Fechar menu"
+    );
+
+    menu.classList.toggle("is-open", !estaAberto);
+    document.body.classList.toggle("menu-open", !estaAberto);
   });
 
-  menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", fechar));
-  document.addEventListener("keydown", (evento) => {
-    if (evento.key === "Escape") fechar();
+  menu.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", fecharMenu);
   });
-  window.addEventListener("resize", () => {
-    if (window.innerWidth > 900) fechar();
+
+  document.addEventListener("keydown", (evento) => {
+    if (evento.key === "Escape") {
+      fecharMenu();
+    }
   });
 }
 
