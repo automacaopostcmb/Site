@@ -740,9 +740,9 @@ button { color: inherit; }
 /* LOGOS DOS TRÊS PILARES */
 
 .sector-logo {
-  width: 120%;
-  max-width: 250px;
-  height: 100px;
+  width: 100%;
+  max-width: 350px; /* aumente aqui */
+  height: 130px;    /* aumente a altura também */
   margin: 0 0 22px;
   object-fit: contain;
   object-position: center;
