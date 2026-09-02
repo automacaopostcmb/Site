@@ -1093,7 +1093,7 @@ Assim, os dois ingressos passam a ocupar as colunas 2 e 3.
   .submit-button { width: 100%; }
 
   /* Páginas internas */
-  .inner-page { padding-top: 72px; }
+  .inner-page { padding-top: 0px; }
   .inner-hero { padding: 82px 0; }
   .inner-hero h1 { font-size: clamp(2.85rem, 13vw, 4.5rem); }
 
