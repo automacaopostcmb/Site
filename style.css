@@ -475,6 +475,9 @@ button { color: inherit; }
 }
 
 @media (max-width: 700px) {
+    .gallery-section {
+    padding-top: 30px;
+  }
   .container { width: min(calc(100% - 28px), var(--container)); }
   .header-inner { min-height: 72px; }
   .brand-comic { font-size: 1.55rem; }
