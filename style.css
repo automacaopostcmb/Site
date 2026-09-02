@@ -229,7 +229,7 @@ button { color: inherit; }
   font-size: clamp(3.2rem, 7.8vw, 7.4rem);
   font-weight: 1000;
   letter-spacing: -0.075em;
-  line-height: 0.91;
+  line-height: 1.05;
   text-wrap: balance;
 }
 .hero-content > p:not(.eyebrow) { max-width: 650px; margin: 28px 0; font-size: clamp(1.08rem, 1.8vw, 1.35rem); color: rgba(255, 255, 255, 0.86); }
