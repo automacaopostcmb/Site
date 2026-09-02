@@ -1056,3 +1056,19 @@ body.modal-open {
 .gallery-item {
   box-shadow: none;
 }
+@media (max-width: 700px) {
+  /* Distância entre o texto e a imagem */
+  .intro-grid {
+    gap: 15px;
+  }
+
+  /* Margem adicional acima da imagem */
+  .intro-image-button {
+    margin-top: 0;
+  }
+
+  /* Distância entre a imagem e a próxima seção preta */
+  .intro-section {
+    padding-bottom: 45px;
+  }
+}
