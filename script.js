@@ -605,25 +605,35 @@ function configurarCarrosselVideos() {
     track.style.transform =
       `translateX(-${indice * larguraDoPasso()}px)`;
 
-    anterior.disabled = indice === 0;
-    proximo.disabled = indice === maximo;
+anterior.disabled = maximo === 0;
+proximo.disabled = maximo === 0;
 
     atualizarDots();
   }
 
-  function irParaAnterior() {
-    if (indice <= 0) return;
+function irParaAnterior() {
+  const maximo = indiceMaximo();
 
+  if (indice <= 0) {
+    indice = maximo;
+  } else {
     indice -= 1;
-    atualizarCarrossel();
   }
 
-  function irParaProximo() {
-    if (indice >= indiceMaximo()) return;
+  atualizarCarrossel();
+}
 
+function irParaProximo() {
+  const maximo = indiceMaximo();
+
+  if (indice >= maximo) {
+    indice = 0;
+  } else {
     indice += 1;
-    atualizarCarrossel();
   }
+
+  atualizarCarrossel();
+}
 
   anterior.addEventListener("click", irParaAnterior);
   proximo.addEventListener("click", irParaProximo);
