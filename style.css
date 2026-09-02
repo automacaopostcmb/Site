@@ -1027,3 +1027,14 @@ body.modal-open {
     padding-bottom: 90px;
   }
 }
+@media (max-width: 700px) {
+  .sector-card:not(.is-expanded) .sector-extra {
+    max-height: 0 !important;
+    margin-top: 0 !important;
+    opacity: 0 !important;
+  }
+
+  .sector-card:not(.is-expanded) .sector-more span {
+    transform: none !important;
+  }
+}
