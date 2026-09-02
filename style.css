@@ -1277,53 +1277,7 @@ html { scroll-behavior: auto; }
   }
 }
 
-/* MOBILE */
 
-@media (max-width: 700px) {
-  .videos-cmb {
-    padding: 64px 0;
-  }
-
-  .videos-cmb-heading {
-    margin-bottom: 32px;
-    text-align: center;
-  }
-
-  .videos-cmb-heading h2 {
-    font-size: 44px;
-  }
-
-  .videos-cmb-heading > p:last-child {
-    font-size: 16px;
-  }
-
-  .videos-cmb-track {
-    gap: 16px;
-  }
-
-  .videos-cmb-card {
-    flex-basis: 100%;
-    border-radius: 20px;
-  }
-
-  .videos-cmb-content {
-    padding: 22px;
-    text-align: center;
-  }
-
-  .videos-cmb-content h3 {
-    font-size: 22px;
-  }
-
-  .videos-cmb-controls {
-    margin-top: 26px;
-  }
-
-  .videos-cmb-arrow {
-    width: 48px;
-    height: 48px;
-  }
-}
 /* MOBILE — CARROSSEL DE VÍDEOS */
 
 @media (max-width: 700px) {
