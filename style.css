@@ -755,7 +755,7 @@ button { color: inherit; }
 
 @media (max-width: 700px) {
 .sector-logo {
-  margin: 50px auto 22px;
+  margin: 20px auto 22px;
   object-position: center;
 }
 }
@@ -976,7 +976,7 @@ body.modal-open {
   }
 
   .sector-logo {
-    margin: 0 auto 22px;
+    margin: 25 auto 22px;
     object-position: center;
   }
 
