@@ -960,13 +960,13 @@ Assim, os dois ingressos passam a ocupar as colunas 2 e 3.
   .hero-carousel .carousel-viewport,
   .hero-carousel .carousel-track,
   .hero-slide {
-    min-height: clamp(570px, 76svh, 640px);
+  min-height: clamp(520px, 70svh, 580px);
   }
 
-  .hero-slide {
-    align-items: flex-end;
-    padding: 110px 0 90px;
-  }
+.hero-slide {
+  align-items: flex-end;
+  padding: 90px 0 80px;
+}
 
   .hero-shade {
     background: linear-gradient(0deg, rgba(8, 7, 10, 0.96) 5%, rgba(8, 7, 10, 0.65) 62%, rgba(8, 7, 10, 0.25));
