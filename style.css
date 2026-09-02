@@ -955,3 +955,75 @@ body.modal-open {
 .gallery-item {
   cursor: zoom-in;
 }
+/* AJUSTES EXCLUSIVOS PARA MOBILE */
+@media (max-width: 700px) {
+
+  /* 1. Centraliza todo o conteúdo dos cards dos setores */
+  .sector-card {
+    align-items: center;
+    text-align: center;
+  }
+
+  .sector-tag {
+    width: 100%;
+    text-align: center;
+  }
+
+  .sector-content {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+  }
+
+  .sector-logo {
+    margin: 0 auto 22px;
+    object-position: center;
+  }
+
+  .sector-more {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .sector-extra {
+    text-align: center;
+  }
+
+  /* 2. Faz o menu ocupar corretamente a tela inteira */
+  .site-header,
+  .site-header.is-scrolled {
+    backdrop-filter: none;
+  }
+
+  .main-nav {
+    z-index: 1000;
+    width: 100%;
+    height: 100dvh;
+    min-height: 100vh;
+    justify-content: flex-start;
+    padding: 105px 26px 40px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: #08070a;
+  }
+
+  .brand,
+  .menu-toggle {
+    position: relative;
+    z-index: 1001;
+  }
+
+  /* 3. Diminui a altura do carrossel principal */
+  .hero,
+  .hero-carousel,
+  .hero-carousel .carousel-viewport,
+  .hero-carousel .carousel-track,
+  .hero-slide {
+    min-height: clamp(570px, 76svh, 640px);
+  }
+
+  .hero-slide {
+    padding-top: 110px;
+    padding-bottom: 90px;
+  }
+}
