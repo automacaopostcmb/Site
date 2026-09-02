@@ -62,24 +62,62 @@ function configurarCarrosseis() {
 
 function configurarSetores() {
   const botoes = [...document.querySelectorAll("[data-sector-toggle]")];
+
   if (!botoes.length) return;
 
   botoes.forEach((botao) => {
+    const card = botao.closest(".sector-card");
+
+    card?.addEventListener("mouseleave", () => {
+      card.classList.remove("is-collapsed");
+    });
+
     botao.addEventListener("click", () => {
-      const card = botao.closest(".sector-card");
-      const vaiAbrir = !card?.classList.contains("is-expanded");
+      if (!card) return;
+
+      const estavaAberto =
+        card.classList.contains("is-expanded");
 
       botoes.forEach((outroBotao) => {
-        const outroCard = outroBotao.closest(".sector-card");
-        outroCard?.classList.remove("is-expanded");
-        outroBotao.setAttribute("aria-expanded", "false");
-        outroBotao.firstChild.textContent = "Saiba mais ";
+        const outroCard =
+          outroBotao.closest(".sector-card");
+
+        outroCard?.classList.remove(
+          "is-expanded",
+          "is-collapsed"
+        );
+
+        outroBotao.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+        outroBotao.firstChild.textContent =
+          "Saiba mais ";
       });
 
-      if (vaiAbrir && card) {
+      if (!estavaAberto) {
         card.classList.add("is-expanded");
-        botao.setAttribute("aria-expanded", "true");
-        botao.firstChild.textContent = "Mostrar menos ";
+
+        botao.setAttribute(
+          "aria-expanded",
+          "true"
+        );
+
+        botao.firstChild.textContent =
+          "Mostrar menos ";
+      } else {
+        card.classList.add("is-collapsed");
+
+        botao.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+        botao.firstChild.textContent =
+          "Saiba mais ";
+
+        botao.blur();
       }
     });
   });
