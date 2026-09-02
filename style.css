@@ -1079,3 +1079,8 @@ body.modal-open {
   }
 }
 
+@media (max-width: 700px) {
+  .section.intro-section {
+    padding-top: 20px;
+  }
+}
