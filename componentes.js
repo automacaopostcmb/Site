@@ -10,7 +10,7 @@ async function carregarComponente(seletor, arquivo) {
       throw new Error(`Não foi possível carregar ${arquivo}`);
     }
 
-    local.innerHTML = await resposta.text();
+local.outerHTML = await resposta.text();
   } catch (erro) {
     console.error(erro);
   }
