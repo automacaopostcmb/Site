@@ -1319,7 +1319,7 @@ html { scroll-behavior: auto; }
 
 @media (max-width: 700px) {
   .videos-cmb {
-    padding: 54px 0 48px;
+    padding: 30px 0 48px;
     overflow: hidden;
   }
 
