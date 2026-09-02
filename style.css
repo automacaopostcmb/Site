@@ -862,12 +862,22 @@ Assim, os dois ingressos passam a ocupar as colunas 2 e 3.
    ========================================================= */
 @media (max-width: 900px) {
   .site-header,
-  .site-header.is-scrolled { backdrop-filter: none; }
+  .site-header.is-scrolled {
+    backdrop-filter: none;
+  }
 
-  .brand,
-  .menu-toggle { position: relative; z-index: 1001; }
+  .site-header .brand,
+  .site-header .menu-toggle {
+    position: relative;
+    z-index: 1001;
+  }
 
-  .menu-toggle { display: block; }
+  .menu-toggle {
+    display: block;
+  }
+
+
+   
 .tickets-layout {
   grid-template-columns: 1fr;
 }
