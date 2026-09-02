@@ -754,10 +754,10 @@ button { color: inherit; }
 }
 
 @media (max-width: 700px) {
-  .sector-logo {
-    max-width: 220px;
-    height: 85px;
-  }
+.sector-logo {
+  margin: 20px auto 22px;
+  object-position: center;
+}
 }
 
 
