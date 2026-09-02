@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 128" role="img" aria-labelledby="title desc">
+  <title id="title">Comic Market Brasil</title>
+  <desc id="desc">Logo provisório do Comic Market Brasil</desc>
+  <rect width="520" height="128" rx="18" fill="#08070a"/>
+  <path d="M24 22h16v84H24z" fill="#ffd600"/>
+  <text x="58" y="76" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="900" letter-spacing="-4">COMIC</text>
+  <text x="270" y="55" fill="#ffd600" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="900" letter-spacing="2">MARKET</text>
+  <text x="270" y="82" fill="#d5007f" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="900" letter-spacing="2">BRASIL</text>
+</svg>
