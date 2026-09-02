@@ -389,7 +389,7 @@ button { color: inherit; }
 .footer-bottom { margin-top: 65px; padding-top: 20px; color: rgba(255, 255, 255, 0.42); border-top: 1px solid rgba(255, 255, 255, 0.12); font-size: 0.82rem; }
 
 /* PÁGINAS INTERNAS */
-.inner-page { padding-top: 86px; }
+.inner-page { padding-top: 0px; }
 .inner-hero { padding: clamp(90px, 12vw, 155px) 0; color: var(--white); background: radial-gradient(circle at 85% 20%, rgba(213, 0, 127, 0.5), transparent 35%), var(--black); }
 .inner-hero h1 { margin: 0; font-size: clamp(3.2rem, 7.5vw, 7rem); font-weight: 1000; letter-spacing: -0.072em; line-height: 0.91; text-wrap: balance; }
 .inner-hero p:last-child { max-width: 700px; margin: 28px 0 0; color: rgba(255, 255, 255, 0.7); font-size: 1.15rem; }
