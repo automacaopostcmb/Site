@@ -1,4 +1,7 @@
 /* =========================================================
+   BASE E DESKTOP
+   ========================================================= */
+/* =========================================================
    CORES PRINCIPAIS — altere aqui para mudar o site inteiro
    ========================================================= */
 :root {
@@ -346,12 +349,12 @@ button { color: inherit; }
 .card-carousel .carousel-viewport { margin: -16px; padding: 16px; }
 .card-carousel .carousel-track { gap: var(--gap); }
 .card-carousel .carousel-slide { min-width: 0; flex-basis: calc((100% - (var(--per-view) - 1) * var(--gap)) / var(--per-view)); }
-.highlight-card { color: var(--black); border-radius: var(--radius); background: var(--white); box-shadow: 0 15px 42px rgba(29, 17, 25, 0.08); overflow: hidden; }
+.highlight-card { display: flex; flex-direction: column; color: var(--black); border-radius: var(--radius); background: var(--white); box-shadow: none; overflow: hidden; }
 .highlight-card img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #ddd; }
-.highlight-card-body { padding: 26px 28px 32px; }
+.highlight-card-body { display: flex; flex: 1; flex-direction: column; align-items: flex-start; padding: 26px 28px 32px; }
 .highlight-card-body span { color: var(--magenta); font-size: 0.69rem; font-weight: 900; letter-spacing: 0.13em; text-transform: uppercase; }
 .highlight-card-body h3 { margin: 8px 0 10px; font-size: 1.55rem; letter-spacing: -0.035em; }
-.highlight-card-body p { margin: 0; color: var(--gray); }
+.highlight-card-body p { margin: 0 0 24px; color: var(--gray); }
 .card-carousel-controls { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 38px; }
 .round-arrow { width: 48px; height: 48px; border: 1px solid var(--line); border-radius: 50%; background: var(--white); font-size: 1.25rem; cursor: pointer; }
 .round-arrow:hover { color: var(--white); border-color: var(--magenta); background: var(--magenta); }
@@ -432,98 +435,6 @@ button { color: inherit; }
 .form-success { display: flex; flex-direction: column; gap: 2px; padding: 18px; color: #155d33; border: 1px solid #b5ddc3; border-radius: 12px; background: #eaf8ef; }
 .form-success[hidden] { display: none; }
 
-@media (max-width: 1100px) {
-  .carousel-arrow { top: auto; bottom: 22px; transform: none; }
-  .carousel-prev { left: 20px; }
-  .carousel-next { right: 20px; }
-  .hero-carousel .carousel-dots { bottom: 36px; }
-  .sector-card { min-height: 430px; }
-}
-
-@media (max-width: 900px) {
-  .menu-toggle { display: block; z-index: 2; }
-  .main-nav {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
-    gap: 3px;
-    padding: 100px 26px 40px;
-    color: var(--white);
-    background: rgba(8, 7, 10, 0.985);
-    transform: translateX(100%);
-    visibility: hidden;
-    transition: transform 230ms ease, visibility 230ms ease;
-  }
-  .main-nav.is-open { transform: translateX(0); visibility: visible; }
-  .main-nav > a:not(.button) { padding: 10px 0; font-size: clamp(1.55rem, 6vw, 2.5rem); font-weight: 900; }
-  .main-nav > a:not(.button)::after { display: none; }
-  .main-nav .button { margin-top: 16px; }
-  .intro-grid,
-  .location-grid,
-  .contact-grid { grid-template-columns: 1fr; }
-  .intro-copy { max-width: 720px; }
-  .section-heading-row { grid-template-columns: 1fr; gap: 18px; }
-  .sector-grid { grid-template-columns: 1fr; }
-  .sector-card { min-height: 330px; }
-  .ticket-panel { align-items: flex-start; flex-direction: column; }
-  .location-card { min-height: 390px; }
-  .footer-grid { grid-template-columns: 1.5fr 0.7fr 1fr; }
-  .card-carousel { --per-view: 2; }
-}
-
-@media (max-width: 700px) {
-  .container { width: min(calc(100% - 28px), var(--container)); }
-  .header-inner { min-height: 72px; }
-  .brand-comic { font-size: 1.55rem; }
-  .brand-market { font-size: 0.59rem; }
-  .hero,
-  .hero-carousel,
-  .hero-carousel .carousel-viewport,
-  .hero-carousel .carousel-track,
-  .hero-slide { min-height: max(670px, 88svh); }
-  .hero-slide { align-items: flex-end; padding: 130px 0 125px; }
-  .hero-shade { background: linear-gradient(0deg, rgba(8, 7, 10, 0.96) 5%, rgba(8, 7, 10, 0.65) 62%, rgba(8, 7, 10, 0.25)); }
-  .hero-content h1,
-  .hero-content h2 { font-size: clamp(2.75rem, 13.2vw, 4.3rem); }
-  .hero-content > p:not(.eyebrow) { margin: 20px 0 24px; font-size: 1rem; }
-  .hero-actions { align-items: stretch; flex-direction: column; }
-  .hero-actions .button { width: 100%; }
-  .carousel-arrow { width: 44px; height: 44px; font-size: 1.8rem; }
-  .carousel-prev { left: 14px; }
-  .carousel-next { right: 14px; }
-  .carousel-pause { right: 14px; top: 86px; bottom: auto; }
-  .event-strip-grid { grid-template-columns: 1fr; padding-block: 16px; }
-  .event-strip-grid > div,
-  .event-strip-grid > div:first-child { min-height: 70px; padding: 12px 0; border: 0; border-top: 1px solid rgba(8, 7, 10, 0.18); }
-  .event-strip-grid > div:first-child { border-top: 0; }
-  .section { padding: 74px 0; }
-  .section-title { font-size: clamp(2.55rem, 13vw, 4.1rem); }
-  .sector-card { min-height: 360px; }
-  .card-carousel { --per-view: 1; --gap: 14px; }
-  .ticket-panel { gap: 30px; }
-  .ticket-panel .button { width: 100%; }
-  .location-card { min-height: 360px; }
-  .footer-grid { grid-template-columns: 1fr; gap: 35px; }
-  .footer-bottom { margin-top: 45px; }
-  .inner-page { padding-top: 72px; }
-  .inner-hero { padding: 82px 0; }
-  .inner-hero h1 { font-size: clamp(2.85rem, 13vw, 4.5rem); }
-  .form-row { grid-template-columns: 1fr; }
-  .submit-button { width: 100%; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
-    scroll-behavior: auto !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
 
 /* =========================================================
    INCREMENTOS DA PÁGINA INICIAL
@@ -550,19 +461,6 @@ button { color: inherit; }
   border-radius: var(--radius);
   box-shadow: var(--shadow);
 }
-
-/* No celular, o bloco direito vai para baixo */
-@media (max-width: 900px) {
-  .duas-colunas {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-
-  .bloco-direita {
-    grid-column: 1;
-  }
-}
-
 
 .brand-logo {
   display: block;
@@ -646,13 +544,10 @@ button { color: inherit; }
 .sector-card:focus-within .sector-more span,
 .sector-card.is-expanded .sector-more span { transform: rotate(45deg); }
 
-.highlight-card { display: flex; flex-direction: column; }
-.highlight-card-body { display: flex; flex: 1; flex-direction: column; align-items: flex-start; }
-.highlight-card-body p { margin-bottom: 24px; }
 .card-button { min-height: 44px; margin-top: auto; padding-inline: 20px; font-size: 0.88rem; }
 
 .gallery-section { background: var(--white); }
-.gallery-item { margin: 0; overflow: hidden; border-radius: var(--radius); background: #ddd; box-shadow: 0 15px 42px rgba(29, 17, 25, 0.1); }
+.gallery-item { margin: 0; overflow: hidden; border-radius: var(--radius); background: #ddd; box-shadow: none; cursor: zoom-in; }
 .gallery-item img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
 
 .ticket-heading { max-width: 860px; margin-bottom: 52px; }
@@ -683,38 +578,6 @@ button { color: inherit; }
 
 .map-frame { min-height: 500px; }
 
-@media (max-width: 900px) {
-  .intro-grid { align-items: start; }
-  .video-frame { width: 100%; }
-  .pricing-grid { grid-template-columns: 1fr; }
-  .ticket-note { min-height: 0; }
-}
-
-@media (max-width: 700px) {
-  .brand-logo { width: 170px; height: 46px; }
-  .sector-card:hover .sector-extra { max-height: 0; margin-top: 0; opacity: 0; }
-  .sector-card.is-expanded .sector-extra,
-  .sector-card:focus-within .sector-extra { max-height: 360px; margin-top: 20px; opacity: 1; }
-  .ticket-card { padding: 30px 24px; }
-  .ticket-card h3 { font-size: 3.2rem; }
-  .ticket-card .button { width: 100%; }
-  .map-frame { min-height: 360px; }
-
-   /* Centraliza as informações principais dos ingressos */
-.ticket-card > .ticket-type {
-  align-self: center;
-  text-align: center;
-}
-
-.ticket-card > h3,
-.ticket-card > .ticket-note,
-.ticket-card > strong {
-  width: 100%;
-  text-align: center;
-}
-   
-}
-
 
 /* IMAGEM GRANDE DA APRESENTAÇÃO */
 
@@ -740,16 +603,6 @@ button { color: inherit; }
   box-shadow: none;
 }
 
-@media (max-width: 900px) {
-  .intro-image-button {
-    margin-top: 20px;
-  }
-
-  .intro-feature-image {
-    max-width: 100%;
-  }
-}
-
 
 /* LOGOS DOS TRÊS PILARES */
 
@@ -762,16 +615,8 @@ button { color: inherit; }
   object-position: center;
 }
 
-/* Caso seus logos sejam brancos com fundo transparente */
 .sector-card .sector-logo {
   filter: none;
-}
-
-@media (max-width: 700px) {
-.sector-logo {
-  margin: 20px auto 22px;
-  object-position: center;
-}
 }
 
 
@@ -832,22 +677,6 @@ button { color: inherit; }
 
 body.modal-open {
   overflow: hidden;
-}
-
-@media (max-width: 700px) {
-  .image-modal {
-    padding: 16px;
-  }
-
-  .image-modal-content {
-    max-width: 96vw;
-    max-height: 82vh;
-  }
-
-  .image-modal-close {
-    top: 12px;
-    right: 12px;
-  }
 }
 
 
@@ -946,34 +775,164 @@ body.modal-open {
   font-weight: 800;
 }
 
-@media (max-width: 700px) {
-  .faq-heading {
-    margin-bottom: 30px;
+
+/* =========================================================
+   TABLET E TELAS MÉDIAS — ATÉ 1100PX
+   ========================================================= */
+@media (max-width: 1100px) {
+.carousel-arrow { top: auto; bottom: 22px; transform: none; }
+  .carousel-prev { left: 20px; }
+  .carousel-next { right: 20px; }
+  .hero-carousel .carousel-dots { bottom: 36px; }
+  .sector-card { min-height: 430px; }
+}
+
+/* =========================================================
+   TABLET E MENU MOBILE — ATÉ 900PX
+   ========================================================= */
+@media (max-width: 900px) {
+  .site-header,
+  .site-header.is-scrolled { backdrop-filter: none; }
+
+  .brand,
+  .menu-toggle { position: relative; z-index: 1001; }
+
+  .menu-toggle { display: block; }
+
+  .main-nav {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    width: 100%;
+    height: 100dvh;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 3px;
+    padding: 105px 26px 40px;
+    color: var(--white);
+    background: #08070a;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    transform: translateX(100%);
+    visibility: hidden;
+    transition: transform 230ms ease, visibility 230ms ease;
+  }
+  .main-nav.is-open { transform: translateX(0); visibility: visible; }
+  .main-nav > a:not(.button) { padding: 10px 0; font-size: clamp(1.55rem, 6vw, 2.5rem); font-weight: 900; }
+  .main-nav > a:not(.button)::after { display: none; }
+  .main-nav .button { margin-top: 16px; }
+  .intro-grid,
+  .location-grid,
+  .contact-grid { grid-template-columns: 1fr; }
+  .intro-copy { max-width: 720px; }
+  .section-heading-row { grid-template-columns: 1fr; gap: 18px; }
+  .sector-grid { grid-template-columns: 1fr; }
+  .sector-card { min-height: 330px; }
+  .ticket-panel { align-items: flex-start; flex-direction: column; }
+  .location-card { min-height: 390px; }
+  .footer-grid { grid-template-columns: 1.5fr 0.7fr 1fr; }
+  .card-carousel { --per-view: 2; }
+
+  .duas-colunas {
+    grid-template-columns: 1fr;
+    gap: 40px;
   }
 
-  .faq-item summary {
-    padding: 18px 58px 18px 18px;
-    font-size: 0.98rem;
+  .bloco-direita {
+    grid-column: 1;
   }
 
-  .faq-item summary::before {
-    right: 18px;
+  .intro-grid { align-items: start; }
+  .video-frame { width: 100%; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .ticket-note { min-height: 0; }
+
+  .intro-image-button {
+    margin-top: 20px;
   }
 
-  .faq-answer {
-    padding: 20px 18px 24px;
+  .intro-feature-image {
+    max-width: 100%;
   }
 }
 
-/* Indica que as imagens da galeria podem ser ampliadas */
-.gallery-item {
-  cursor: zoom-in;
-}
-/* AJUSTES EXCLUSIVOS PARA MOBILE */
+/* =========================================================
+   MOBILE — ATÉ 700PX
+   ========================================================= */
 @media (max-width: 700px) {
+  /* Estrutura geral */
+  .container { width: min(calc(100% - 28px), var(--container)); }
+  .header-inner { min-height: 72px; }
+  .brand-logo { width: 170px; height: 46px; }
 
-  /* 1. Centraliza todo o conteúdo dos cards dos setores */
+  /* Carrossel principal */
+  .hero,
+  .hero-carousel,
+  .hero-carousel .carousel-viewport,
+  .hero-carousel .carousel-track,
+  .hero-slide {
+    min-height: clamp(570px, 76svh, 640px);
+  }
+
+  .hero-slide {
+    align-items: flex-end;
+    padding: 110px 0 90px;
+  }
+
+  .hero-shade {
+    background: linear-gradient(0deg, rgba(8, 7, 10, 0.96) 5%, rgba(8, 7, 10, 0.65) 62%, rgba(8, 7, 10, 0.25));
+  }
+
+  .hero-content h1,
+  .hero-content h2 { font-size: clamp(2.75rem, 13.2vw, 4.3rem); }
+
+  .hero-content > p:not(.eyebrow) {
+    margin: 20px 0 24px;
+    font-size: 1rem;
+  }
+
+  .hero-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .hero-actions .button { width: 100%; }
+  .carousel-arrow { width: 44px; height: 44px; font-size: 1.8rem; }
+  .carousel-prev { left: 14px; }
+  .carousel-next { right: 14px; }
+  .carousel-pause { right: 14px; top: 86px; bottom: auto; }
+
+  /* Informações amarelas do evento */
+  .event-strip-grid {
+    grid-template-columns: 1fr;
+    padding-block: 16px;
+  }
+
+  .event-strip-grid > div,
+  .event-strip-grid > div:first-child {
+    min-height: 70px;
+    padding: 12px 0;
+    border: 0;
+    border-top: 1px solid rgba(8, 7, 10, 0.18);
+  }
+
+  .event-strip-grid > div:first-child { border-top: 0; }
+
+  /* Espaçamentos das seções */
+  .section { padding: 60px 0; }
+  .section.intro-section { padding-top: 20px; padding-bottom: 45px; }
+  .section.gallery-section { padding-top: 30px; }
+  .section-title { font-size: clamp(2.55rem, 13vw, 4.1rem); }
+
+  .intro-grid { gap: 15px; }
+  .intro-image-button { margin-top: 0; }
+
+  /* Três pilares */
   .sector-card {
+    min-height: 360px;
     align-items: center;
     text-align: center;
   }
@@ -999,49 +958,14 @@ body.modal-open {
     margin-right: auto;
   }
 
-  .sector-extra {
-    text-align: center;
+  .sector-extra { text-align: center; }
+
+  .sector-card.is-expanded .sector-extra {
+    max-height: 360px;
+    margin-top: 20px;
+    opacity: 1;
   }
 
-  /* 2. Faz o menu ocupar corretamente a tela inteira */
-  .site-header,
-  .site-header.is-scrolled {
-    backdrop-filter: none;
-  }
-
-  .main-nav {
-    z-index: 1000;
-    width: 100%;
-    height: 100dvh;
-    min-height: 100vh;
-    justify-content: flex-start;
-    padding: 105px 26px 40px;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    background: #08070a;
-  }
-
-  .brand,
-  .menu-toggle {
-    position: relative;
-    z-index: 1001;
-  }
-
-  /* 3. Diminui a altura do carrossel principal */
-  .hero,
-  .hero-carousel,
-  .hero-carousel .carousel-viewport,
-  .hero-carousel .carousel-track,
-  .hero-slide {
-    min-height: clamp(570px, 76svh, 640px);
-  }
-
-  .hero-slide {
-    padding-top: 110px;
-    padding-bottom: 90px;
-  }
-}
-@media (max-width: 700px) {
   .sector-card:not(.is-expanded) .sector-extra {
     max-height: 0 !important;
     margin-top: 0 !important;
@@ -1051,36 +975,68 @@ body.modal-open {
   .sector-card:not(.is-expanded) .sector-more span {
     transform: none !important;
   }
-}
-.highlight-card,
-.gallery-item {
-  box-shadow: none;
-}
-@media (max-width: 700px) {
-  /* Distância entre o texto e a imagem */
-  .intro-grid {
-    gap: 15px;
+
+  /* Carrosséis de cartões */
+  .card-carousel { --per-view: 1; --gap: 14px; }
+
+  /* Ingressos */
+  .ticket-card { padding: 30px 24px; }
+  .ticket-card h3 { font-size: 3.2rem; }
+  .ticket-card .button { width: 100%; }
+
+  .ticket-card > .ticket-type {
+    align-self: center;
+    text-align: center;
   }
 
-  /* Margem adicional acima da imagem */
-  .intro-image-button {
-    margin-top: 0;
+  .ticket-card > h3,
+  .ticket-card > .ticket-note,
+  .ticket-card > strong {
+    width: 100%;
+    text-align: center;
   }
 
-  /* Distância entre a imagem e a próxima seção preta */
-  .intro-section {
-    padding-bottom: 45px;
+  /* Local, formulário e rodapé */
+  .ticket-panel { gap: 30px; }
+  .ticket-panel .button { width: 100%; }
+  .map-frame { min-height: 360px; }
+  .location-card { min-height: 360px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 35px; }
+  .footer-bottom { margin-top: 45px; }
+  .form-row { grid-template-columns: 1fr; }
+  .submit-button { width: 100%; }
+
+  /* Páginas internas */
+  .inner-page { padding-top: 72px; }
+  .inner-hero { padding: 82px 0; }
+  .inner-hero h1 { font-size: clamp(2.85rem, 13vw, 4.5rem); }
+
+  /* Lightbox */
+  .image-modal { padding: 16px; }
+  .image-modal-content { max-width: 96vw; max-height: 82vh; }
+  .image-modal-close { top: 12px; right: 12px; }
+
+  /* FAQ */
+  .faq-heading { margin-bottom: 30px; }
+
+  .faq-item summary {
+    padding: 18px 58px 18px 18px;
+    font-size: 0.98rem;
   }
+
+  .faq-item summary::before { right: 18px; }
+  .faq-answer { padding: 20px 18px 24px; }
 }
 
-@media (max-width: 700px) {
-  .section.gallery-section {
-    padding-top: 30px;
-  }
-}
-
-@media (max-width: 700px) {
-  .section.intro-section {
-    padding-top: 20px;
+/* =========================================================
+   ACESSIBILIDADE — MOVIMENTO REDUZIDO
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
