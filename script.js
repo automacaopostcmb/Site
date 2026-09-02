@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   configurarMenu();
   configurarCabecalho();
   configurarCarrosseis();
+  configurarSetores();
   configurarFormulario();
   atualizarAno();
 });
@@ -56,6 +57,31 @@ function configurarCabecalho() {
 
 function configurarCarrosseis() {
   document.querySelectorAll("[data-carousel]").forEach((elemento) => criarCarrossel(elemento));
+}
+
+function configurarSetores() {
+  const botoes = [...document.querySelectorAll("[data-sector-toggle]")];
+  if (!botoes.length) return;
+
+  botoes.forEach((botao) => {
+    botao.addEventListener("click", () => {
+      const card = botao.closest(".sector-card");
+      const vaiAbrir = !card?.classList.contains("is-expanded");
+
+      botoes.forEach((outroBotao) => {
+        const outroCard = outroBotao.closest(".sector-card");
+        outroCard?.classList.remove("is-expanded");
+        outroBotao.setAttribute("aria-expanded", "false");
+        outroBotao.firstChild.textContent = "Saiba mais ";
+      });
+
+      if (vaiAbrir && card) {
+        card.classList.add("is-expanded");
+        botao.setAttribute("aria-expanded", "true");
+        botao.firstChild.textContent = "Mostrar menos ";
+      }
+    });
+  });
 }
 
 function criarCarrossel(carrossel) {
