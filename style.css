@@ -700,3 +700,253 @@ button { color: inherit; }
   .ticket-card .button { width: 100%; }
   .map-frame { min-height: 360px; }
 }
+
+
+/* IMAGEM GRANDE DA APRESENTAÇÃO */
+
+.intro-image-button {
+  width: 100%;
+  align-self: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+}
+
+.intro-feature-image {
+  width: 100%;
+  max-width: 680px;
+  height: auto;
+  margin-inline: auto;
+  object-fit: contain;
+
+  /* Sem box, borda ou sombra */
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+@media (max-width: 900px) {
+  .intro-image-button {
+    margin-top: 20px;
+  }
+
+  .intro-feature-image {
+    max-width: 100%;
+  }
+}
+
+
+/* LOGOS DOS TRÊS PILARES */
+
+.sector-logo {
+  width: 100%;
+  max-width: 250px;
+  height: 100px;
+  margin: 0 0 22px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+/* Caso seus logos sejam brancos com fundo transparente */
+.sector-card .sector-logo {
+  filter: none;
+}
+
+@media (max-width: 700px) {
+  .sector-logo {
+    max-width: 220px;
+    height: 85px;
+  }
+}
+
+
+/* IMAGEM AMPLIADA */
+
+.image-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  background: rgba(0, 0, 0, 0.88);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 200ms ease,
+    visibility 200ms ease;
+}
+
+.image-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.image-modal-content {
+  display: block;
+  width: auto;
+  max-width: min(1200px, 94vw);
+  max-height: 88vh;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+}
+
+.image-modal-close {
+  position: fixed;
+  top: 20px;
+  right: 25px;
+  z-index: 2;
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.image-modal-close:hover {
+  color: var(--black);
+  background: var(--yellow);
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+@media (max-width: 700px) {
+  .image-modal {
+    padding: 16px;
+  }
+
+  .image-modal-content {
+    max-width: 96vw;
+    max-height: 82vh;
+  }
+
+  .image-modal-close {
+    top: 12px;
+    right: 12px;
+  }
+}
+
+
+/* FAQ */
+
+.faq-section {
+  background: var(--off-white);
+}
+
+.faq-container {
+  max-width: 950px;
+}
+
+.faq-heading {
+  max-width: 760px;
+  margin-bottom: 45px;
+}
+
+.faq-title {
+  margin: 0 0 18px;
+  font-size: clamp(2.7rem, 5vw, 5rem);
+  font-weight: 1000;
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+}
+
+.faq-title span {
+  color: var(--magenta);
+}
+
+.faq-heading > p:last-child {
+  color: var(--gray);
+  font-size: 1.08rem;
+}
+
+.faq-list {
+  border-top: 1px solid var(--line);
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--line);
+  background: var(--white);
+}
+
+.faq-item summary {
+  position: relative;
+  padding: 22px 70px 22px 24px;
+  color: var(--black);
+  font-size: 1.05rem;
+  font-weight: 850;
+  cursor: pointer;
+  list-style: none;
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary::before {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 25px;
+  color: var(--magenta);
+  font-size: 1.8rem;
+  line-height: 1;
+  transform: translateY(-50%);
+}
+
+.faq-item[open] summary {
+  color: var(--white);
+  background: var(--magenta);
+}
+
+.faq-item[open] summary::before {
+  content: "−";
+  color: var(--yellow);
+}
+
+.faq-answer {
+  padding: 22px 24px 26px;
+  color: var(--gray);
+  background: var(--white);
+}
+
+.faq-answer p {
+  margin: 0 0 10px;
+}
+
+.faq-answer p:last-child {
+  margin-bottom: 0;
+}
+
+.faq-answer a {
+  color: var(--magenta);
+  font-weight: 800;
+}
+
+@media (max-width: 700px) {
+  .faq-heading {
+    margin-bottom: 30px;
+  }
+
+  .faq-item summary {
+    padding: 18px 58px 18px 18px;
+    font-size: 0.98rem;
+  }
+
+  .faq-item summary::before {
+    right: 18px;
+  }
+
+  .faq-answer {
+    padding: 20px 18px 24px;
+  }
+}
