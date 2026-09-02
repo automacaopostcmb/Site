@@ -529,6 +529,41 @@ button { color: inherit; }
    INCREMENTOS DA PÁGINA INICIAL
    Reaproveitam as cores, botões, grids e carrosséis existentes.
    ========================================================= */
+/* Estrutura genérica com duas colunas */
+.duas-colunas {
+  display: grid;
+  grid-template-columns: 1fr 0.78fr;
+  align-items: start;
+  gap: clamp(50px, 10vw, 150px);
+}
+
+/* Conteúdo sempre na coluna direita */
+.bloco-direita {
+  grid-column: 2;
+  width: 100%;
+}
+
+/* Imagens dentro do bloco direito */
+.bloco-direita img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* No celular, o bloco direito vai para baixo */
+@media (max-width: 900px) {
+  .duas-colunas {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .bloco-direita {
+    grid-column: 1;
+  }
+}
+
+
 .brand-logo {
   display: block;
   width: clamp(175px, 18vw, 230px);
@@ -562,7 +597,7 @@ button { color: inherit; }
 .map-frame iframe {
   position: absolute;
   inset: 0;
-  width: 200%;
+  width: 100%;
   height: 200%;
   border: 0;
 }
