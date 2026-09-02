@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   configurarCarrosseis();
   configurarSetores();
   configurarFormulario();
+   configurarLightbox();
   atualizarAno();
 });
 
@@ -299,54 +300,67 @@ function atualizarAno() {
 
 /* IMAGEM AMPLIADA */
 
-const modalImagem = document.querySelector("[data-image-modal]");
-const imagemAmpliada = document.querySelector("[data-image-modal-content]");
-const botaoFecharImagem = document.querySelector("[data-image-modal-close]");
-const botoesDeImagem = document.querySelectorAll("[data-lightbox]");
+function configurarLightbox() {
+  const modal = document.querySelector("[data-image-modal]");
+  const imagemModal = document.querySelector("[data-image-modal-content]");
+  const botaoFechar = document.querySelector("[data-image-modal-close]");
+  const imagensClicaveis = document.querySelectorAll("[data-lightbox]");
 
-function abrirImagemModal(botao) {
-  if (!modalImagem || !imagemAmpliada) return;
+  if (!modal || !imagemModal || imagensClicaveis.length === 0) return;
 
-  const enderecoImagem =
-    botao.dataset.image ||
-    botao.querySelector("img")?.src;
+  let ultimoElementoClicado = null;
 
-  if (!enderecoImagem) return;
+  function abrirModal(elemento) {
+    const imagemDentro = elemento.querySelector("img");
 
-  imagemAmpliada.src = enderecoImagem;
-  modalImagem.classList.add("is-open");
-  modalImagem.setAttribute("aria-hidden", "false");
-  document.body.classList.add("modal-open");
+    const enderecoImagem =
+      elemento.getAttribute("data-image") ||
+      imagemDentro?.currentSrc ||
+      imagemDentro?.src;
 
-  botaoFecharImagem?.focus();
-}
+    if (!enderecoImagem) return;
 
-function fecharImagemModal() {
-  if (!modalImagem || !imagemAmpliada) return;
+    ultimoElementoClicado = elemento;
+    imagemModal.src = enderecoImagem;
+    imagemModal.alt =
+      imagemDentro?.alt || "Imagem ampliada";
 
-  modalImagem.classList.remove("is-open");
-  modalImagem.setAttribute("aria-hidden", "true");
-  document.body.classList.remove("modal-open");
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
 
-  imagemAmpliada.src = "";
-}
+    botaoFechar?.focus();
+  }
 
-botoesDeImagem.forEach((botao) => {
-  botao.addEventListener("click", () => {
-    abrirImagemModal(botao);
+  function fecharModal() {
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
+
+    imagemModal.removeAttribute("src");
+    ultimoElementoClicado?.focus();
+  }
+
+  imagensClicaveis.forEach((elemento) => {
+    elemento.addEventListener("click", () => {
+      abrirModal(elemento);
+    });
   });
-});
 
-botaoFecharImagem?.addEventListener("click", fecharImagemModal);
+  botaoFechar?.addEventListener("click", fecharModal);
 
-modalImagem?.addEventListener("click", (evento) => {
-  if (evento.target === modalImagem) {
-    fecharImagemModal();
-  }
-});
+  modal.addEventListener("click", (evento) => {
+    if (evento.target === modal) {
+      fecharModal();
+    }
+  });
 
-document.addEventListener("keydown", (evento) => {
-  if (evento.key === "Escape") {
-    fecharImagemModal();
-  }
-});
+  document.addEventListener("keydown", (evento) => {
+    if (
+      evento.key === "Escape" &&
+      modal.classList.contains("is-open")
+    ) {
+      fecharModal();
+    }
+  });
+}
