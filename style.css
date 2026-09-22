@@ -1407,8 +1407,7 @@ html { scroll-behavior: auto; }
   background: var(--off-white);
 }
 
-/* Grade modular:
-   centraliza automaticamente a última linha */
+/* Estrutura modular */
 .sponsors-grid {
   width: 100%;
   margin-top: 44px;
@@ -1418,7 +1417,7 @@ html { scroll-behavior: auto; }
   gap: 22px;
 }
 
-/* Box individual — 4 por linha no desktop */
+/* 4 boxes por linha no desktop */
 .sponsors-grid .sponsor-item {
   flex: 0 0 calc((100% - 66px) / 4);
   min-width: 0;
@@ -1435,7 +1434,7 @@ html { scroll-behavior: auto; }
     border-color 180ms ease;
 }
 
-/* Link ocupa todo o box */
+/* Link ocupa toda a área do box */
 .sponsors-grid .sponsor-item a {
   width: 100%;
   height: 100%;
@@ -1477,9 +1476,9 @@ html { scroll-behavior: auto; }
     gap: 18px;
   }
 
-  /* 3 patrocinadores por linha */
+  /* 3 boxes por linha */
   .sponsors-grid .sponsor-item {
-    flex-basis: calc((100% - 36px) / 3);
+    flex: 0 0 calc((100% - 36px) / 3);
   }
 }
 
@@ -1489,14 +1488,23 @@ html { scroll-behavior: auto; }
 
 @media (max-width: 700px) {
   .sponsors-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 14px;
     margin-top: 30px;
   }
 
-  /* 2 patrocinadores por linha */
+  /* 2 boxes por linha */
   .sponsors-grid .sponsor-item {
-    flex-basis: calc((100% - 14px) / 2);
+    flex: 0 0 calc((100% - 14px) / 2);
     border-radius: 12px;
+  }
+
+  /* Centraliza o último box quando a quantidade for ímpar */
+  .sponsors-grid .sponsor-item:last-child:nth-child(odd) {
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .sponsors-grid .sponsor-item a {
@@ -1508,7 +1516,7 @@ html { scroll-behavior: auto; }
     max-height: 85px;
   }
 
-  /* Evita movimento indesejado em telas touch */
+  /* Evita movimento no toque */
   .sponsors-grid .sponsor-item:hover {
     transform: none;
   }
