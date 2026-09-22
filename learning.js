@@ -1132,19 +1132,28 @@ function drawBuilderTeacherImage(
   width,
   height
 ) {
-  const teacherImageScale = 0.72;
-
-  const scale =
-    Math.min(
-      width / image.width,
-      height / image.height
-    ) * teacherImageScale;
+  const scale = Math.max(
+    width / image.width,
+    height / image.height
+  );
 
   const drawWidth = image.width * scale;
   const drawHeight = image.height * scale;
 
   const drawX = x + (width - drawWidth) / 2;
   const drawY = y + (height - drawHeight) / 2;
+
+  context.save();
+
+  context.beginPath();
+  context.arc(
+    x + width / 2,
+    y + height / 2,
+    Math.min(width, height) / 2,
+    0,
+    Math.PI * 2
+  );
+  context.clip();
 
   context.drawImage(
     image,
@@ -1153,6 +1162,8 @@ function drawBuilderTeacherImage(
     drawWidth,
     drawHeight
   );
+
+  context.restore();
 }
 
 
