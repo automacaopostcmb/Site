@@ -804,7 +804,7 @@ const downloadButton = builderModal.querySelector(
     selecoes: {},
     imagemBlob: null,
     imagemUrl: null
-    contabilizado: false,
+    contabilizado: false
   };
 
   let builderLastFocusedElement = null;
