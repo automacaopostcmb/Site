@@ -700,6 +700,11 @@ if (dayButton) {
 
 
 
+  renderClasses();
+  return;
+}
+  });
+
 /* =========================================================
    GERADOR DE CRONOGRAMA LEARNING
    ========================================================= */
@@ -757,6 +762,10 @@ if (builderOpenButton && builderModal) {
     "[data-builder-preview]"
   );
 
+const downloadButton = builderModal.querySelector(
+  "[data-builder-download]"
+);
+  
   const shareButton = builderModal.querySelector(
     "[data-builder-share]"
   );
@@ -901,9 +910,9 @@ if (builderOpenButton && builderModal) {
 
     selectedDayLabel.textContent = dayName;
     timeTitle.textContent = `Escolha sua aula das ${horario}`;
-
+    
     nextButton.textContent = isLastStep
-      ? "Baixar imagem"
+      ? "Salvar Grade"
       : "Próximo horário";
 
     nextButton.disabled = selectedIndex === undefined;
@@ -1004,7 +1013,7 @@ if (builderOpenButton && builderModal) {
       return;
     }
 
-    await createAndDownloadScheduleImage();
+await createScheduleImage();
   }
 
   /* -------------------------------------------------------
@@ -1467,7 +1476,7 @@ if (builderOpenButton && builderModal) {
      GERA E BAIXA O PNG
      ------------------------------------------------------- */
 
-  async function createAndDownloadScheduleImage() {
+async function createScheduleImage() {
     nextButton.disabled = true;
     nextButton.textContent = "Gerando imagem...";
 
@@ -1610,16 +1619,7 @@ if (builderOpenButton && builderModal) {
       builderState.imagemUrl =
         URL.createObjectURL(blob);
 
-      const fileName =
-        `meu-cronograma-cmb-${builderState.dia}.png`;
-
-      const downloadLink = document.createElement("a");
-      downloadLink.href = builderState.imagemUrl;
-      downloadLink.download = fileName;
-
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-      downloadLink.remove();
+   
 
       previewImage.src = builderState.imagemUrl;
 
@@ -1702,7 +1702,19 @@ if (builderOpenButton && builderModal) {
       }
     }
   }
+function downloadBuilderImage() {
+  if (!builderState.imagemUrl) return;
 
+  const downloadLink = document.createElement("a");
+
+  downloadLink.href = builderState.imagemUrl;
+  downloadLink.download =
+    `meu-cronograma-cmb-${builderState.dia}.png`;
+
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+  downloadLink.remove();
+}
   /* -------------------------------------------------------
      EVENTOS
      ------------------------------------------------------- */
@@ -1757,6 +1769,11 @@ if (builderOpenButton && builderModal) {
       return;
     }
 
+if (event.target.closest("[data-builder-download]")) {
+  downloadBuilderImage();
+  return;
+}
+    
     if (event.target.closest("[data-builder-share]")) {
       await shareBuilderImage();
       return;
@@ -1771,11 +1788,11 @@ if (builderOpenButton && builderModal) {
       return;
     }
 
-    if (event.target.closest("[data-builder-edit]")) {
-      builderState.etapa = 0;
-      showBuilderView("classes");
-      renderBuilderStep();
-    }
+ if (event.target.closest("[data-builder-edit]")) {
+  builderState.etapa = builderState.horarios.length - 1;
+  showBuilderView("classes");
+  renderBuilderStep();
+}
   });
 
   document.addEventListener("keydown", (event) => {
@@ -1791,10 +1808,7 @@ if (builderOpenButton && builderModal) {
 
 
   
-  renderClasses();
-  return;
-}
-
+learningSection.addEventListener("click", (event) => {
     /* Seleção do horário */
     const timeButton = event.target.closest("[data-learning-time]");
 
