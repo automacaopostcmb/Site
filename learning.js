@@ -1561,32 +1561,32 @@ drawBuilderCoverImage(
 
 
 
-      const positions = [
-        {
-          x: 65,
-          y: 370,
-          width: 445,
-          height: 300
-        },
-        {
-          x: 570,
-          y: 370,
-          width: 445,
-          height: 300
-        },
-        {
-          x: 65,
-          y: 720,
-          width: 445,
-          height: 300
-        },
-        {
-          x: 570,
-          y: 720,
-          width: 445,
-          height: 300
-        }
-      ];
+const positions = [
+  {
+    x: 65,
+    y: 330,
+    width: 445,
+    height: 300
+  },
+  {
+    x: 570,
+    y: 340,
+    width: 445,
+    height: 300
+  },
+  {
+    x: 65,
+    y: 770,
+    width: 445,
+    height: 300
+  },
+  {
+    x: 570,
+    y: 770,
+    width: 445,
+    height: 300
+  }
+];
 
       for (
         let index = 0;
