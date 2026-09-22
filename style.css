@@ -2964,7 +2964,8 @@ html { scroll-behavior: auto; }
 }
 
 .company-item p {
-  margin: 12px 4px 0;
+  width: 100%;
+  margin: 12px 0 0;
   color: var(--black);
   font-size: 0.8rem;
   font-weight: 800;
