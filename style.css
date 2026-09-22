@@ -1866,3 +1866,543 @@ html { scroll-behavior: auto; }
     padding-right: 0;
   }
 }
+
+/* =========================================================
+   INGRESSO LEARNING
+   ========================================================= */
+
+.learning-schedule-section {
+  color: var(--black);
+  background: var(--off-white);
+}
+
+/* =========================================================
+   APRESENTAÇÃO
+   ========================================================= */
+
+.learning-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(330px, 0.75fr);
+  align-items: center;
+  gap: clamp(50px, 8vw, 120px);
+}
+
+.learning-intro-copy {
+  max-width: 680px;
+}
+
+.learning-intro-copy > p:last-child {
+  max-width: 620px;
+  margin: 24px 0 0;
+  color: var(--gray);
+  font-size: 1.05rem;
+}
+
+.learning-benefits {
+  display: grid;
+  gap: 24px;
+}
+
+.learning-benefit {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+}
+
+.learning-benefit-icon {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  color: var(--magenta);
+  border-radius: 50%;
+  background: rgba(213, 0, 127, 0.08);
+}
+
+.learning-benefit-icon svg {
+  width: 27px;
+  height: 27px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.learning-benefit strong {
+  display: block;
+  font-size: 1.1rem;
+  line-height: 1.2;
+}
+
+.learning-benefit p {
+  margin: 4px 0 0;
+  color: var(--gray);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.learning-divider {
+  height: 1px;
+  margin: 48px 0 32px;
+  background: var(--line);
+}
+
+/* =========================================================
+   SELEÇÃO DE DIA E HORÁRIO
+   ========================================================= */
+
+.learning-schedule-controls {
+  width: min(100%, 440px);
+  margin: 0 auto 20px;
+}
+
+.learning-day-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 4px;
+  border-radius: 999px;
+  background: #e9e6eb;
+}
+
+.learning-day-button {
+  min-height: 48px;
+  padding: 0 25px;
+  color: var(--gray);
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  font-size: 1rem;
+  font-weight: 850;
+  cursor: pointer;
+  transition:
+    color 180ms ease,
+    background 180ms ease;
+}
+
+.learning-day-button.is-active {
+  color: var(--white);
+  background: var(--magenta);
+}
+
+.learning-time-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.learning-time-button {
+  min-width: 0;
+  min-height: 34px;
+  padding: 0 10px;
+  color: var(--gray);
+  border: 0;
+  border-radius: 999px;
+  background: #e9e6eb;
+  font-size: 0.72rem;
+  font-weight: 850;
+  cursor: pointer;
+  transition:
+    color 180ms ease,
+    background 180ms ease;
+}
+
+.learning-time-button.is-active {
+  color: var(--white);
+  background: var(--magenta);
+}
+
+/* =========================================================
+   ÁREA DAS AULAS
+   ========================================================= */
+
+.learning-class-area {
+  position: relative;
+  min-height: 260px;
+}
+
+/* Até quatro cards: grade normal */
+.learning-class-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: start;
+  gap: 14px;
+}
+
+/* =========================================================
+   CARD DA AULA
+   ========================================================= */
+
+.learning-class-card {
+  min-width: 0;
+  min-height: 255px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--white);
+}
+
+.learning-class-main {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr);
+  align-items: start;
+  gap: 14px;
+}
+
+.learning-teacher-photo {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  background: #e8e4e9;
+}
+
+.learning-class-info {
+  min-width: 0;
+}
+
+.learning-teacher-name {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 0.78rem;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.learning-class-title {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+}
+
+.learning-class-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 11px;
+}
+
+.learning-class-tag {
+  padding: 5px 9px;
+  color: var(--magenta);
+  border-radius: 999px;
+  background: rgba(213, 0, 127, 0.08);
+  font-size: 0.58rem;
+  font-weight: 850;
+  line-height: 1;
+}
+
+.learning-class-level {
+  padding: 5px 9px;
+  color: var(--gray);
+  border-radius: 999px;
+  background: var(--off-white);
+  font-size: 0.58rem;
+  font-weight: 750;
+  line-height: 1;
+}
+
+.learning-class-footer {
+  min-height: 78px;
+  margin-top: auto;
+  padding-top: 20px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 34px;
+  align-items: end;
+  gap: 14px;
+}
+
+.learning-class-summary {
+  margin: 0;
+  color: var(--gray);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.learning-card-toggle {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  color: var(--black);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--white);
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.learning-card-toggle:hover {
+  color: var(--white);
+  border-color: var(--magenta);
+  background: var(--magenta);
+}
+
+.learning-card-toggle[aria-expanded="true"] {
+  color: var(--black);
+  border-color: var(--yellow);
+  background: var(--yellow);
+  transform: rotate(45deg);
+}
+
+/* Descrição aberta pelo botão + */
+
+.learning-class-details {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 260ms ease,
+    opacity 200ms ease;
+}
+
+.learning-class-details > div {
+  overflow: hidden;
+}
+
+.learning-class-details p {
+  margin: 0;
+  padding-top: 16px;
+  color: var(--gray);
+  border-top: 1px solid var(--line);
+  font-size: 0.8rem;
+  line-height: 1.55;
+}
+
+.learning-class-card.is-open .learning-class-details {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+/* =========================================================
+   CARROSSEL AUTOMÁTICO
+   Só é criado quando houver mais de 4 aulas
+   ========================================================= */
+
+.learning-carousel {
+  position: relative;
+}
+
+.learning-carousel-viewport {
+  overflow: hidden;
+  touch-action: pan-y pinch-zoom;
+}
+
+.learning-carousel-track {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  transform: translate3d(0, 0, 0);
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.learning-carousel-slide {
+  min-width: 0;
+  flex: 0 0 calc((100% - 42px) / 4);
+}
+
+.learning-carousel-slide .learning-class-card {
+  width: 100%;
+}
+
+.learning-carousel-controls {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.learning-carousel-arrow {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  color: var(--black);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--white);
+  font-size: 1.15rem;
+  cursor: pointer;
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.learning-carousel-arrow:hover:not(:disabled) {
+  color: var(--white);
+  border-color: var(--magenta);
+  background: var(--magenta);
+}
+
+.learning-carousel-arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.learning-carousel-dots {
+  min-width: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.learning-carousel-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #c9c3cc;
+  cursor: pointer;
+}
+
+.learning-carousel-dot.is-active {
+  background: var(--magenta);
+}
+
+/* =========================================================
+   OBSERVAÇÃO
+   ========================================================= */
+
+.learning-schedule-note {
+  margin-top: 16px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  color: var(--gray);
+  border-radius: 8px;
+  background: #ebe9ec;
+  font-size: 0.78rem;
+}
+
+.learning-schedule-note > span {
+  width: 17px;
+  height: 17px;
+  display: grid;
+  place-items: center;
+  color: var(--gray);
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  font-size: 0.65rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.learning-schedule-note p {
+  margin: 0;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+  .learning-intro {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .learning-benefits {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .learning-class-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .learning-carousel-slide {
+    flex-basis: calc((100% - 14px) / 2);
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+  .learning-benefits {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .learning-divider {
+    margin: 35px 0 26px;
+  }
+
+  .learning-schedule-controls {
+    width: 100%;
+  }
+
+  .learning-day-button {
+    min-height: 46px;
+    padding-inline: 12px;
+  }
+
+  .learning-time-tabs {
+    gap: 6px;
+  }
+
+  .learning-time-button {
+    padding-inline: 5px;
+    font-size: 0.67rem;
+  }
+
+  .learning-class-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .learning-class-card {
+    min-height: 0;
+  }
+
+  .learning-class-main {
+    grid-template-columns: 76px minmax(0, 1fr);
+  }
+
+  .learning-teacher-photo {
+    width: 76px;
+    height: 76px;
+  }
+
+  .learning-carousel-slide {
+    flex-basis: 100%;
+  }
+
+  .learning-schedule-note {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+/* =========================================================
+   ACESSIBILIDADE
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .learning-carousel-track,
+  .learning-card-toggle,
+  .learning-class-details {
+    transition: none;
+  }
+}
