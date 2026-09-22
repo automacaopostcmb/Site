@@ -1400,101 +1400,119 @@ html { scroll-behavior: auto; }
   }
 }
 /* =========================================================
-   PATROCINADORES
+   PATROCINADORES — GRADE FIXA
    ========================================================= */
 
 .sponsors-section {
   background: var(--off-white);
 }
 
-.sponsors-carousel {
-  padding: 0;
-}
-
-.sponsors-carousel .carousel-viewport {
-  padding: 20px 0;
-}
-
-.sponsors-carousel .carousel-track {
-  align-items: center;
-}
-
-.sponsor-item {
-  min-height: 170px;
-  padding: 20px 34px;
-  display: grid;
-  place-items: center;
-  background: transparent;
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-.sponsor-item a {
+/* Grade dos patrocinadores */
+.sponsors-grid {
   width: 100%;
-  min-height: 130px;
+  margin-top: 44px;
   display: grid;
-  place-items: center;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
 }
 
-.sponsor-item img {
+/* Box individual */
+.sponsors-grid .sponsor-item {
+  min-width: 0;
+  aspect-ratio: 1 / 1;
+  padding: 0;
+  display: block;
+  background: var(--white);
+  border: 1px solid rgba(8, 7, 10, 0.07);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(8, 7, 10, 0.06);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease;
+}
+
+/* Link ocupa todo o box */
+.sponsors-grid .sponsor-item a {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: clamp(24px, 3vw, 42px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Padronização dos logos */
+.sponsors-grid .sponsor-item img {
   display: block;
   width: 100%;
-  max-width: 210px;
-  height: 120px;
+  height: 100%;
+  max-width: 190px;
+  max-height: 120px;
   object-fit: contain;
   object-position: center;
   transition: transform 180ms ease;
 }
 
-.sponsor-item:hover img {
+/* Efeito no desktop */
+.sponsors-grid .sponsor-item:hover {
+  transform: translateY(-5px);
+  border-color: rgba(213, 0, 127, 0.3);
+}
+
+.sponsors-grid .sponsor-item:hover img {
   transform: scale(1.05);
 }
 
-/* Controles abaixo dos logos */
+/* =========================================================
+   TABLET — ATÉ 900PX
+   ========================================================= */
 
-.sponsors-carousel .card-carousel-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  margin-top: 28px;
+@media (max-width: 900px) {
+  .sponsors-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
 }
 
-.sponsors-carousel .carousel-dots {
-  position: static;
-  min-width: 90px;
-  transform: none;
-}
-
-.sponsors-carousel .round-arrow {
-  flex: 0 0 48px;
-  width: 48px;
-  height: 48px;
-}
-
-/* MOBILE */
+/* =========================================================
+   MOBILE — ATÉ 700PX
+   ========================================================= */
 
 @media (max-width: 700px) {
-  .sponsors-carousel .carousel-viewport {
-    padding: 10px 0;
+  .sponsors-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 30px;
   }
 
-  .sponsor-item {
-    min-height: 140px;
-    padding: 14px 24px;
+  .sponsors-grid .sponsor-item {
+    border-radius: 12px;
   }
 
-  .sponsor-item a {
-    min-height: 110px;
+  .sponsors-grid .sponsor-item a {
+    padding: 18px;
   }
 
-  .sponsor-item img {
-    max-width: 180px;
-    height: 100px;
+  .sponsors-grid .sponsor-item img {
+    max-width: 130px;
+    max-height: 85px;
   }
 
-  .sponsors-carousel .card-carousel-controls {
-    margin-top: 22px;
+  /* Remove o movimento de subida no touch */
+  .sponsors-grid .sponsor-item:hover {
+    transform: none;
+  }
+}
+
+/* Celulares estreitos */
+@media (max-width: 360px) {
+  .sponsors-grid {
+    gap: 10px;
+  }
+
+  .sponsors-grid .sponsor-item a {
+    padding: 14px;
   }
 }
