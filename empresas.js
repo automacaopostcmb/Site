@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!section) return;
 
-  /* COLE AQUI A URL /exec DO SEU APPS SCRIPT */
+  /* COLE A URL /exec DO SEU APPS SCRIPT AQUI */
   const APPS_SCRIPT_URL =
     "https://script.google.com/macros/s/AKfycbwFsU_6kydk86whB7VN0kzJCybZxZ41kQJsFiUrcgecaUXOs19b8Af0_od_aeui8w7dTQ/exec";
 
@@ -11,27 +11,31 @@ document.addEventListener("DOMContentLoaded", () => {
     "[data-companies-carousel]"
   );
 
-  const track = section.querySelector(
+  const viewport = carousel.querySelector(
+    ".carousel-viewport"
+  );
+
+  const track = carousel.querySelector(
     "[data-companies-track]"
   );
 
-  const controls = section.querySelector(
+  const controls = carousel.querySelector(
     "[data-companies-controls]"
   );
 
-  const previousButton = section.querySelector(
+  const previousButton = carousel.querySelector(
     "[data-companies-prev]"
   );
 
-  const nextButton = section.querySelector(
+  const nextButton = carousel.querySelector(
     "[data-companies-next]"
   );
 
-  const dots = section.querySelector(
+  const dotsContainer = carousel.querySelector(
     "[data-companies-dots]"
   );
 
-  const status = section.querySelector(
+  const status = carousel.querySelector(
     "[data-companies-status]"
   );
 
@@ -40,162 +44,155 @@ document.addEventListener("DOMContentLoaded", () => {
   let resizeTimeout;
 
   function getPerView() {
-    if (window.innerWidth <= 640) return 2;
-    if (window.innerWidth <= 900) return 3;
-    return 4;
+    if (window.innerWidth <= 700) return 1;
+    if (window.innerWidth <= 1000) return 3;
+    return 5;
   }
 
-  function createCard(item) {
+  function createCompanyCard(item) {
     const slide = document.createElement("article");
-    slide.className = "companies-cmb-slide";
 
-    const card = document.createElement("div");
-    card.className = "companies-cmb-card";
+    slide.className =
+      "carousel-slide company-item";
 
     const logoBox = document.createElement("div");
-    logoBox.className = "companies-cmb-logo-box";
+    logoBox.className = "company-logo-box";
 
     const image = document.createElement("img");
+
     image.src = item.imagem;
-    image.alt = item.alt || item.nome || "Empresa participante";
+    image.alt = item.alt || item.nome || "Empresa";
     image.loading = "lazy";
     image.decoding = "async";
-
-    const caption = document.createElement("p");
-    caption.textContent = item.nome || "Empresa participante";
 
     image.addEventListener("error", () => {
       slide.remove();
       updateCarousel();
     });
 
+    const caption = document.createElement("p");
+    caption.textContent = item.nome || "Empresa";
+
     logoBox.appendChild(image);
-    card.append(logoBox, caption);
-    slide.appendChild(card);
+    slide.append(logoBox, caption);
 
     return slide;
   }
 
+  function getSlides() {
+    return [
+      ...track.querySelectorAll(".company-item")
+    ];
+  }
+
+  function getMaximumIndex() {
+    return Math.max(
+      0,
+      getSlides().length - getPerView()
+    );
+  }
+
   function renderCards() {
     track.innerHTML = "";
+    activeIndex = 0;
 
     items.forEach((item) => {
-      track.appendChild(createCard(item));
+      track.appendChild(createCompanyCard(item));
     });
 
     updateCarousel();
   }
 
-  function getMaximumIndex() {
-    return Math.max(0, items.length - getPerView());
-  }
+  function renderDots(maximumIndex) {
+    dotsContainer.innerHTML = "";
 
-  function getDotIndexes() {
-    const perView = getPerView();
-    const maximumIndex = getMaximumIndex();
-    const indexes = [];
-
-    for (let index = 0; index <= maximumIndex; index += perView) {
-      indexes.push(index);
-    }
-
-    if (
-      indexes.length &&
-      indexes[indexes.length - 1] !== maximumIndex
+    for (
+      let dotIndex = 0;
+      dotIndex <= maximumIndex;
+      dotIndex += 1
     ) {
-      indexes.push(maximumIndex);
-    }
-
-    return indexes;
-  }
-
-  function renderDots() {
-    dots.innerHTML = "";
-
-    const dotIndexes = getDotIndexes();
-
-    dotIndexes.forEach((index) => {
       const dot = document.createElement("button");
 
       dot.type = "button";
-      dot.className = "companies-cmb-dot";
+      dot.className = "carousel-dot";
       dot.setAttribute(
         "aria-label",
-        `Ir para o grupo ${dotIndexes.indexOf(index) + 1}`
+        `Ir para a posição ${dotIndex + 1}`
       );
 
-      if (index === activeIndex) {
+      if (dotIndex === activeIndex) {
         dot.classList.add("is-active");
         dot.setAttribute("aria-current", "true");
       }
 
       dot.addEventListener("click", () => {
-        activeIndex = index;
+        activeIndex = dotIndex;
         updateCarousel();
       });
 
-      dots.appendChild(dot);
-    });
+      dotsContainer.appendChild(dot);
+    }
   }
 
   function updateCarousel() {
-    const slides = [
-      ...track.querySelectorAll(".companies-cmb-slide")
-    ];
+    const slides = getSlides();
 
-    if (!slides.length) return;
+    if (!slides.length) {
+      controls.hidden = true;
+      return;
+    }
 
     const perView = getPerView();
-    const maximumIndex = Math.max(0, slides.length - perView);
+    const maximumIndex = Math.max(
+      0,
+      slides.length - perView
+    );
 
     activeIndex = Math.min(activeIndex, maximumIndex);
 
-    const gap =
-      window.innerWidth <= 640 ? 12 : 18;
+    const trackStyles = window.getComputedStyle(track);
+    const gap = parseFloat(trackStyles.gap) || 18;
 
     const slideWidth =
-      (carousel.clientWidth - gap * (perView - 1)) / perView;
+      (viewport.clientWidth - gap * (perView - 1)) /
+      perView;
 
     slides.forEach((slide) => {
-      slide.style.flexBasis = `${slideWidth}px`;
+      slide.style.flex = `0 0 ${slideWidth}px`;
     });
 
+    const distance =
+      activeIndex * (slideWidth + gap);
+
     track.style.transform =
-      `translate3d(-${activeIndex * (slideWidth + gap)}px, 0, 0)`;
+      `translate3d(-${distance}px, 0, 0)`;
 
     const hasNavigation = slides.length > perView;
 
     controls.hidden = !hasNavigation;
+
     previousButton.disabled = activeIndex === 0;
-    nextButton.disabled = activeIndex >= maximumIndex;
+    nextButton.disabled =
+      activeIndex >= maximumIndex;
 
-    renderDots();
+    renderDots(maximumIndex);
   }
 
-  function goToNext() {
-    const maximumIndex = getMaximumIndex();
+  previousButton.addEventListener("click", () => {
+    activeIndex = Math.max(0, activeIndex - 1);
+    updateCarousel();
+  });
 
+  nextButton.addEventListener("click", () => {
     activeIndex = Math.min(
-      maximumIndex,
-      activeIndex + getPerView()
+      getMaximumIndex(),
+      activeIndex + 1
     );
 
     updateCarousel();
-  }
+  });
 
-  function goToPrevious() {
-    activeIndex = Math.max(
-      0,
-      activeIndex - getPerView()
-    );
-
-    updateCarousel();
-  }
-
-  previousButton.addEventListener("click", goToPrevious);
-  nextButton.addEventListener("click", goToNext);
-
-  function loadWithJsonp() {
+  function loadCompaniesWithJsonp() {
     return new Promise((resolve, reject) => {
       const callbackName = "cbmCompaniesCallback";
 
@@ -216,8 +213,11 @@ document.addEventListener("DOMContentLoaded", () => {
       script.onerror = () => {
         delete window[callbackName];
         script.remove();
+
         reject(
-          new Error("Não foi possível carregar as empresas.")
+          new Error(
+            "Não foi possível carregar as empresas."
+          )
         );
       };
 
@@ -227,23 +227,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function loadCompanies() {
     if (
-      !APPS_SCRIPT_URL ||
       APPS_SCRIPT_URL.includes("COLE_AQUI")
     ) {
       status.textContent =
         "Adicione a URL do Web App no arquivo empresas.js.";
+
       status.classList.add("is-error");
       return;
     }
 
     try {
-      const response = await loadWithJsonp();
+      const response =
+        await loadCompaniesWithJsonp();
 
       if (!response.ok) {
-        throw new Error(
-          response.message ||
-            "Não foi possível carregar as empresas."
-        );
+        throw new Error(response.message);
       }
 
       items = response.items || [];
@@ -259,7 +257,9 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
       status.textContent =
         "Não foi possível carregar as empresas agora.";
+
       status.classList.add("is-error");
+
       console.error(error);
     }
   }
