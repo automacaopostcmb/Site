@@ -40,7 +40,7 @@ const learningData = {
     "09:30": [
       {
         professor: "Bruno Lima",
-        titulo: "Desenhando cabeças, rostos e expressões",
+        titulo: "Desenhando Cabeças, Rostos e Expressões",
         categoria: "Ilustração",
         nivel: "Iniciante",
         foto: https://raw.githubusercontent.com/automacaopostcmb/Site/733078cb0013997c5db9d01b0be17ab7e881cfa8/prof_bruno.png",
