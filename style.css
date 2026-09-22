@@ -1623,3 +1623,246 @@ html { scroll-behavior: auto; }
     text-align: center;
   }
 }
+/* =========================================================
+   O QUE FAZER NO EVENTO
+   ========================================================= */
+
+.cmb-activities-section {
+  background: var(--off-white);
+}
+
+.cmb-activities-notice {
+  margin: -38px 0 32px;
+  color: var(--gray);
+  font-size: 0.82rem;
+  font-style: italic;
+}
+
+/* Três cards lado a lado */
+.cmb-activities-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 20px;
+}
+
+/* Card do dia */
+.cmb-day-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--white);
+}
+
+/* Cabeçalho colorido */
+.cmb-day-header {
+  padding: 25px 28px 24px;
+  color: var(--white);
+  background: var(--magenta);
+}
+
+.cmb-day-header span {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--yellow);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.cmb-day-header h3 {
+  margin: 0;
+  font-size: clamp(1.65rem, 2.5vw, 2.25rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+/* Conteúdo interno */
+.cmb-day-content {
+  padding: 26px 28px 30px;
+}
+
+/* Divisões: palco e demais atrações */
+.cmb-attraction-group + .cmb-attraction-group {
+  margin-top: 30px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+}
+
+.cmb-attraction-group h4 {
+  position: relative;
+  margin: 0 0 12px;
+  padding-left: 16px;
+  color: var(--magenta);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.cmb-attraction-group h4::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--magenta);
+  transform: translateY(-50%);
+}
+
+/* Lista de atrações */
+.cmb-attraction-list {
+  display: grid;
+}
+
+.cmb-attraction-item {
+  border-bottom: 1px solid var(--line);
+}
+
+.cmb-attraction-item:last-child {
+  border-bottom: 0;
+}
+
+/* Botão do tópico */
+.cmb-attraction-button {
+  width: 100%;
+  min-height: 76px;
+  padding: 14px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  color: var(--black);
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cmb-attraction-button > span:first-child {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.cmb-attraction-button strong {
+  font-size: 0.98rem;
+  line-height: 1.3;
+}
+
+.cmb-attraction-button small {
+  margin-top: 4px;
+  color: var(--magenta);
+  font-size: 0.73rem;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Botão de mais */
+.cmb-attraction-plus {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  display: grid;
+  place-items: center;
+  color: var(--white);
+  border-radius: 50%;
+  background: var(--magenta);
+  font-size: 1.3rem;
+  font-weight: 500;
+  line-height: 1;
+  transition:
+    transform 200ms ease,
+    background 200ms ease;
+}
+
+.cmb-attraction-button:hover .cmb-attraction-plus {
+  color: var(--black);
+  background: var(--yellow);
+}
+
+/* Transforma o + em × quando aberto */
+.cmb-attraction-button[aria-expanded="true"] .cmb-attraction-plus {
+  color: var(--black);
+  background: var(--yellow);
+  transform: rotate(45deg);
+}
+
+/* Descrição expansível */
+.cmb-attraction-description {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 280ms ease,
+    opacity 200ms ease;
+}
+
+.cmb-attraction-description > div {
+  overflow: hidden;
+}
+
+.cmb-attraction-description p {
+  margin: 0;
+  padding: 0 42px 18px 0;
+  color: var(--gray);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* Estado aberto */
+.cmb-attraction-item.is-open .cmb-attraction-description {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+/* =========================================================
+   TABLET — ATÉ 1000PX
+   ========================================================= */
+
+@media (max-width: 1000px) {
+  .cmb-activities-grid {
+    grid-template-columns: 1fr;
+    max-width: 720px;
+    margin-inline: auto;
+  }
+
+  .cmb-activities-notice {
+    margin-top: -24px;
+  }
+}
+
+/* =========================================================
+   MOBILE — ATÉ 700PX
+   ========================================================= */
+
+@media (max-width: 700px) {
+  .cmb-activities-grid {
+    gap: 18px;
+  }
+
+  .cmb-activities-notice {
+    margin: -20px 0 25px;
+  }
+
+  .cmb-day-header {
+    padding: 22px 22px 21px;
+  }
+
+  .cmb-day-content {
+    padding: 22px 20px 24px;
+  }
+
+  .cmb-attraction-button {
+    min-height: 70px;
+  }
+
+  .cmb-attraction-description p {
+    padding-right: 0;
+  }
+}
