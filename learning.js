@@ -786,11 +786,7 @@ const downloadButton = builderModal.querySelector(
     const LEARNING_ANALYTICS_URL =
     "https://script.google.com/macros/s/AKfycbwFsU_6kydk86whB7VN0kzJCybZxZ41kQJsFiUrcgecaUXOs19b8Af0_od_aeui8w7dTQ/exec";
 
-  /*
-    Evita contar duas vezes a mesma grade se a pessoa
-    baixar e depois compartilhar.
-  */
-  const cronogramasJaContabilizados = new Set();
+
 
   
   const cronogramaBackgrounds = {
@@ -808,6 +804,7 @@ const downloadButton = builderModal.querySelector(
     selecoes: {},
     imagemBlob: null,
     imagemUrl: null
+    contabilizado: false,
   };
 
   let builderLastFocusedElement = null;
@@ -838,7 +835,7 @@ const downloadButton = builderModal.querySelector(
     builderState.horarios = [];
     builderState.etapa = 0;
     builderState.selecoes = {};
-
+builderState.contabilizado = false;
     showBuilderView("day");
 
     builderModal.hidden = false;
@@ -1751,22 +1748,11 @@ const positions = [
       A assinatura muda se a pessoa escolher outra aula,
       outro horário ou outro dia.
     */
-    const assinatura = aulas
-      .map((aula) =>
-        [
-          aula.nome_aula,
-          aula.nome_professor,
-          aula.dia,
-          aula.hora
-        ].join("||")
-      )
-      .join("###");
+    if (builderState.contabilizado) {
+  return;
+}
 
-    if (cronogramasJaContabilizados.has(assinatura)) {
-      return;
-    }
-
-    cronogramasJaContabilizados.add(assinatura);
+builderState.contabilizado = true;
 
     fetch(LEARNING_ANALYTICS_URL, {
       method: "POST",
