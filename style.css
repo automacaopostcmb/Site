@@ -3009,3 +3009,28 @@ html { scroll-behavior: auto; }
     font-size: 0.85rem;
   }
 }
+/* Corrige o espaço interno do carrossel de empresas */
+.companies-carousel.card-carousel .carousel-viewport {
+  margin: 0;
+  padding: 0;
+}
+
+@media (max-width: 700px) {
+  .companies-carousel.card-carousel .carousel-viewport {
+    padding: 0 12px;
+  }
+}
+
+.companies-carousel .carousel-viewport {
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.companies-carousel.is-dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
+.companies-carousel.is-dragging .carousel-track {
+  transition: none;
+}
