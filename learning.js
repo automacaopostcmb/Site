@@ -782,6 +782,17 @@ const downloadButton = builderModal.querySelector(
     "[data-builder-edit]"
   );
 
+
+    const LEARNING_ANALYTICS_URL =
+    "https://script.google.com/macros/s/AKfycbwFsU_6kydk86whB7VN0kzJCybZxZ41kQJsFiUrcgecaUXOs19b8Af0_od_aeui8w7dTQ/exec";
+
+  /*
+    Evita contar duas vezes a mesma grade se a pessoa
+    baixar e depois compartilhar.
+  */
+  const cronogramasJaContabilizados = new Set();
+
+  
   const cronogramaBackgrounds = {
     sabado:
       "https://raw.githubusercontent.com/automacaopostcmb/Site/529b642ea6317bc95b8042a07d37b383ce923569/cronosabado.png",
@@ -1682,7 +1693,7 @@ const positions = [
   }
 
   async function shareBuilderImage() {
-    if (!builderState.imagemBlob) return;
+    if (!builderState.imagemBlob) return false;
 
     const file = new File(
       [builderState.imagemBlob],
@@ -1695,7 +1706,7 @@ const positions = [
       typeof navigator.canShare !== "function" ||
       !navigator.canShare({ files: [file] })
     ) {
-      return;
+      return false;
     }
 
     try {
@@ -1704,12 +1715,84 @@ const positions = [
         text: "Confira as aulas que escolhi para o Comic Market Brasil.",
         files: [file]
       });
+
+      return true;
     } catch (error) {
       if (error.name !== "AbortError") {
         console.error(error);
       }
+
+      return false;
     }
   }
+
+  function registrarAulasDoCronograma() {
+    const aulas = builderState.horarios
+      .map((horario) => {
+        const aula = selectedBuilderClass(horario);
+
+        if (!aula) return null;
+
+        return {
+          nome_aula: aula.titulo,
+          nome_professor: aula.professor,
+          dia:
+            builderState.dia === "sabado"
+              ? "Sábado"
+              : "Domingo",
+          hora: horario
+        };
+      })
+      .filter(Boolean);
+
+    if (!aulas.length) return;
+
+    /*
+      A assinatura muda se a pessoa escolher outra aula,
+      outro horário ou outro dia.
+    */
+    const assinatura = aulas
+      .map((aula) =>
+        [
+          aula.nome_aula,
+          aula.nome_professor,
+          aula.dia,
+          aula.hora
+        ].join("||")
+      )
+      .join("###");
+
+    if (cronogramasJaContabilizados.has(assinatura)) {
+      return;
+    }
+
+    cronogramasJaContabilizados.add(assinatura);
+
+    fetch(LEARNING_ANALYTICS_URL, {
+      method: "POST",
+      mode: "no-cors",
+      keepalive: true,
+      headers: {
+        "Content-Type": "text/plain;charset=UTF-8"
+      },
+      body: JSON.stringify({
+        tipo: "learning_selecoes",
+        aulas
+      })
+    }).catch((erro) => {
+      /*
+        A experiência da pessoa não é interrompida caso
+        a planilha esteja indisponível.
+      */
+      console.error(
+        "Não foi possível registrar as aulas:",
+        erro
+      );
+    });
+  }
+
+
+  
 function downloadBuilderImage() {
   if (!builderState.imagemUrl) return;
 
@@ -1779,13 +1862,19 @@ function downloadBuilderImage() {
 
 if (event.target.closest("[data-builder-download]")) {
   downloadBuilderImage();
+  registrarAulasDoCronograma();
   return;
 }
     
-    if (event.target.closest("[data-builder-share]")) {
-      await shareBuilderImage();
-      return;
-    }
+if (event.target.closest("[data-builder-share]")) {
+  const compartilhou = await shareBuilderImage();
+
+  if (compartilhou) {
+    registrarAulasDoCronograma();
+  }
+
+  return;
+}
 
     const otherDay = event.target.closest(
       "[data-builder-other-day]"
