@@ -1400,24 +1400,27 @@ html { scroll-behavior: auto; }
   }
 }
 /* =========================================================
-   PATROCINADORES — GRADE FIXA
+   PATROCINADORES
    ========================================================= */
 
 .sponsors-section {
   background: var(--off-white);
 }
 
-/* Grade dos patrocinadores */
+/* Grade modular:
+   centraliza automaticamente a última linha */
 .sponsors-grid {
   width: 100%;
   margin-top: 44px;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 22px;
 }
 
-/* Box individual */
+/* Box individual — 4 por linha no desktop */
 .sponsors-grid .sponsor-item {
+  flex: 0 0 calc((100% - 66px) / 4);
   min-width: 0;
   aspect-ratio: 1 / 1;
   padding: 0;
@@ -1471,8 +1474,12 @@ html { scroll-behavior: auto; }
 
 @media (max-width: 900px) {
   .sponsors-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 18px;
+  }
+
+  /* 3 patrocinadores por linha */
+  .sponsors-grid .sponsor-item {
+    flex-basis: calc((100% - 36px) / 3);
   }
 }
 
@@ -1482,12 +1489,13 @@ html { scroll-behavior: auto; }
 
 @media (max-width: 700px) {
   .sponsors-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 14px;
     margin-top: 30px;
   }
 
+  /* 2 patrocinadores por linha */
   .sponsors-grid .sponsor-item {
+    flex-basis: calc((100% - 14px) / 2);
     border-radius: 12px;
   }
 
@@ -1500,19 +1508,31 @@ html { scroll-behavior: auto; }
     max-height: 85px;
   }
 
-  /* Remove o movimento de subida no touch */
+  /* Evita movimento indesejado em telas touch */
   .sponsors-grid .sponsor-item:hover {
     transform: none;
   }
 }
 
-/* Celulares estreitos */
+/* =========================================================
+   CELULARES ESTREITOS — ATÉ 360PX
+   ========================================================= */
+
 @media (max-width: 360px) {
   .sponsors-grid {
     gap: 10px;
   }
 
+  .sponsors-grid .sponsor-item {
+    flex-basis: calc((100% - 10px) / 2);
+  }
+
   .sponsors-grid .sponsor-item a {
     padding: 14px;
+  }
+
+  .sponsors-grid .sponsor-item img {
+    max-width: 110px;
+    max-height: 75px;
   }
 }
