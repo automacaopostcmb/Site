@@ -10,6 +10,7 @@
 
 <script src="componentes.js" defer></script>
 <script src="script.js" defer></script>
+    <script src="learning.js" defer></script>
   </head>
   <body>
 <div data-header-placeholder></div>
@@ -1163,7 +1164,17 @@
         Escolha uma aula em cada horário.
       </p>
     </div>
-
+    
+<div class="learning-builder-launch">
+  <button
+    class="button button-magenta"
+    type="button"
+    data-schedule-builder-open
+  >
+    Clique e crie o seu cronograma
+  </button>
+</div>
+    
   </div>
 </section>
 
@@ -1749,5 +1760,221 @@
   >
 </div>
 
+
+<div
+  class="schedule-builder-modal"
+  data-schedule-builder-modal
+  hidden
+>
+  <div
+    class="schedule-builder-backdrop"
+    data-schedule-builder-exit
+  ></div>
+
+  <section
+    class="schedule-builder-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="schedule-builder-title"
+  >
+    <header class="schedule-builder-header">
+      <div>
+        <p class="section-kicker">
+          COMIC LEARNING
+        </p>
+
+        <h2 id="schedule-builder-title">
+          Crie o seu cronograma
+        </h2>
+      </div>
+
+      <button
+        class="schedule-builder-close"
+        type="button"
+        aria-label="Fechar gerador de cronograma"
+        data-schedule-builder-exit
+      >
+        ×
+      </button>
+    </header>
+
+    <div class="schedule-builder-body">
+
+      <!-- ESCOLHA DO DIA -->
+      <div
+        class="schedule-builder-view"
+        data-builder-day-view
+      >
+        <div class="schedule-builder-intro">
+          <h3>Qual dia você deseja planejar?</h3>
+
+          <p>
+            Escolha um dia para começar a montar sua grade de aulas.
+          </p>
+        </div>
+
+        <div class="schedule-builder-day-options">
+          <button
+            class="schedule-builder-day"
+            type="button"
+            data-builder-day="sabado"
+          >
+            <strong>Sábado</strong>
+            <span>15 de agosto</span>
+          </button>
+
+          <button
+            class="schedule-builder-day"
+            type="button"
+            data-builder-day="domingo"
+          >
+            <strong>Domingo</strong>
+            <span>16 de agosto</span>
+          </button>
+        </div>
+
+        <button
+          class="schedule-builder-exit-button"
+          type="button"
+          data-schedule-builder-exit
+        >
+          Sair
+        </button>
+      </div>
+
+      <!-- ESCOLHA DAS AULAS -->
+      <div
+        class="schedule-builder-view"
+        data-builder-classes-view
+        hidden
+      >
+        <div class="schedule-builder-progress">
+          <span data-builder-progress-text>
+            Horário 1 de 4
+          </span>
+
+          <div class="schedule-builder-progress-track">
+            <span data-builder-progress-bar></span>
+          </div>
+        </div>
+
+        <div class="schedule-builder-step-heading">
+          <p data-builder-selected-day></p>
+
+          <h3 data-builder-time-title>
+            Escolha sua aula das 09:30
+          </h3>
+
+          <span>
+            Clique em um card para selecionar.
+          </span>
+        </div>
+
+        <div
+          class="schedule-builder-classes"
+          data-builder-class-options
+        ></div>
+
+        <div class="schedule-builder-navigation">
+          <button
+            class="button schedule-builder-back-button"
+            type="button"
+            data-builder-back
+          >
+            Voltar
+          </button>
+
+          <button
+            class="button button-magenta"
+            type="button"
+            data-builder-next
+            disabled
+          >
+            Próximo horário
+          </button>
+        </div>
+
+        <button
+          class="schedule-builder-exit-button"
+          type="button"
+          data-schedule-builder-exit
+        >
+          Sair
+        </button>
+      </div>
+
+      <!-- CONCLUSÃO -->
+      <div
+        class="schedule-builder-view"
+        data-builder-success-view
+        hidden
+      >
+        <div class="schedule-builder-success-copy">
+          <span class="schedule-builder-success-icon">✓</span>
+
+          <h3>Seu cronograma foi criado!</h3>
+
+          <p>
+            A imagem foi gerada e baixada no seu dispositivo.
+          </p>
+        </div>
+
+        <div class="schedule-builder-preview">
+          <img
+            src=""
+            alt="Prévia do cronograma criado"
+            data-builder-preview
+          >
+        </div>
+
+        <div class="schedule-builder-success-actions">
+          <button
+            class="button button-magenta"
+            type="button"
+            data-builder-share
+            hidden
+          >
+            Compartilhar
+          </button>
+
+          <p
+            class="schedule-builder-share-note"
+            data-builder-share-note
+            hidden
+          >
+            Para compartilhar, abra a imagem baixada na galeria do aparelho.
+          </p>
+
+          <button
+            class="button button-black"
+            type="button"
+            data-builder-other-day
+          >
+            Fazer o cronograma de domingo
+          </button>
+
+          <button
+            class="button schedule-builder-edit-button"
+            type="button"
+            data-builder-edit
+          >
+            Voltar e editar
+          </button>
+
+          <button
+            class="schedule-builder-exit-button"
+            type="button"
+            data-schedule-builder-exit
+          >
+            Sair
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+    
   </body>
 </html>
