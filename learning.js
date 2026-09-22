@@ -39,15 +39,15 @@ const learningData = {
   sabado: {
     "09:30": [
       {
-        professor: "Nome do professor 1",
-        titulo: "Título da aula 1",
-        categoria: "Quadrinhos",
+        professor: "Bruno Lima",
+        titulo: "Desenhando cabeças, rostos e expressões",
+        categoria: "Ilustração",
         nivel: "Iniciante",
-        foto: "https://raw.githubusercontent.com/automacaopostcmb/Site/refs/heads/main/logo.svg",
+        foto: https://raw.githubusercontent.com/automacaopostcmb/Site/733078cb0013997c5db9d01b0be17ab7e881cfa8/prof_bruno.png",
         resumo:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         descricao:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae lectus quis mauris tincidunt gravida."
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae lectus quis mauris tincidunt gravaida."
       },
 
       {
