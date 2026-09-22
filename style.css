@@ -1544,3 +1544,82 @@ html { scroll-behavior: auto; }
     max-height: 75px;
   }
 }
+/* =========================================================
+   CARAVANAS
+   ========================================================= */
+
+#caravanas {
+  /* Altere este valor para mudar o tamanho da imagem */
+  --caravan-image-width: 420px;
+}
+
+/* Alinha o conteúdo e a imagem verticalmente */
+#caravanas .ticket-panel {
+  align-items: center;
+}
+
+/* Bloco de texto */
+#caravanas .ticket-panel > div:first-child {
+  flex: 1 1 620px;
+}
+
+/* Botões abaixo do texto */
+#caravanas .hero-actions {
+  margin-top: 30px;
+  align-items: center;
+}
+
+/* Área da imagem */
+#caravanas .caravan-image {
+  flex: 0 1 var(--caravan-image-width);
+  width: var(--caravan-image-width);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Imagem */
+#caravanas .caravan-image img {
+  display: block;
+  width: 100%;
+  max-width: var(--caravan-image-width);
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* =========================================================
+   TABLET E MOBILE — ATÉ 900PX
+   ========================================================= */
+
+@media (max-width: 900px) {
+  /* A imagem não aparece no mobile */
+  #caravanas .caravan-image {
+    display: none;
+  }
+
+  #caravanas .ticket-panel > div:first-child {
+    width: 100%;
+    flex-basis: auto;
+  }
+}
+
+/* =========================================================
+   MOBILE — ATÉ 700PX
+   ========================================================= */
+
+@media (max-width: 700px) {
+  #caravanas .hero-actions {
+    width: 100%;
+    margin-top: 28px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  /* Botões ocupam toda a largura */
+  #caravanas .hero-actions .button {
+    width: 100%;
+    text-align: center;
+  }
+}
