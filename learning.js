@@ -1865,7 +1865,7 @@ if (event.target.closest("[data-builder-download]")) {
   registrarAulasDoCronograma();
   return;
 }
-    
+
 if (event.target.closest("[data-builder-share]")) {
   const compartilhou = await shareBuilderImage();
 
