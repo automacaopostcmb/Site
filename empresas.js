@@ -150,12 +150,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     activeIndex = Math.min(activeIndex, maximumIndex);
 
-    const trackStyles = window.getComputedStyle(track);
-    const gap = parseFloat(trackStyles.gap) || 18;
+const trackStyles = window.getComputedStyle(track);
+const viewportStyles = window.getComputedStyle(viewport);
 
-    const slideWidth =
-      (viewport.clientWidth - gap * (perView - 1)) /
-      perView;
+const gap = parseFloat(trackStyles.gap) || 18;
+
+const horizontalPadding =
+  parseFloat(viewportStyles.paddingLeft) +
+  parseFloat(viewportStyles.paddingRight);
+
+const availableWidth =
+  viewport.clientWidth - horizontalPadding;
+
+const slideWidth =
+  (availableWidth - gap * (perView - 1)) /
+  perView;
 
     slides.forEach((slide) => {
       slide.style.flex = `0 0 ${slideWidth}px`;
@@ -192,6 +201,95 @@ document.addEventListener("DOMContentLoaded", () => {
     updateCarousel();
   });
 
+  let dragStartX = 0;
+  let dragStartY = 0;
+  let dragOffset = 0;
+  let isDragging = false;
+
+  viewport.addEventListener("pointerdown", (event) => {
+    if (getMaximumIndex() === 0) return;
+
+    dragStartX = event.clientX;
+    dragStartY = event.clientY;
+    dragOffset = 0;
+    isDragging = false;
+
+    viewport.setPointerCapture(event.pointerId);
+  });
+
+  viewport.addEventListener("pointermove", (event) => {
+    if (!viewport.hasPointerCapture(event.pointerId)) return;
+
+    const offsetX = event.clientX - dragStartX;
+    const offsetY = event.clientY - dragStartY;
+
+    if (
+      !isDragging &&
+      Math.abs(offsetX) < Math.abs(offsetY)
+    ) {
+      return;
+    }
+
+    if (Math.abs(offsetX) > 8) {
+      isDragging = true;
+      carousel.classList.add("is-dragging");
+      event.preventDefault();
+    }
+
+    if (!isDragging) return;
+
+    dragOffset = offsetX;
+
+    const firstSlide = getSlides()[0];
+
+    if (!firstSlide) return;
+
+    const trackStyles = window.getComputedStyle(track);
+    const gap = parseFloat(trackStyles.gap) || 18;
+
+    const slideWidth =
+      firstSlide.getBoundingClientRect().width;
+
+    const currentPosition =
+      activeIndex * (slideWidth + gap);
+
+    track.style.transform =
+      `translate3d(${-currentPosition + dragOffset}px, 0, 0)`;
+  });
+
+  function finishDrag(event) {
+    if (!viewport.hasPointerCapture(event.pointerId)) return;
+
+    viewport.releasePointerCapture(event.pointerId);
+    carousel.classList.remove("is-dragging");
+
+    if (!isDragging) return;
+
+    const minimumDrag = 45;
+
+    if (dragOffset <= -minimumDrag) {
+      activeIndex = Math.min(
+        getMaximumIndex(),
+        activeIndex + 1
+      );
+    }
+
+    if (dragOffset >= minimumDrag) {
+      activeIndex = Math.max(
+        0,
+        activeIndex - 1
+      );
+    }
+
+    isDragging = false;
+    dragOffset = 0;
+
+    updateCarousel();
+  }
+
+  viewport.addEventListener("pointerup", finishDrag);
+  viewport.addEventListener("pointercancel", finishDrag);
+  
   function loadCompaniesWithJsonp() {
     return new Promise((resolve, reject) => {
       const callbackName = "cbmCompaniesCallback";
