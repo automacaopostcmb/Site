@@ -1087,43 +1087,73 @@ await createScheduleImage();
     });
   }
 
-  function drawBuilderCoverImage(
-    context,
+function drawBuilderCoverImage(
+  context,
+  image,
+  x,
+  y,
+  width,
+  height
+) {
+  const imageRatio = image.width / image.height;
+  const boxRatio = width / height;
+
+  let sourceX = 0;
+  let sourceY = 0;
+  let sourceWidth = image.width;
+  let sourceHeight = image.height;
+
+  if (imageRatio > boxRatio) {
+    sourceWidth = image.height * boxRatio;
+    sourceX = (image.width - sourceWidth) / 2;
+  } else {
+    sourceHeight = image.width / boxRatio;
+    sourceY = (image.height - sourceHeight) / 2;
+  }
+
+  context.drawImage(
     image,
+    sourceX,
+    sourceY,
+    sourceWidth,
+    sourceHeight,
     x,
     y,
     width,
     height
-  ) {
-    const imageRatio = image.width / image.height;
-    const boxRatio = width / height;
+  );
+}
 
-    let sourceX = 0;
-    let sourceY = 0;
-    let sourceWidth = image.width;
-    let sourceHeight = image.height;
+function drawBuilderTeacherImage(
+  context,
+  image,
+  x,
+  y,
+  width,
+  height
+) {
+  const scale = Math.min(
+    width / image.width,
+    height / image.height
+  );
 
-    if (imageRatio > boxRatio) {
-      sourceWidth = image.height * boxRatio;
-      sourceX = (image.width - sourceWidth) / 2;
-    } else {
-      sourceHeight = image.width / boxRatio;
-      sourceY = (image.height - sourceHeight) / 2;
-    }
+  const drawWidth = image.width * scale;
+  const drawHeight = image.height * scale;
 
-    context.drawImage(
-      image,
-      sourceX,
-      sourceY,
-      sourceWidth,
-      sourceHeight,
-      x,
-      y,
-      width,
-      height
-    );
-  }
+  const drawX = x + (width - drawWidth) / 2;
+  const drawY = y + (height - drawHeight) / 2;
 
+  context.drawImage(
+    image,
+    drawX,
+    drawY,
+    drawWidth,
+    drawHeight
+  );
+}
+
+
+  
   function getBuilderWrappedLines(
     context,
     text,
@@ -1335,16 +1365,16 @@ await createScheduleImage();
 
     context.clip();
 
-    if (teacherImage) {
-      drawBuilderCoverImage(
-        context,
-        teacherImage,
-        photoX,
-        photoY,
-        photoSize,
-        photoSize
-      );
-    } else {
+  if (teacherImage) {
+  drawBuilderTeacherImage(
+    context,
+    teacherImage,
+    photoX,
+    photoY,
+    photoSize,
+    photoSize
+  );
+} else {
       context.fillStyle = "#f2e7ee";
       context.fillRect(
         photoX,
@@ -1504,14 +1534,14 @@ async function createScheduleImage() {
         canvas.height
       );
 
-      drawBuilderCoverImage(
-        context,
-        backgroundImage,
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      );
+  drawBuilderTeacherImage(
+  context,
+  teacherImage,
+  photoX,
+  photoY,
+  photoSize,
+  photoSize
+);
 
       /* Nome do dia */
       const dayTitle =
