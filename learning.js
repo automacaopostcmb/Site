@@ -1559,68 +1559,30 @@ drawBuilderCoverImage(
   canvas.height
 );
 
-      /* Nome do dia */
-      const dayTitle =
-        builderState.dia === "sabado"
-          ? "Sábado"
-          : "Domingo";
 
-      context.font =
-        "900 34px Inter, Arial, sans-serif";
-
-      const dayWidth =
-        context.measureText(dayTitle).width + 130;
-
-      const dayX =
-        (canvas.width - dayWidth) / 2;
-
-      createRoundedPath(
-        context,
-        dayX,
-        105,
-        dayWidth,
-        76,
-        38
-      );
-
-      context.fillStyle = "#d5007f";
-      context.fill();
-
-      context.fillStyle = "#ffffff";
-      context.textAlign = "center";
-      context.textBaseline = "middle";
-
-      context.fillText(
-        dayTitle,
-        canvas.width / 2,
-        144
-      );
-
-      context.textAlign = "left";
-      context.textBaseline = "alphabetic";
 
       const positions = [
         {
           x: 65,
-          y: 310,
+          y: 370,
           width: 445,
           height: 300
         },
         {
           x: 570,
-          y: 310,
+          y: 370,
           width: 445,
           height: 300
         },
         {
           x: 65,
-          y: 790,
+          y: 720,
           width: 445,
           height: 300
         },
         {
           x: 570,
-          y: 790,
+          y: 720,
           width: 445,
           height: 300
         }
