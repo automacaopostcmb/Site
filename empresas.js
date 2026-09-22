@@ -43,27 +43,10 @@ document.addEventListener("DOMContentLoaded", () => {
   let inView = false;
   let hovered = false;
   let focused = false;
-  let manuallyPaused = reducedMotion.matches;
   let drag = null;
   let suppressClickUntil = 0;
 
-  /* Botão acessível para pausar o movimento */
-  const pauseButton = document.createElement("button");
-  pauseButton.type = "button";
-  pauseButton.className = "round-arrow companies-pause";
-  controls.appendChild(pauseButton);
-
-  function updatePauseButton() {
-    pauseButton.textContent = manuallyPaused ? "▶" : "Ⅱ";
-    pauseButton.setAttribute(
-      "aria-label",
-      manuallyPaused
-        ? "Retomar passagem automática"
-        : "Pausar passagem automática"
-    );
-    pauseButton.setAttribute("aria-pressed", String(manuallyPaused));
-  }
-
+  
   function getPerView() {
     if (window.innerWidth <= 700) return 1;
     if (window.innerWidth <= 1000) return 3;
@@ -82,8 +65,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function scheduleAutoplay() {
     stopAutoplay();
 
-    if (
-      manuallyPaused || reducedMotion.matches ||
+if (
+  reducedMotion.matches ||
       document.hidden || !inView ||
       hovered || focused || drag ||
       getMaximumIndex() === 0
@@ -304,11 +287,7 @@ document.addEventListener("DOMContentLoaded", () => {
   previousButton.addEventListener("click", () => move(-1));
   nextButton.addEventListener("click", () => move(1));
 
-  pauseButton.addEventListener("click", () => {
-    manuallyPaused = !manuallyPaused;
-    updatePauseButton();
-    scheduleAutoplay();
-  });
+
 
   carousel.addEventListener("pointerenter", (event) => {
     if (event.pointerType !== "mouse") return;
@@ -336,11 +315,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.addEventListener("visibilitychange", scheduleAutoplay);
 
-  reducedMotion.addEventListener("change", () => {
-    if (reducedMotion.matches) manuallyPaused = true;
-    updatePauseButton();
-    scheduleAutoplay();
-  });
+reducedMotion.addEventListener("change", () => {
+  scheduleAutoplay();
+});
 
   /* ARRASTE COM MOUSE E DEDO */
   viewport.addEventListener("dragstart", (event) => {
@@ -568,6 +545,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
   resizeObserver.observe(viewport);
 
-  updatePauseButton();
   loadCompanies();
 });
