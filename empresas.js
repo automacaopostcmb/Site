@@ -1,47 +1,68 @@
 document.addEventListener("DOMContentLoaded", () => {
   const section = document.querySelector("#empresas-cmb");
-
   if (!section) return;
 
-  /* COLE A URL /exec DO SEU APPS SCRIPT AQUI */
   const APPS_SCRIPT_URL =
     "https://script.google.com/macros/s/AKfycbwFsU_6kydk86whB7VN0kzJCybZxZ41kQJsFiUrcgecaUXOs19b8Af0_od_aeui8w7dTQ/exec";
 
-  const carousel = section.querySelector(
-    "[data-companies-carousel]"
+  /* CONFIGURAÇÕES */
+  const AUTOPLAY_MS = 4000; // Tempo entre avanços automáticos
+  const CACHE_MS = 10 * 60 * 1000; // 10 minutos
+  const REQUEST_TIMEOUT_MS = 25000;
+  const CACHE_KEY = "cmb-companies-browser-v2";
+
+  const carousel = section.querySelector("[data-companies-carousel]");
+  if (!carousel || carousel.dataset.companiesReady) return;
+  carousel.dataset.companiesReady = "true";
+
+  const viewport = carousel.querySelector(".carousel-viewport");
+  const track = carousel.querySelector("[data-companies-track]");
+  const controls = carousel.querySelector("[data-companies-controls]");
+  const previousButton = carousel.querySelector("[data-companies-prev]");
+  const nextButton = carousel.querySelector("[data-companies-next]");
+  const dots = carousel.querySelector("[data-companies-dots]");
+  const status = carousel.querySelector("[data-companies-status]");
+
+  if (
+    !viewport || !track || !controls ||
+    !previousButton || !nextButton || !dots || !status
+  ) {
+    console.error("Empresas: faltam elementos no HTML.");
+    return;
+  }
+
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
   );
 
-  const viewport = carousel.querySelector(
-    ".carousel-viewport"
-  );
-
-  const track = carousel.querySelector(
-    "[data-companies-track]"
-  );
-
-  const controls = carousel.querySelector(
-    "[data-companies-controls]"
-  );
-
-  const previousButton = carousel.querySelector(
-    "[data-companies-prev]"
-  );
-
-  const nextButton = carousel.querySelector(
-    "[data-companies-next]"
-  );
-
-  const dotsContainer = carousel.querySelector(
-    "[data-companies-dots]"
-  );
-
-  const status = carousel.querySelector(
-    "[data-companies-status]"
-  );
-
-  let items = [];
+  let slides = [];
   let activeIndex = 0;
-  let resizeTimeout;
+  let step = 0;
+  let timer = null;
+  let resizeFrame = null;
+  let inView = false;
+  let hovered = false;
+  let focused = false;
+  let manuallyPaused = reducedMotion.matches;
+  let drag = null;
+  let suppressClickUntil = 0;
+
+  /* Botão acessível para pausar o movimento */
+  const pauseButton = document.createElement("button");
+  pauseButton.type = "button";
+  pauseButton.className = "round-arrow companies-pause";
+  controls.appendChild(pauseButton);
+
+  function updatePauseButton() {
+    pauseButton.textContent = manuallyPaused ? "▶" : "Ⅱ";
+    pauseButton.setAttribute(
+      "aria-label",
+      manuallyPaused
+        ? "Retomar passagem automática"
+        : "Pausar passagem automática"
+    );
+    pauseButton.setAttribute("aria-pressed", String(manuallyPaused));
+  }
 
   function getPerView() {
     if (window.innerWidth <= 700) return 1;
@@ -49,345 +70,504 @@ document.addEventListener("DOMContentLoaded", () => {
     return 5;
   }
 
-function createCompanyCard(item, index) {
-    const slide = document.createElement("article");
-
-    slide.className =
-      "carousel-slide company-item";
-
-    const logoBox = document.createElement("div");
-    logoBox.className = "company-logo-box";
-
-    const image = document.createElement("img");
-
-    image.src = item.imagem;
-    image.alt = item.alt || item.nome || "Empresa";
-const deveCarregarAgora = index < getPerView();
-
-image.loading = deveCarregarAgora
-  ? "eager"
-  : "lazy";
-
-image.fetchPriority = deveCarregarAgora
-  ? "high"
-  : "auto";
-
-image.decoding = "async";
-
-    image.addEventListener("error", () => {
-      slide.remove();
-      updateCarousel();
-    });
-
-    const caption = document.createElement("p");
-    caption.textContent = item.nome || "Empresa";
-
-    logoBox.appendChild(image);
-    slide.append(logoBox, caption);
-
-    return slide;
-  }
-
-  function getSlides() {
-    return [
-      ...track.querySelectorAll(".company-item")
-    ];
-  }
-
   function getMaximumIndex() {
-    return Math.max(
-      0,
-      getSlides().length - getPerView()
-    );
+    return Math.max(0, slides.length - getPerView());
   }
 
-  function renderCards() {
-    track.innerHTML = "";
-    activeIndex = 0;
-
-items.forEach((item, index) => {
-  track.appendChild(
-    createCompanyCard(item, index)
-  );
-});
-
-    updateCarousel();
+  function stopAutoplay() {
+    clearTimeout(timer);
+    timer = null;
   }
 
-  function renderDots(maximumIndex) {
-    dotsContainer.innerHTML = "";
+  function scheduleAutoplay() {
+    stopAutoplay();
 
-    for (
-      let dotIndex = 0;
-      dotIndex <= maximumIndex;
-      dotIndex += 1
+    if (
+      manuallyPaused || reducedMotion.matches ||
+      document.hidden || !inView ||
+      hovered || focused || drag ||
+      getMaximumIndex() === 0
     ) {
-      const dot = document.createElement("button");
-
-      dot.type = "button";
-      dot.className = "carousel-dot";
-      dot.setAttribute(
-        "aria-label",
-        `Ir para a posição ${dotIndex + 1}`
-      );
-
-      if (dotIndex === activeIndex) {
-        dot.classList.add("is-active");
-        dot.setAttribute("aria-current", "true");
-      }
-
-      dot.addEventListener("click", () => {
-        activeIndex = dotIndex;
-        updateCarousel();
-      });
-
-      dotsContainer.appendChild(dot);
-    }
-  }
-
-  function updateCarousel() {
-    const slides = getSlides();
-
-    if (!slides.length) {
-      controls.hidden = true;
       return;
     }
 
+    timer = setTimeout(() => {
+      move(1);
+    }, AUTOPLAY_MS);
+  }
+
+  function setStatus(message, error = false) {
+    status.textContent = message;
+    status.hidden = !message;
+    status.classList.toggle("is-error", error);
+  }
+
+  /* Só solicita as imagens visíveis e as próximas */
+  function loadNearbyImages() {
     const perView = getPerView();
-    const maximumIndex = Math.max(
+    const indexes = new Set();
+
+    for (
+      let index = Math.max(0, activeIndex - 1);
+      index < Math.min(slides.length, activeIndex + perView + 2);
+      index += 1
+    ) {
+      indexes.add(index);
+    }
+
+    // Prepara o retorno ao começo
+    if (activeIndex === getMaximumIndex()) {
+      for (let index = 0; index < perView; index += 1) {
+        indexes.add(index);
+      }
+    }
+
+    indexes.forEach((index) => {
+      const image = slides[index]?.querySelector("img[data-src]");
+      if (!image) return;
+
+      image.loading = "eager";
+      image.fetchPriority =
+        index >= activeIndex && index < activeIndex + perView
+          ? "high"
+          : "low";
+
+      const source = image.dataset.src;
+      delete image.dataset.src;
+      image.src = source;
+    });
+  }
+
+  function refreshDots() {
+    [...dots.children].forEach((dot, index) => {
+      const active = index === activeIndex;
+      dot.classList.toggle("is-active", active);
+
+      if (active) {
+        dot.setAttribute("aria-current", "true");
+      } else {
+        dot.removeAttribute("aria-current");
+      }
+    });
+  }
+
+  function buildDots() {
+    const maximum = getMaximumIndex();
+    const count = maximum > 0 ? maximum + 1 : 0;
+
+    if (dots.children.length !== count) {
+      dots.replaceChildren();
+
+      for (let index = 0; index < count; index += 1) {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "carousel-dot";
+        dot.setAttribute("aria-label", `Ir para a posição ${index + 1}`);
+
+        dot.addEventListener("click", () => {
+          goTo(index);
+        });
+
+        dots.appendChild(dot);
+      }
+    }
+
+    refreshDots();
+  }
+
+  function paint(animate = true) {
+    track.style.transition =
+      animate && !reducedMotion.matches ? "" : "none";
+
+    track.style.transform =
+      `translate3d(${-activeIndex * step}px, 0, 0)`;
+
+    loadNearbyImages();
+    refreshDots();
+  }
+
+  function goTo(index) {
+    activeIndex = Math.max(0, Math.min(getMaximumIndex(), index));
+    paint();
+    scheduleAutoplay();
+  }
+
+  function move(direction) {
+    const maximum = getMaximumIndex();
+    if (maximum === 0) return;
+
+    let next = activeIndex + direction;
+
+    if (next > maximum) next = 0;
+    if (next < 0) next = maximum;
+
+    goTo(next);
+  }
+
+  function updateCarousel() {
+    const perView = getPerView();
+
+    const gap =
+      parseFloat(getComputedStyle(track).columnGap) || 0;
+
+    // O track já ocupa apenas a área útil do viewport
+    const availableWidth = track.clientWidth;
+    if (!availableWidth) return;
+
+    const slideWidth = Math.max(
       0,
-      slides.length - perView
+      (availableWidth - gap * (perView - 1)) / perView
     );
 
-    activeIndex = Math.min(activeIndex, maximumIndex);
-
-const trackStyles = window.getComputedStyle(track);
-const viewportStyles = window.getComputedStyle(viewport);
-
-const gap = parseFloat(trackStyles.gap) || 18;
-
-const horizontalPadding =
-  parseFloat(viewportStyles.paddingLeft) +
-  parseFloat(viewportStyles.paddingRight);
-
-const availableWidth =
-  viewport.clientWidth - horizontalPadding;
-
-const slideWidth =
-  (availableWidth - gap * (perView - 1)) /
-  perView;
+    step = slideWidth + gap;
 
     slides.forEach((slide) => {
       slide.style.flex = `0 0 ${slideWidth}px`;
+      slide.style.width = `${slideWidth}px`;
     });
 
-    const distance =
-      activeIndex * (slideWidth + gap);
+    activeIndex = Math.min(activeIndex, getMaximumIndex());
 
-    track.style.transform =
-      `translate3d(-${distance}px, 0, 0)`;
-
-    const hasNavigation = slides.length > perView;
-
+    const hasNavigation = getMaximumIndex() > 0;
     controls.hidden = !hasNavigation;
 
-    previousButton.disabled = activeIndex === 0;
-    nextButton.disabled =
-      activeIndex >= maximumIndex;
+    // No loop, as setas não são bloqueadas nas extremidades
+    previousButton.disabled = !hasNavigation;
+    nextButton.disabled = !hasNavigation;
 
-    renderDots(maximumIndex);
+    buildDots();
+    paint(false);
+    scheduleAutoplay();
   }
 
-previousButton.addEventListener("click", () => {
-  if (activeIndex === 0) {
-    activeIndex = getMaximumIndex();
-  } else {
-    activeIndex -= 1;
+  function createCompanyCard(item) {
+    const slide = document.createElement("article");
+    slide.className = "carousel-slide company-item";
+
+    const box = document.createElement("div");
+    box.className = "company-logo-box";
+
+    const image = document.createElement("img");
+    image.alt = item.alt || item.nome || "Empresa participante";
+    image.decoding = "async";
+    image.draggable = false;
+    image.dataset.src = item.imagem;
+
+    image.addEventListener("error", () => {
+      image.remove();
+
+      const fallback = document.createElement("span");
+      fallback.className = "company-image-fallback";
+      fallback.textContent = "Logo indisponível";
+
+      box.appendChild(fallback);
+    }, { once: true });
+
+    const caption = document.createElement("p");
+    caption.textContent = item.nome || "Empresa participante";
+
+    box.appendChild(image);
+    slide.append(box, caption);
+    return slide;
   }
 
-  updateCarousel();
-});
+  function shuffle(list) {
+    const result = [...list];
 
-nextButton.addEventListener("click", () => {
-  if (activeIndex >= getMaximumIndex()) {
+    for (let index = result.length - 1; index > 0; index -= 1) {
+      const random = Math.floor(Math.random() * (index + 1));
+      [result[index], result[random]] = [result[random], result[index]];
+    }
+
+    return result;
+  }
+
+  function renderCards(items) {
+    const sponsors = [];
+    const others = [];
+
+    items.forEach((item) => {
+      const sponsor =
+        String(item.nome).trim().toLowerCase() === "patrocinador";
+
+      (sponsor ? sponsors : others).push(item);
+    });
+
+    slides = [...sponsors, ...shuffle(others)].map(createCompanyCard);
+    track.replaceChildren(...slides);
+
     activeIndex = 0;
-  } else {
-    activeIndex += 1;
+    setStatus(slides.length ? "" : "Nenhuma empresa cadastrada.");
+    updateCarousel();
   }
 
-  updateCarousel();
-});
+  previousButton.addEventListener("click", () => move(-1));
+  nextButton.addEventListener("click", () => move(1));
 
-  let dragStartX = 0;
-  let dragStartY = 0;
-  let dragOffset = 0;
-  let isDragging = false;
+  pauseButton.addEventListener("click", () => {
+    manuallyPaused = !manuallyPaused;
+    updatePauseButton();
+    scheduleAutoplay();
+  });
+
+  carousel.addEventListener("pointerenter", (event) => {
+    if (event.pointerType !== "mouse") return;
+    hovered = true;
+    stopAutoplay();
+  });
+
+  carousel.addEventListener("pointerleave", (event) => {
+    if (event.pointerType !== "mouse") return;
+    hovered = false;
+    scheduleAutoplay();
+  });
+
+  carousel.addEventListener("focusin", () => {
+    focused = true;
+    stopAutoplay();
+  });
+
+  carousel.addEventListener("focusout", () => {
+    setTimeout(() => {
+      focused = carousel.contains(document.activeElement);
+      scheduleAutoplay();
+    }, 0);
+  });
+
+  document.addEventListener("visibilitychange", scheduleAutoplay);
+
+  reducedMotion.addEventListener("change", () => {
+    if (reducedMotion.matches) manuallyPaused = true;
+    updatePauseButton();
+    scheduleAutoplay();
+  });
+
+  /* ARRASTE COM MOUSE E DEDO */
+  viewport.addEventListener("dragstart", (event) => {
+    event.preventDefault();
+  });
 
   viewport.addEventListener("pointerdown", (event) => {
-    if (getMaximumIndex() === 0) return;
+    if (
+      !event.isPrimary || event.button !== 0 ||
+      getMaximumIndex() === 0
+    ) {
+      return;
+    }
 
-    dragStartX = event.clientX;
-    dragStartY = event.clientY;
-    dragOffset = 0;
-    isDragging = false;
+    stopAutoplay();
+
+    drag = {
+      id: event.pointerId,
+      x: event.clientX,
+      y: event.clientY,
+      offset: 0,
+      horizontal: false
+    };
 
     viewport.setPointerCapture(event.pointerId);
   });
 
   viewport.addEventListener("pointermove", (event) => {
-    if (!viewport.hasPointerCapture(event.pointerId)) return;
+    if (!drag || drag.id !== event.pointerId) return;
 
-    const offsetX = event.clientX - dragStartX;
-    const offsetY = event.clientY - dragStartY;
+    const dx = event.clientX - drag.x;
+    const dy = event.clientY - drag.y;
 
-    if (
-      !isDragging &&
-      Math.abs(offsetX) < Math.abs(offsetY)
-    ) {
-      return;
-    }
+    if (!drag.horizontal) {
+      if (Math.max(Math.abs(dx), Math.abs(dy)) < 8) return;
 
-    if (Math.abs(offsetX) > 8) {
-      isDragging = true;
+      if (Math.abs(dy) > Math.abs(dx)) {
+        finishDrag(event, true);
+        return;
+      }
+
+      drag.horizontal = true;
       carousel.classList.add("is-dragging");
-      event.preventDefault();
     }
 
-    if (!isDragging) return;
+    event.preventDefault();
+    drag.offset = dx;
 
-    dragOffset = offsetX;
-
-    const firstSlide = getSlides()[0];
-
-    if (!firstSlide) return;
-
-    const trackStyles = window.getComputedStyle(track);
-    const gap = parseFloat(trackStyles.gap) || 18;
-
-    const slideWidth =
-      firstSlide.getBoundingClientRect().width;
-
-    const currentPosition =
-      activeIndex * (slideWidth + gap);
-
+    track.style.transition = "none";
     track.style.transform =
-      `translate3d(${-currentPosition + dragOffset}px, 0, 0)`;
+      `translate3d(${-activeIndex * step + dx}px, 0, 0)`;
   });
 
-  function finishDrag(event) {
-    if (!viewport.hasPointerCapture(event.pointerId)) return;
+  function finishDrag(event, cancelled = false) {
+    if (!drag || drag.id !== event.pointerId) return;
 
-    viewport.releasePointerCapture(event.pointerId);
+    const previousDrag = drag;
+    drag = null;
+
+    if (viewport.hasPointerCapture(event.pointerId)) {
+      viewport.releasePointerCapture(event.pointerId);
+    }
+
     carousel.classList.remove("is-dragging");
 
-    if (!isDragging) return;
+    if (previousDrag.horizontal) {
+      suppressClickUntil = Date.now() + 350;
+    }
 
-    const minimumDrag = 45;
+    const threshold = Math.min(60, step * 0.2);
 
-if (dragOffset <= -minimumDrag) {
-  if (activeIndex >= getMaximumIndex()) {
-    activeIndex = 0;
-  } else {
-    activeIndex += 1;
-  }
-}
-
-if (dragOffset >= minimumDrag) {
-  if (activeIndex === 0) {
-    activeIndex = getMaximumIndex();
-  } else {
-    activeIndex -= 1;
-  }
-}
-
-    isDragging = false;
-    dragOffset = 0;
-
-    updateCarousel();
+    if (
+      !cancelled && previousDrag.horizontal &&
+      Math.abs(previousDrag.offset) >= threshold
+    ) {
+      move(previousDrag.offset < 0 ? 1 : -1);
+    } else {
+      paint();
+      scheduleAutoplay();
+    }
   }
 
-  viewport.addEventListener("pointerup", finishDrag);
-  viewport.addEventListener("pointercancel", finishDrag);
-  
+  viewport.addEventListener("pointerup", (event) => finishDrag(event));
+  viewport.addEventListener("pointercancel", (event) => finishDrag(event, true));
+  viewport.addEventListener("lostpointercapture", (event) => {
+    finishDrag(event, true);
+  });
+
+  viewport.addEventListener("click", (event) => {
+    if (Date.now() < suppressClickUntil) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }, true);
+
+  /* CACHE DA LISTA NO NAVEGADOR */
+  function readCache() {
+    try {
+      const cached = JSON.parse(localStorage.getItem(CACHE_KEY));
+
+      if (
+        cached?.url === APPS_SCRIPT_URL &&
+        Array.isArray(cached.items) &&
+        Date.now() - cached.savedAt < CACHE_MS
+      ) {
+        return cached.items;
+      }
+    } catch {
+      // O carrossel continua funcionando se o navegador bloquear storage.
+    }
+
+    return null;
+  }
+
+  function writeCache(items) {
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({
+        url: APPS_SCRIPT_URL,
+        savedAt: Date.now(),
+        items
+      }));
+    } catch {
+      // Cache é opcional.
+    }
+  }
+
   function loadCompaniesWithJsonp() {
     return new Promise((resolve, reject) => {
-      const callbackName = "cbmCompaniesCallback";
-
-      window[callbackName] = (response) => {
-        delete window[callbackName];
-        script.remove();
-        resolve(response);
-      };
+      const callbackName =
+        "cmbCompanies_" + Date.now() + "_" +
+        Math.random().toString(36).slice(2);
 
       const script = document.createElement("script");
+      let finished = false;
 
-      script.src =
-        `${APPS_SCRIPT_URL}?callback=window.${callbackName}` +
-        `&v=${Date.now()}`;
+      function finish(error, response) {
+        if (finished) return;
+        finished = true;
 
-      script.async = true;
-
-      script.onerror = () => {
-        delete window[callbackName];
+        clearTimeout(timeout);
         script.remove();
 
-        reject(
-          new Error(
-            "Não foi possível carregar as empresas."
-          )
-        );
+        // Evita erro caso uma resposta atrasada ainda seja executada.
+        window[callbackName] = () => {};
+        setTimeout(() => delete window[callbackName], 60000);
+
+        if (error) reject(error);
+        else resolve(response);
+      }
+
+      window[callbackName] = (response) => finish(null, response);
+
+      const timeout = setTimeout(() => {
+        finish(new Error("O Apps Script demorou demais para responder."));
+      }, REQUEST_TIMEOUT_MS);
+
+      script.onerror = () => {
+        finish(new Error("Falha ao acessar o Apps Script."));
       };
 
-      document.body.appendChild(script);
+      const url = new URL(APPS_SCRIPT_URL);
+      url.searchParams.set("callback", callbackName);
+
+      script.src = url.href;
+      script.async = true;
+      document.head.appendChild(script);
     });
   }
 
   async function loadCompanies() {
-    if (
-      APPS_SCRIPT_URL.includes("COLE_AQUI")
-    ) {
-      status.textContent =
-        "Adicione a URL do Web App no arquivo empresas.js.";
+    controls.hidden = true;
+    setStatus("Carregando empresas...");
 
-      status.classList.add("is-error");
+    const cached = readCache();
+
+    if (cached) {
+      renderCards(cached);
       return;
     }
 
     try {
-      const response =
-        await loadCompaniesWithJsonp();
+      const response = await loadCompaniesWithJsonp();
 
-      if (!response.ok) {
-        throw new Error(response.message);
+      if (!response?.ok || !Array.isArray(response.items)) {
+        throw new Error(response?.message || "Resposta inválida.");
       }
 
-      items = response.items || [];
+      const items = response.items.filter((item) => {
+        if (!item || typeof item.imagem !== "string") return false;
 
-      if (!items.length) {
-        status.textContent =
-          "Nenhuma imagem foi encontrada nas pastas.";
-        return;
-      }
+        try {
+          return new URL(item.imagem).protocol === "https:";
+        } catch {
+          return false;
+        }
+      });
 
-      status.remove();
-      renderCards();
+      writeCache(items);
+      renderCards(items);
     } catch (error) {
-      status.textContent =
-        "Não foi possível carregar as empresas agora.";
+      console.error("Empresas CMB:", error);
 
-      status.classList.add("is-error");
+      setStatus("Não foi possível carregar as empresas. ", true);
 
-      console.error(error);
+      const retry = document.createElement("button");
+      retry.type = "button";
+      retry.textContent = "Tentar novamente";
+      retry.addEventListener("click", loadCompanies, { once: true });
+
+      status.appendChild(retry);
     }
   }
 
-  window.addEventListener("resize", () => {
-    clearTimeout(resizeTimeout);
+  const observer = new IntersectionObserver((entries) => {
+    inView = entries[0].isIntersecting;
+    scheduleAutoplay();
+  }, { threshold: 0.1 });
 
-    resizeTimeout = setTimeout(() => {
-      updateCarousel();
-    }, 150);
+  observer.observe(carousel);
+
+  const resizeObserver = new ResizeObserver(() => {
+    cancelAnimationFrame(resizeFrame);
+    resizeFrame = requestAnimationFrame(updateCarousel);
   });
 
+  resizeObserver.observe(viewport);
+
+  updatePauseButton();
   loadCompanies();
 });
