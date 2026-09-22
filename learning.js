@@ -797,15 +797,15 @@ const downloadButton = builderModal.querySelector(
       "https://raw.githubusercontent.com/automacaopostcmb/Site/529b642ea6317bc95b8042a07d37b383ce923569/cronodomingo.png"
   };
 
-  const builderState = {
-    dia: null,
-    horarios: [],
-    etapa: 0,
-    selecoes: {},
-    imagemBlob: null,
-    imagemUrl: null
-    contabilizado: false
-  };
+const builderState = {
+  dia: null,
+  horarios: [],
+  etapa: 0,
+  selecoes: {},
+  imagemBlob: null,
+  imagemUrl: null,
+  contabilizado: false
+};
 
   let builderLastFocusedElement = null;
 
