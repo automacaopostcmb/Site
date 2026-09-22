@@ -1132,10 +1132,13 @@ function drawBuilderTeacherImage(
   width,
   height
 ) {
-  const scale = Math.min(
-    width / image.width,
-    height / image.height
-  );
+  const teacherImageScale = 0.72;
+
+  const scale =
+    Math.min(
+      width / image.width,
+      height / image.height
+    ) * teacherImageScale;
 
   const drawWidth = image.width * scale;
   const drawHeight = image.height * scale;
