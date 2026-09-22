@@ -43,7 +43,7 @@ const learningData = {
         titulo: "Desenhando Cabeças, Rostos e Expressões",
         categoria: "Ilustração",
         nivel: "Iniciante",
-        foto:"https://raw.githubusercontent.com/automacaopostcmb/Site/733078cb0013997c5db9d01b0be17ab7e881cfa8/prof_lima.png",
+        foto:"https://raw.githubusercontent.com/automacaopostcmb/Site/c623dc3bd78f261d5d575152ed69d90e5b918ba1/prof_lima.png",
         resumo:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         descricao:
