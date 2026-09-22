@@ -804,7 +804,8 @@ const builderState = {
   selecoes: {},
   imagemBlob: null,
   imagemUrl: null,
-  contabilizado: false
+  contabilizado: false,
+  selecoesContabilizadas: {}
 };
 
   let builderLastFocusedElement = null;
@@ -835,6 +836,7 @@ const builderState = {
     builderState.horarios = [];
     builderState.etapa = 0;
     builderState.selecoes = {};
+    builderState.selecoesContabilizadas = {};
 builderState.contabilizado = false;
     showBuilderView("day");
 
@@ -891,6 +893,7 @@ builderState.contabilizado = false;
     builderState.horarios = Object.keys(dayData);
     builderState.etapa = 0;
     builderState.selecoes = {};
+    builderState.selecoesContabilizadas = {};
 builderState.contabilizado = false;
     
     showBuilderView("classes");
@@ -1724,60 +1727,84 @@ const positions = [
     }
   }
 
-  function registrarAulasDoCronograma() {
-    const aulas = builderState.horarios
-      .map((horario) => {
-        const aula = selectedBuilderClass(horario);
-
-        if (!aula) return null;
-
-        return {
-          nome_aula: aula.titulo,
-          nome_professor: aula.professor,
-          dia:
-            builderState.dia === "sabado"
-              ? "Sábado"
-              : "Domingo",
-          hora: horario
-        };
-      })
-      .filter(Boolean);
-
-    if (!aulas.length) return;
-
-    /*
-      A assinatura muda se a pessoa escolher outra aula,
-      outro horário ou outro dia.
-    */
-    if (builderState.contabilizado) {
-  return;
-}
-
-builderState.contabilizado = true;
-
-    fetch(LEARNING_ANALYTICS_URL, {
-      method: "POST",
-      mode: "no-cors",
-      keepalive: true,
-      headers: {
-        "Content-Type": "text/plain;charset=UTF-8"
-      },
-      body: JSON.stringify({
-        tipo: "learning_selecoes",
-        aulas
-      })
-    }).catch((erro) => {
-      /*
-        A experiência da pessoa não é interrompida caso
-        a planilha esteja indisponível.
-      */
-      console.error(
-        "Não foi possível registrar as aulas:",
-        erro
-      );
-    });
+function registrarAulasDoCronograma() {
+  if (builderState.contabilizado) {
+    return;
   }
 
+  const aulasDaGrade = builderState.horarios
+    .map((horario) => {
+      const aula = selectedBuilderClass(horario);
+
+      if (!aula) return null;
+
+      return {
+        nome_aula: aula.titulo,
+        nome_professor: aula.professor,
+        dia:
+          builderState.dia === "sabado"
+            ? "Sábado"
+            : "Domingo",
+        hora: horario
+      };
+    })
+    .filter(Boolean);
+
+  /*
+    Na primeira grade, envia as quatro aulas.
+    Depois, envia apenas a aula cujo horário foi alterado.
+  */
+  const aulasAlteradas = aulasDaGrade.filter((aula) => {
+    const identificadorDaAula = [
+      aula.nome_aula,
+      aula.nome_professor,
+      aula.dia,
+      aula.hora
+    ].join("||");
+
+    return (
+      builderState.selecoesContabilizadas[aula.hora] !==
+      identificadorDaAula
+    );
+  });
+
+  builderState.contabilizado = true;
+
+  /*
+    Se voltou e salvou sem trocar nenhuma aula,
+    não envia nada à planilha.
+  */
+  if (!aulasAlteradas.length) {
+    return;
+  }
+
+  aulasAlteradas.forEach((aula) => {
+    builderState.selecoesContabilizadas[aula.hora] = [
+      aula.nome_aula,
+      aula.nome_professor,
+      aula.dia,
+      aula.hora
+    ].join("||");
+  });
+
+  fetch(LEARNING_ANALYTICS_URL, {
+    method: "POST",
+    mode: "no-cors",
+    keepalive: true,
+    headers: {
+      "Content-Type": "text/plain;charset=UTF-8"
+    },
+    body: JSON.stringify({
+      tipo: "learning_selecoes",
+      aulas: aulasAlteradas
+    })
+  }).catch((erro) => {
+    console.error(
+      "Não foi possível registrar as aulas:",
+      erro
+    );
+  });
+}
 
   
 function downloadBuilderImage() {
