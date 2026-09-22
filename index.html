@@ -1019,6 +1019,192 @@
 </section>
 
 
+
+
+
+
+
+<section
+  class="section learning-schedule-section"
+  id="ingresso-learning"
+>
+  <div class="container">
+
+    <!-- APRESENTAÇÃO -->
+    <div class="learning-intro">
+
+      <div class="learning-intro-copy">
+        <p class="section-kicker">MONTE SUA GRADE!</p>
+
+        <h2 class="section-title">
+          Aulas do ingresso <span>Learning</span>
+        </h2>
+
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          Praesent vitae lectus vel mauris tincidunt volutpat.
+        </p>
+      </div>
+
+      <!-- DIFERENCIAIS -->
+      <div class="learning-benefits">
+
+        <div class="learning-benefit">
+          <div class="learning-benefit-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M4 5.5A3.5 3.5 0 0 1 7.5 2H11a2 2 0 0 1 2 2v16a2 2 0 0 0-2-2H7.5A3.5 3.5 0 0 0 4 21.5z"/>
+              <path d="M20 5.5A3.5 3.5 0 0 0 16.5 2H13v18a2 2 0 0 1 2-2h1.5a3.5 3.5 0 0 1 3.5 3.5z"/>
+            </svg>
+          </div>
+
+          <div>
+            <strong>16 aulas por dia</strong>
+            <p>Lorem ipsum dolor sit amet.</p>
+          </div>
+        </div>
+
+        <div class="learning-benefit">
+          <div class="learning-benefit-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M12 7v5l3 2"/>
+            </svg>
+          </div>
+
+          <div>
+            <strong>4 horários</strong>
+            <p>Lorem ipsum dolor sit amet.</p>
+          </div>
+        </div>
+
+        <div class="learning-benefit">
+          <div class="learning-benefit-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <circle cx="9" cy="8" r="3"/>
+              <circle cx="17" cy="9" r="2.5"/>
+              <path d="M3 20v-2a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v2"/>
+              <path d="M15 14h1.5a4.5 4.5 0 0 1 4.5 4.5V20"/>
+            </svg>
+          </div>
+
+          <div>
+            <strong>Escolha 4 aulas</strong>
+            <p>Lorem ipsum dolor sit amet.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="learning-divider"></div>
+
+    <!-- CONTROLES -->
+    <div class="learning-schedule-controls">
+
+      <div
+        class="learning-day-tabs"
+        role="tablist"
+        aria-label="Escolha o dia"
+      >
+        <button
+          class="learning-day-button is-active"
+          type="button"
+          role="tab"
+          aria-selected="true"
+          data-learning-day="sabado"
+        >
+          Sábado
+        </button>
+
+        <button
+          class="learning-day-button"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          data-learning-day="domingo"
+        >
+          Domingo
+        </button>
+      </div>
+
+      <div
+        class="learning-time-tabs"
+        role="tablist"
+        aria-label="Escolha o horário"
+      >
+        <button
+          class="learning-time-button is-active"
+          type="button"
+          role="tab"
+          aria-selected="true"
+          data-learning-time="09:30"
+        >
+          09:30
+        </button>
+
+        <button
+          class="learning-time-button"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          data-learning-time="13:00"
+        >
+          13:00
+        </button>
+
+        <button
+          class="learning-time-button"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          data-learning-time="14:30"
+        >
+          14:30
+        </button>
+
+        <button
+          class="learning-time-button"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          data-learning-time="16:00"
+        >
+          16:00
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ÁREA PREENCHIDA PELO JAVASCRIPT -->
+    <div
+      class="learning-class-area"
+      id="learning-class-area"
+      aria-live="polite"
+    ></div>
+
+    <div class="learning-schedule-note">
+      <span aria-hidden="true">i</span>
+
+      <p>
+        Escolha uma aula em cada horário.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+    
+
 <section class="videos-cmb" id="videos-cmb">
   <div class="container">
     <div class="videos-cmb-heading">
@@ -1657,6 +1843,428 @@
     });
   });
 </script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const learningSection = document.querySelector("#ingresso-learning");
+  const classArea = document.querySelector("#learning-class-area");
+
+  if (!learningSection || !classArea) return;
+
+  /* =======================================================
+     DADOS PROVISÓRIOS
+
+     O primeiro número define a quantidade de professores.
+
+     Exemplo:
+     criarAulas(4, 1) = grade normal com 4 cards
+     criarAulas(5, 1) = carrossel com 5 cards
+     criarAulas(8, 1) = carrossel com 8 cards
+     ======================================================= */
+
+  function criarAulas(quantidade, numeroInicial) {
+    return Array.from({ length: quantidade }, (_, index) => {
+      const numero = numeroInicial + index;
+      const imagem = ((numero - 1) % 60) + 1;
+
+      return {
+        professor: `Professor(a) ${String(numero).padStart(2, "0")}`,
+        titulo: `Título da aula ${String(numero).padStart(2, "0")}`,
+        categoria: "Categoria",
+        nivel: "Todos os níveis",
+        foto: `https://i.pravatar.cc/240?img=${imagem}`,
+        resumo:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        descricao:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae lectus quis mauris tincidunt gravida. Integer euismod, eros vel vulputate consequat, justo neque tincidunt lorem, vitae feugiat augue sem sed libero."
+      };
+    });
+  }
+
+  const learningData = {
+    sabado: {
+      "09:30": criarAulas(4, 1),
+      "13:00": criarAulas(4, 5),
+      "14:30": criarAulas(4, 9),
+      "16:00": criarAulas(4, 13)
+    },
+
+    domingo: {
+      "09:30": criarAulas(4, 17),
+      "13:00": criarAulas(4, 21),
+      "14:30": criarAulas(4, 25),
+      "16:00": criarAulas(4, 29)
+    }
+  };
+
+  let activeDay = "sabado";
+  let activeTime = "09:30";
+  let carouselState = null;
+  let resizeTimeout;
+
+  /* =======================================================
+     CARD
+     ======================================================= */
+
+  function createClassCard(aula, index) {
+    const detailId =
+      `learning-detail-${activeDay}-${activeTime.replace(":", "")}-${index}`;
+
+    return `
+      <article class="learning-class-card">
+
+        <div class="learning-class-main">
+          <img
+            class="learning-teacher-photo"
+            src="${aula.foto}"
+            alt="${aula.professor}"
+            loading="lazy"
+            decoding="async"
+          >
+
+          <div class="learning-class-info">
+            <span class="learning-teacher-name">
+              ${aula.professor}
+            </span>
+
+            <h3 class="learning-class-title">
+              ${aula.titulo}
+            </h3>
+
+            <div class="learning-class-tags">
+              <span class="learning-class-tag">
+                ${aula.categoria}
+              </span>
+
+              <span class="learning-class-level">
+                ${aula.nivel}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="learning-class-footer">
+          <p class="learning-class-summary">
+            ${aula.resumo}
+          </p>
+
+          <button
+            class="learning-card-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="${detailId}"
+            aria-label="Ver detalhes da aula ${aula.titulo}"
+          >
+            +
+          </button>
+        </div>
+
+        <div
+          class="learning-class-details"
+          id="${detailId}"
+        >
+          <div>
+            <p>${aula.descricao}</p>
+          </div>
+        </div>
+
+      </article>
+    `;
+  }
+
+  /* =======================================================
+     DEFINE QUANTOS CARDS APARECEM NO CARROSSEL
+     ======================================================= */
+
+  function getCarouselPerView() {
+    if (window.innerWidth <= 700) return 1;
+    if (window.innerWidth <= 1000) return 2;
+    return 4;
+  }
+
+  /* =======================================================
+     GRADE OU CARROSSEL
+     ======================================================= */
+
+  function renderClasses() {
+    const classes = learningData[activeDay][activeTime];
+    carouselState = null;
+
+    /* Até quatro: grade comum e sem controles */
+    if (classes.length <= 4) {
+      classArea.innerHTML = `
+        <div class="learning-class-grid">
+          ${classes
+            .map((aula, index) => createClassCard(aula, index))
+            .join("")}
+        </div>
+      `;
+
+      return;
+    }
+
+    /* Mais de quatro: carrossel automático */
+    classArea.innerHTML = `
+      <div class="learning-carousel">
+
+        <div class="learning-carousel-viewport">
+          <div class="learning-carousel-track">
+            ${classes
+              .map(
+                (aula, index) => `
+                  <div class="learning-carousel-slide">
+                    ${createClassCard(aula, index)}
+                  </div>
+                `
+              )
+              .join("")}
+          </div>
+        </div>
+
+        <div class="learning-carousel-controls">
+          <button
+            class="learning-carousel-arrow"
+            type="button"
+            data-learning-prev
+            aria-label="Ver aula anterior"
+          >
+            ←
+          </button>
+
+          <div
+            class="learning-carousel-dots"
+            aria-label="Navegação das aulas"
+          ></div>
+
+          <button
+            class="learning-carousel-arrow"
+            type="button"
+            data-learning-next
+            aria-label="Ver próxima aula"
+          >
+            →
+          </button>
+        </div>
+
+      </div>
+    `;
+
+    setupCarousel(classes.length);
+  }
+
+  /* =======================================================
+     FUNCIONAMENTO DO CARROSSEL
+     ======================================================= */
+
+  function setupCarousel(totalSlides) {
+    const carousel = classArea.querySelector(".learning-carousel");
+    const viewport = carousel.querySelector(".learning-carousel-viewport");
+    const track = carousel.querySelector(".learning-carousel-track");
+    const slides = [...carousel.querySelectorAll(".learning-carousel-slide")];
+    const prevButton = carousel.querySelector("[data-learning-prev]");
+    const nextButton = carousel.querySelector("[data-learning-next]");
+    const dotsContainer = carousel.querySelector(".learning-carousel-dots");
+
+    carouselState = {
+      carousel,
+      viewport,
+      track,
+      slides,
+      prevButton,
+      nextButton,
+      dotsContainer,
+      totalSlides,
+      index: 0,
+      perView: getCarouselPerView()
+    };
+
+    prevButton.addEventListener("click", () => {
+      if (!carouselState) return;
+
+      carouselState.index = Math.max(0, carouselState.index - 1);
+      updateCarousel();
+    });
+
+    nextButton.addEventListener("click", () => {
+      if (!carouselState) return;
+
+      const maximumIndex =
+        carouselState.totalSlides - carouselState.perView;
+
+      carouselState.index = Math.min(
+        maximumIndex,
+        carouselState.index + 1
+      );
+
+      updateCarousel();
+    });
+
+    updateCarousel();
+  }
+
+  function updateCarousel() {
+    if (!carouselState) return;
+
+    const {
+      viewport,
+      track,
+      slides,
+      prevButton,
+      nextButton,
+      dotsContainer,
+      totalSlides
+    } = carouselState;
+
+    const perView = getCarouselPerView();
+    const gap = 14;
+    const slideWidth =
+      (viewport.clientWidth - gap * (perView - 1)) / perView;
+
+    const maximumIndex = Math.max(0, totalSlides - perView);
+
+    carouselState.perView = perView;
+    carouselState.index = Math.min(
+      carouselState.index,
+      maximumIndex
+    );
+
+    slides.forEach((slide) => {
+      slide.style.flexBasis = `${slideWidth}px`;
+    });
+
+    const distance =
+      carouselState.index * (slideWidth + gap);
+
+    track.style.transform =
+      `translate3d(-${distance}px, 0, 0)`;
+
+    prevButton.disabled = carouselState.index === 0;
+    nextButton.disabled =
+      carouselState.index >= maximumIndex;
+
+    renderCarouselDots(maximumIndex);
+  }
+
+  function renderCarouselDots(maximumIndex) {
+    if (!carouselState) return;
+
+    const { dotsContainer, index } = carouselState;
+
+    dotsContainer.innerHTML = "";
+
+    for (let dotIndex = 0; dotIndex <= maximumIndex; dotIndex++) {
+      const dot = document.createElement("button");
+
+      dot.type = "button";
+      dot.className = "learning-carousel-dot";
+      dot.setAttribute(
+        "aria-label",
+        `Ir para a posição ${dotIndex + 1}`
+      );
+
+      if (dotIndex === index) {
+        dot.classList.add("is-active");
+        dot.setAttribute("aria-current", "true");
+      }
+
+      dot.addEventListener("click", () => {
+        if (!carouselState) return;
+
+        carouselState.index = dotIndex;
+        updateCarousel();
+      });
+
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  /* =======================================================
+     SELEÇÃO DO DIA
+     ======================================================= */
+
+  learningSection.addEventListener("click", (event) => {
+    const dayButton = event.target.closest("[data-learning-day]");
+
+    if (dayButton) {
+      activeDay = dayButton.dataset.learningDay;
+
+      learningSection
+        .querySelectorAll("[data-learning-day]")
+        .forEach((button) => {
+          const isActive =
+            button.dataset.learningDay === activeDay;
+
+          button.classList.toggle("is-active", isActive);
+          button.setAttribute(
+            "aria-selected",
+            String(isActive)
+          );
+        });
+
+      renderClasses();
+      return;
+    }
+
+    /* Seleção do horário */
+    const timeButton = event.target.closest("[data-learning-time]");
+
+    if (timeButton) {
+      activeTime = timeButton.dataset.learningTime;
+
+      learningSection
+        .querySelectorAll("[data-learning-time]")
+        .forEach((button) => {
+          const isActive =
+            button.dataset.learningTime === activeTime;
+
+          button.classList.toggle("is-active", isActive);
+          button.setAttribute(
+            "aria-selected",
+            String(isActive)
+          );
+        });
+
+      renderClasses();
+      return;
+    }
+
+    /* Abre e fecha os detalhes */
+    const detailsButton = event.target.closest(
+      ".learning-card-toggle"
+    );
+
+    if (detailsButton) {
+      const card = detailsButton.closest(".learning-class-card");
+      const isOpen =
+        detailsButton.getAttribute("aria-expanded") === "true";
+
+      detailsButton.setAttribute(
+        "aria-expanded",
+        String(!isOpen)
+      );
+
+      card.classList.toggle("is-open", !isOpen);
+    }
+  });
+
+  /* =======================================================
+     RECALCULA O CARROSSEL AO REDIMENSIONAR
+     ======================================================= */
+
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimeout);
+
+    resizeTimeout = setTimeout(() => {
+      updateCarousel();
+    }, 120);
+  });
+
+  /* Primeira exibição */
+  renderClasses();
+});
+</script>
+
     
   </body>
 </html>
