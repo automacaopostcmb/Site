@@ -85,6 +85,18 @@ const learningData = {
         descricao:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae lectus quis mauris tincidunt gravida."
       }
+
+      {
+        professor: "Nome do professor 4.5",
+        titulo: "Título da aula 4.5",
+        categoria: "Mercado",
+        nivel: "Todos os níveis",
+        foto: "https://raw.githubusercontent.com/automacaopostcmb/Site/refs/heads/main/logo.svg",
+        resumo:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        descricao:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae lectus quis mauris tincidunt gravida."
+      }
     ],
 
     "13:00": [
