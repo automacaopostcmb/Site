@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return 5;
   }
 
-  function createCompanyCard(item) {
+function createCompanyCard(item, index) {
     const slide = document.createElement("article");
 
     slide.className =
@@ -62,8 +62,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     image.src = item.imagem;
     image.alt = item.alt || item.nome || "Empresa";
-    image.loading = "lazy";
-    image.decoding = "async";
+const deveCarregarAgora = index < getPerView();
+
+image.loading = deveCarregarAgora
+  ? "eager"
+  : "lazy";
+
+image.fetchPriority = deveCarregarAgora
+  ? "high"
+  : "auto";
+
+image.decoding = "async";
 
     image.addEventListener("error", () => {
       slide.remove();
@@ -96,9 +105,11 @@ document.addEventListener("DOMContentLoaded", () => {
     track.innerHTML = "";
     activeIndex = 0;
 
-    items.forEach((item) => {
-      track.appendChild(createCompanyCard(item));
-    });
+items.forEach((item, index) => {
+  track.appendChild(
+    createCompanyCard(item, index)
+  );
+});
 
     updateCarousel();
   }
@@ -187,19 +198,25 @@ const slideWidth =
     renderDots(maximumIndex);
   }
 
-  previousButton.addEventListener("click", () => {
-    activeIndex = Math.max(0, activeIndex - 1);
-    updateCarousel();
-  });
+previousButton.addEventListener("click", () => {
+  if (activeIndex === 0) {
+    activeIndex = getMaximumIndex();
+  } else {
+    activeIndex -= 1;
+  }
 
-  nextButton.addEventListener("click", () => {
-    activeIndex = Math.min(
-      getMaximumIndex(),
-      activeIndex + 1
-    );
+  updateCarousel();
+});
 
-    updateCarousel();
-  });
+nextButton.addEventListener("click", () => {
+  if (activeIndex >= getMaximumIndex()) {
+    activeIndex = 0;
+  } else {
+    activeIndex += 1;
+  }
+
+  updateCarousel();
+});
 
   let dragStartX = 0;
   let dragStartY = 0;
@@ -267,19 +284,21 @@ const slideWidth =
 
     const minimumDrag = 45;
 
-    if (dragOffset <= -minimumDrag) {
-      activeIndex = Math.min(
-        getMaximumIndex(),
-        activeIndex + 1
-      );
-    }
+if (dragOffset <= -minimumDrag) {
+  if (activeIndex >= getMaximumIndex()) {
+    activeIndex = 0;
+  } else {
+    activeIndex += 1;
+  }
+}
 
-    if (dragOffset >= minimumDrag) {
-      activeIndex = Math.max(
-        0,
-        activeIndex - 1
-      );
-    }
+if (dragOffset >= minimumDrag) {
+  if (activeIndex === 0) {
+    activeIndex = getMaximumIndex();
+  } else {
+    activeIndex -= 1;
+  }
+}
 
     isDragging = false;
     dragOffset = 0;
