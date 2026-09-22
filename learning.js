@@ -1443,25 +1443,27 @@ function drawBuilderTeacherImage(
       23
     );
 
-    context.font = "900 27px Inter, Arial, sans-serif";
+ context.font = "900 27px Inter, Arial, sans-serif";
 
-    const titleLines = getBuilderWrappedLines(
-      context,
-      lesson.titulo,
-      contentWidth,
-      2
-    );
+const titleLineHeight = 27;
 
-    drawBuilderTextLines(
-      context,
-      titleLines,
-      contentX,
-      y + 88,
-      31
-    );
+const titleLines = getBuilderWrappedLines(
+  context,
+  lesson.titulo,
+  contentWidth,
+  3
+);
 
-    const tagsY =
-      y + 98 + titleLines.length * 31;
+drawBuilderTextLines(
+  context,
+  titleLines,
+  contentX,
+  y + 88,
+  titleLineHeight
+);
+
+const tagsY =
+  y + 88 + titleLines.length * titleLineHeight + 10;
 
     let tagX = contentX;
 
@@ -1493,8 +1495,8 @@ function drawBuilderTeacherImage(
     context.lineWidth = 1;
 
     context.beginPath();
-    context.moveTo(x + 24, y + height - 102);
-    context.lineTo(x + width - 24, y + height - 102);
+context.moveTo(x + 24, y + height - 70);
+context.lineTo(x + width - 24, y + height - 70);
     context.stroke();
 
     context.fillStyle = "#706b75";
@@ -1510,9 +1512,9 @@ function drawBuilderTeacherImage(
     drawBuilderTextLines(
       context,
       summaryLines,
-      x + 24,
-      y + height - 68,
-      22
+x + 24,
+y + height - 44,
+22
     );
   }
 
