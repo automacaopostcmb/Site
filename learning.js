@@ -891,7 +891,8 @@ builderState.contabilizado = false;
     builderState.horarios = Object.keys(dayData);
     builderState.etapa = 0;
     builderState.selecoes = {};
-
+builderState.contabilizado = false;
+    
     showBuilderView("classes");
     renderBuilderStep();
   }
