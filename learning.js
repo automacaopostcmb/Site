@@ -1537,13 +1537,13 @@ async function createScheduleImage() {
         canvas.height
       );
 
-  drawBuilderTeacherImage(
+drawBuilderCoverImage(
   context,
-  teacherImage,
-  photoX,
-  photoY,
-  photoSize,
-  photoSize
+  backgroundImage,
+  0,
+  0,
+  canvas.width,
+  canvas.height
 );
 
       /* Nome do dia */
