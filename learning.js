@@ -84,6 +84,18 @@ const learningData = {
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         descricao:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae lectus quis mauris tincidunt gravida."
+      },
+
+      {
+        professor: "Nome do professor 4.5",
+        titulo: "Título da aula 4.5",
+        categoria: "Mercado",
+        nivel: "Todos os níveis",
+        foto: "https://raw.githubusercontent.com/automacaopostcmb/Site/refs/heads/main/logo.svg",
+        resumo:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        descricao:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae lectus quis mauris tincidunt gravida."
       }
     ],
 
@@ -470,7 +482,7 @@ domingo: {
     carouselState = null;
 
     /* Até quatro: grade comum e sem controles */
-    if (classes.length <= 4) {
+if (classes.length <= 4 || window.innerWidth <= 700) {
       classArea.innerHTML = `
         <div class="learning-class-grid">
           ${classes
@@ -1863,13 +1875,25 @@ learningSection.addEventListener("click", (event) => {
      RECALCULA O CARROSSEL AO REDIMENSIONAR
      ======================================================= */
 
-  window.addEventListener("resize", () => {
-    clearTimeout(resizeTimeout);
+window.addEventListener("resize", () => {
+  clearTimeout(resizeTimeout);
 
-    resizeTimeout = setTimeout(() => {
-      updateCarousel();
-    }, 120);
-  });
+  resizeTimeout = setTimeout(() => {
+    const classes = learningData[activeDay][activeTime];
+
+    const deveSerCarrossel =
+      classes.length > 4 && window.innerWidth > 700;
+
+    const estaEmCarrossel = Boolean(carouselState);
+
+    if (deveSerCarrossel !== estaEmCarrossel) {
+      renderClasses();
+      return;
+    }
+
+    updateCarousel();
+  }, 120);
+});
 
   /* Primeira exibição */
   renderClasses();
