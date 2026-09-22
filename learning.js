@@ -1825,17 +1825,25 @@ function downloadBuilderImage() {
       "[data-builder-class-index]"
     );
 
-    if (classButton) {
-      const horario = currentBuilderTime();
-      const selectedIndex =
-        Number(classButton.dataset.builderClassIndex);
+if (classButton) {
+  const horario = currentBuilderTime();
 
-      builderState.selecoes[horario] =
-        selectedIndex;
+  const selectedIndex =
+    Number(classButton.dataset.builderClassIndex);
 
-      renderBuilderStep();
-      return;
-    }
+  const mudouAula =
+    builderState.selecoes[horario] !== selectedIndex;
+
+  if (mudouAula) {
+    builderState.contabilizado = false;
+  }
+
+  builderState.selecoes[horario] =
+    selectedIndex;
+
+  renderBuilderStep();
+  return;
+}
 
     if (event.target.closest("[data-builder-back]")) {
       goToPreviousBuilderStep();
