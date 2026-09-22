@@ -3034,3 +3034,6 @@ html { scroll-behavior: auto; }
 .companies-carousel.is-dragging .carousel-track {
   transition: none;
 }
+.companies-carousel .carousel-track {
+  transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+}
