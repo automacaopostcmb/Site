@@ -309,7 +309,10 @@ button { color: inherit; }
 .strip-label { font-size: 0.69rem; font-weight: 900; letter-spacing: 0.14em; text-transform: uppercase; }
 .event-strip strong { font-size: clamp(0.95rem, 1.6vw, 1.1rem); }
 
-.section { padding: clamp(50px, 10vw, 132px) 0; }
+.section {
+  padding: clamp(40px, 5vw, 75px) 0;
+}
+
 .intro-section { background: var(--white); }
 .intro-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; align-items: start; gap: clamp(50px, 9vw, 130px); }
 .section-title {
