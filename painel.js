@@ -64,6 +64,23 @@ function cpfValido(valor){
   return true;
 }
 function cpfMascarado(c){return `***.***.${c.slice(6,9)}-**`;}
+
+function confirmarGrafiaNome(nome) {
+  const letras = nome.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ]/g, '');
+
+  if (
+    letras.length >= 2 &&
+    letras === letras.toLocaleUpperCase('pt-BR')
+  ) {
+    return window.confirm(
+      'Seu nome está todo em maiúsculas. Deseja manter essa grafia?\n\n' +
+      'Clique em OK para continuar ou em Cancelar para corrigir.'
+    );
+  }
+
+  return true;
+}
+
 function trocarAba(nome){
   ['login','cadastro','recuperar'].forEach(k=>{
     $('view-'+k).hidden=k!==nome;
@@ -82,10 +99,10 @@ async function carregarUsuario(user){
   const snap=await getDoc(doc(db,'participantes',user.uid));
   if(!snap.exists()){perfil=null;mostrar('cmb-perfil-inicial');return;}
   perfil=snap.data();
-  $('cmb-boas-vindas').textContent=`Olá, ${perfil.nome.split(' ')[0]}!`;
-  $('cmb-identificacao').textContent=`ID do participante: ${user.uid}`;
-  $('form-nome').elements.nome.value=perfil.nome;
-  $('conta-email').value=user.email||'';
+$('cmb-boas-vindas').textContent = `Olá, ${perfil.nome.split(' ')[0]}!`;
+$('cmb-identificacao').textContent = '';
+$('form-nome').elements.nome.value = perfil.nome;
+$('conta-email').value = user.email || '';
   $('conta-cpf').value=cpfMascarado(perfil.cpf);
   mostrar('cmb-private');
 }
@@ -160,6 +177,10 @@ $('form-perfil-inicial').addEventListener('submit',async e=>{
   if(!user?.emailVerified){aviso('Confirme seu e-mail antes de continuar.','error');return;}
   const nome=f.elements.nome.value.trim().replace(/\s+/g,' '),cpf=cpfLimpo(f.elements.cpf.value);
   if(nome.length<2||nome.length>120||!cpfValido(cpf)||!f.elements.privacidade.checked){aviso('Confira o nome, o CPF e o aviso de privacidade.','error');return;}
+  if (!confirmarGrafiaNome(nome)) {
+  f.elements.nome.focus();
+  return;
+}
   ocupado(f,true);
   try{
     const refPerfil=doc(db,'participantes',user.uid),refCpf=doc(db,'cpfs',cpf);
@@ -169,9 +190,16 @@ $('form-perfil-inicial').addEventListener('submit',async e=>{
     batch.set(refCpf,{uid:user.uid,cpf,criadoEm:serverTimestamp()});
     await batch.commit();
     await carregarUsuario(user);aviso('Cadastro concluído!','success');
-  }catch(err){
-    aviso('Não foi possível concluir o cadastro. Confira se o CPF já está vinculado a outra conta ou contate a organização.','error');
-  }finally{ocupado(f,false);}
+ } catch (err) {
+  console.error('Erro ao concluir cadastro:', err);
+
+  aviso(
+    'Não foi possível concluir o cadastro. Verifique os dados informados ou entre em contato com a organização.',
+    'error'
+  );
+}
+  
+  finally{ocupado(f,false);}
 });
 $('form-nome').addEventListener('submit',async e=>{
   e.preventDefault();const f=e.currentTarget,nome=f.elements.nome.value.trim().replace(/\s+/g,' ');
