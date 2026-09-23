@@ -1,6 +1,18 @@
 /* CMB — Firebase Web SDK modular. Publicar este arquivo junto a painel.html. */
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
-import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signOut, reload } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+
+import {
+  getAuth,
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendEmailVerification,
+  sendPasswordResetEmail,
+  signOut,
+  reload,
+  getIdToken
+} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+
 import { getFirestore, doc, getDoc, writeBatch, serverTimestamp, updateDoc } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
 
 const firebaseConfig = {
@@ -104,10 +116,41 @@ $('form-recuperar').addEventListener('submit',async e=>{
   catch(err){/* Resposta uniforme para não revelar existência de contas. */}
   finally{ocupado(f,false);aviso('Se o endereço estiver cadastrado, você receberá instruções de recuperação.','success');}
 });
-$('btn-verificar').addEventListener('click',async()=>{
-  try{await reload(auth.currentUser);await carregarUsuario(auth.currentUser);if(!auth.currentUser.emailVerified)aviso('A confirmação ainda não foi identificada. Verifique o link enviado ao seu e-mail.');}
-  catch(err){aviso(mensagemErro(err),'error');}
+
+$('btn-verificar').addEventListener('click', async () => {
+  try {
+    const user = auth.currentUser;
+
+    if (!user) {
+      mostrar('cmb-public');
+      aviso('Sua sessão terminou. Entre novamente para continuar.', 'error');
+      return;
+    }
+
+    await reload(user);
+
+    if (!user.emailVerified) {
+      mostrar('cmb-verify');
+      aviso(
+        'A confirmação ainda não foi identificada. Verifique o link enviado ao seu e-mail.'
+      );
+      return;
+    }
+
+    // Atualiza o token para que as regras do Firestore reconheçam
+    // que o e-mail já foi confirmado.
+    await getIdToken(user, true);
+
+    await carregarUsuario(user);
+    limparAviso();
+
+  } catch (err) {
+    console.error('Erro ao verificar e-mail e carregar cadastro:', err);
+    aviso(mensagemErro(err), 'error');
+  }
 });
+
+
 $('btn-reenviar').addEventListener('click',async()=>{
   try{await sendEmailVerification(auth.currentUser);aviso('Enviamos um novo e-mail de confirmação.','success');}
   catch(err){aviso(mensagemErro(err),'error');}
