@@ -225,6 +225,35 @@
   }
 
     
+
+    /* ===== EXCLUSÃO DE CONTA ===== */
+    .cmb-area .cmb-btn.cmb-btn-danger {
+      background: #b42318;
+      border-color: #b42318;
+      color: #fff;
+    }
+
+    .cmb-area .cmb-btn.cmb-btn-danger:hover {
+      background: #8f1c13;
+      border-color: #8f1c13;
+    }
+
+    .cmb-danger-zone {
+      margin-top: 28px;
+      padding-top: 22px;
+      border-top: 1px solid var(--cmb-line);
+    }
+
+    .cmb-danger-zone h3 {
+      margin-top: 0;
+      color: #b42318;
+    }
+
+    #cmb-exclusao-confirmacao .cmb-actions {
+      margin-top: 20px;
+    }
+    /* ===== FIM: EXCLUSÃO DE CONTA ===== */
+
   </style>
 </head>
 <body>
@@ -549,10 +578,57 @@
     Essas alterações exigem conferência para manter os registros
     sincronizados.
   </p>
+
+  <div class="cmb-danger-zone">
+    <h3>Excluir conta</h3>
+
+    <p class="cmb-note">
+      A exclusão da conta é permanente. Para sua segurança, enviaremos
+      um link de confirmação para o seu e-mail antes de prosseguir.
+    </p>
+
+    <button
+      class="cmb-btn cmb-btn-danger"
+      id="btn-solicitar-exclusao"
+      type="button"
+    >
+      Excluir minha conta
+    </button>
+  </div>
 </section>
 <!-- FIM: MINHA CONTA -->
 
 </div><!-- Fecha #cmb-private -->
+
+<div id="cmb-exclusao-confirmacao" class="cmb-card" hidden>
+  <h2>Excluir conta</h2>
+
+  <p>Sua identidade foi confirmada pelo e-mail.</p>
+
+  <p class="cmb-note">
+    Ao continuar, sua conta e seus dados cadastrais desta Área do Participante
+    serão excluídos permanentemente. Esta ação não poderá ser desfeita.
+  </p>
+
+  <div class="cmb-actions">
+    <button
+      class="cmb-btn cmb-btn-danger"
+      id="btn-confirmar-exclusao"
+      type="button"
+    >
+      Excluir definitivamente
+    </button>
+
+    <button
+      class="cmb-btn secondary"
+      id="btn-cancelar-exclusao"
+      type="button"
+    >
+      Cancelar
+    </button>
+  </div>
+</div>
+
 </div><!-- Fecha .cmb-area -->
 </section><!-- Fecha .section -->
 </main>
