@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#d5007f">
+  <title>Área do Participante | Comic Market Brasil</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="componentes.js" defer></script>
+  <script src="script.js" defer></script>
+  <script type="module" src="painel.js"></script>
+  <style>
+    .cmb-area{--cmb-magenta:#d5007f;--cmb-ink:#171421;--cmb-muted:#635e6b;--cmb-line:#e7e1e8;max-width:980px;margin:0 auto;padding:38px 18px 72px;color:var(--cmb-ink)}
+    .cmb-area *{box-sizing:border-box}.cmb-area [hidden]{display:none!important}.cmb-area h1,.cmb-area h2{line-height:1.18}.cmb-area .cmb-card{background:#fff;border:1px solid var(--cmb-line);border-radius:18px;padding:clamp(20px,4vw,36px);box-shadow:none}.cmb-area .cmb-intro{margin-bottom:25px}.cmb-area .cmb-intro p{color:var(--cmb-muted)}
+    .cmb-area .cmb-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px}.cmb-area button{cursor:pointer}.cmb-area .cmb-tab,.cmb-area .cmb-btn{border:1px solid var(--cmb-line);border-radius:9px;padding:12px 17px;font:inherit;font-weight:700}.cmb-area .cmb-tab{background:#fff;color:var(--cmb-ink)}.cmb-area .cmb-tab[aria-selected="true"],.cmb-area .cmb-btn{background:var(--cmb-magenta);border-color:var(--cmb-magenta);color:#fff}.cmb-area .cmb-btn.secondary{background:#fff;color:var(--cmb-magenta)}.cmb-area .cmb-btn:disabled{opacity:.55;cursor:wait}
+    .cmb-area form{display:grid;gap:15px}.cmb-area .cmb-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.cmb-area label{display:grid;gap:7px;font-weight:650}.cmb-area input{width:100%;min-width:0;padding:13px;border:1px solid #bcb4c0;border-radius:8px;background:#fff;color:#171421;font:inherit}.cmb-area input:focus{outline:2px solid var(--cmb-magenta);outline-offset:2px}.cmb-area .cmb-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.cmb-area .cmb-note{font-size:.91rem;color:var(--cmb-muted)}.cmb-area .cmb-alert{padding:12px 14px;border-radius:8px;margin:0 0 18px;background:#f6f1f5;color:#35263a}.cmb-area .cmb-alert[data-type="error"]{background:#fff0f0;color:#8e1723}.cmb-area .cmb-alert[data-type="success"]{background:#eaf8f0;color:#165c35}.cmb-area .cmb-link{border:0;background:none;padding:0;color:var(--cmb-magenta);text-decoration:underline;font:inherit;cursor:pointer}.cmb-area .cmb-placeholder{border:1px dashed #c9b9c8;border-radius:12px;padding:22px;margin-top:20px}.cmb-area .cmb-small{font-size:.87rem}.cmb-area .cmb-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:22px}@media(max-width:650px){.cmb-area .cmb-grid{grid-template-columns:1fr}.cmb-area{padding:25px 14px 50px}}
+  </style>
+</head>
+<body>
+<div data-header-placeholder></div>
+<main id="conteudo" class="inner-page">
+  <section class="inner-hero"><div class="container narrow"><p class="section-kicker light-kicker">Comic Market Brasil</p><h1>Área do Participante</h1><p>Seu espaço para acompanhar as atividades do CMB.</p></div></section>
+  <section class="section"><div class="cmb-area">
+    <p id="cmb-alert" class="cmb-alert" role="status" aria-live="polite" hidden></p>
+    <div id="cmb-loading" class="cmb-card">Carregando sua área…</div>
+    <div id="cmb-public" hidden>
+      <div class="cmb-tabs" role="tablist" aria-label="Acesso ao participante">
+        <button class="cmb-tab" type="button" data-view="login" aria-selected="true">Entrar</button>
+        <button class="cmb-tab" type="button" data-view="cadastro" aria-selected="false">Criar conta</button>
+        <button class="cmb-tab" type="button" data-view="recuperar" aria-selected="false">Recuperar senha</button>
+      </div>
+      <section id="view-login" class="cmb-card"><h2>Entrar</h2><form id="form-login"><label>E-mail<input name="email" type="email" autocomplete="email" required></label><label>Senha<input name="senha" type="password" autocomplete="current-password" required></label><div class="cmb-actions"><button class="cmb-btn" type="submit">Entrar</button><button class="cmb-link" type="button" data-view="recuperar">Esqueci minha senha</button></div></form></section>
+      <section id="view-cadastro" class="cmb-card" hidden><h2>Criar conta</h2><p class="cmb-note">Primeiro confirme seu e-mail. Depois do primeiro login, você concluirá o cadastro com nome e CPF.</p><form id="form-cadastro"><label>E-mail<input name="email" type="email" autocomplete="email" required></label><div class="cmb-grid"><label>Senha<input name="senha" type="password" autocomplete="new-password" minlength="12" required></label><label>Confirmar senha<input name="confirmar" type="password" autocomplete="new-password" minlength="12" required></label></div><p class="cmb-note">Use pelo menos 12 caracteres. O Firebase armazenará a credencial; a senha não será enviada à planilha.</p><button class="cmb-btn" type="submit">Criar conta e enviar confirmação</button></form></section>
+      <section id="view-recuperar" class="cmb-card" hidden><h2>Recuperar senha</h2><form id="form-recuperar"><label>E-mail cadastrado<input name="email" type="email" autocomplete="email" required></label><button class="cmb-btn" type="submit">Enviar e-mail de recuperação</button></form></section>
+    </div>
+    <div id="cmb-verify" class="cmb-card" hidden><h2>Confirme seu e-mail</h2><p>Enviamos um link de confirmação. Abra seu e-mail, confirme o endereço e volte a esta página.</p><div class="cmb-actions"><button class="cmb-btn" id="btn-verificar" type="button">Já confirmei</button><button class="cmb-btn secondary" id="btn-reenviar" type="button">Reenviar confirmação</button><button class="cmb-btn secondary" data-logout type="button">Sair</button></div></div>
+    <div id="cmb-perfil-inicial" class="cmb-card" hidden><h2>Concluir cadastro</h2><p class="cmb-note">Seu e-mail já está confirmado. Informe os dados que serão vinculados à sua conta.</p><form id="form-perfil-inicial"><label>Nome completo<input name="nome" maxlength="120" autocomplete="name" required></label><label>CPF<input name="cpf" inputmode="numeric" autocomplete="off" maxlength="14" placeholder="000.000.000-00" required></label><label class="cmb-small"><input name="privacidade" type="checkbox" required style="width:auto"> Li o <a href="politica-de-privacidade.html" target="_blank" rel="noopener noreferrer">aviso de privacidade</a> e entendi a finalidade do cadastro.</label><button class="cmb-btn" type="submit">Concluir cadastro</button></form><p class="cmb-note">O CPF não poderá ser alterado diretamente pelo painel. Para corrigir um dado incorreto, entre em contato com a organização.</p><button class="cmb-link" data-logout type="button">Sair</button></div>
+    <div id="cmb-private" hidden><div class="cmb-toolbar"><div><h2 id="cmb-boas-vindas">Olá!</h2><p class="cmb-note" id="cmb-identificacao"></p></div><button class="cmb-btn secondary" data-logout type="button">Sair</button></div><div class="cmb-tabs" role="tablist"><button class="cmb-tab" data-private-view="inicio" aria-selected="true" type="button">Meu painel</button><button class="cmb-tab" data-private-view="conta" aria-selected="false" type="button">Minha Conta</button></div><section id="private-inicio" class="cmb-card"><h2>Meu painel</h2><p>Bem-vindo à Área do Participante do Comic Market Brasil.</p><div class="cmb-placeholder"><strong>Em breve: inscrições e atividades</strong><p class="cmb-note">Área dos Artistas, Comic Pitch e outras modalidades aparecerão aqui quando forem disponibilizadas.</p></div></section><section id="private-conta" class="cmb-card" hidden><h2>Minha Conta</h2><form id="form-nome"><label>Nome completo<input name="nome" maxlength="120" required></label><label>E-mail<input id="conta-email" type="email" disabled></label><label>CPF<input id="conta-cpf" disabled></label><button class="cmb-btn" type="submit">Salvar nome</button></form><hr><h3>Segurança</h3><p class="cmb-note">Para alterar a senha, enviaremos um link ao e-mail cadastrado.</p><button class="cmb-btn secondary" id="btn-trocar-senha" type="button">Enviar link para alterar senha</button><p class="cmb-note">Para alterar o e-mail ou corrigir o CPF, contate a organização. Essas alterações exigem conferência para manter os registros sincronizados.</p></section></div>
+  </div></section>
+</main>
+<div data-footer-placeholder></div>
+</body>
+</html>
