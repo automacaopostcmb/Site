@@ -3141,3 +3141,47 @@ html { scroll-behavior: auto; }
     transition: none;
   }
 }
+
+/* =========================================
+   CARROSSEL PRINCIPAL — DESKTOP
+   ========================================= */
+
+@media (min-width: 701px) {
+
+  /* Altura do carrossel */
+  .hero,
+  .hero-carousel,
+  .hero-carousel .carousel-viewport,
+  .hero-carousel .carousel-track,
+  .hero-slide {
+    min-height: 580px;
+  }
+
+  /* Espaçamento interno */
+  .hero-slide {
+    padding: 110px 0 65px;
+  }
+
+  /* Título principal */
+  .hero-content h1,
+  .hero-content h2 {
+    max-width: 650px;
+    font-size: clamp(2.8rem, 4.5vw, 5rem);
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+
+  /* Texto abaixo do título */
+  .hero-content > p:not(.eyebrow) {
+    max-width: 550px;
+    margin: 18px 0 22px;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  /* Texto amarelo acima do título */
+  .hero-content .eyebrow {
+    margin-bottom: 12px;
+  }
+
+}
