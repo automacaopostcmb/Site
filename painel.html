@@ -110,6 +110,101 @@
   text-decoration: underline;
 }
     /* ===== TERMINO DO AVISO DE PRIVACIDADE DO CADASTRO ===== */
+
+    /* ===== botões do painel ===== */
+<style>
+  #private-inicio .cmb-modulos-cabecalho {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  #private-inicio .cmb-modulos-cabecalho h2 {
+    margin: 0 0 12px;
+  }
+
+  #private-inicio .cmb-modulos-cabecalho p {
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  #private-inicio .cmb-modulos-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 30px 20px;
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  #private-inicio .cmb-modulo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    color: var(--cmb-ink, #171421);
+    text-align: center;
+    text-decoration: none;
+  }
+
+  #private-inicio .cmb-modulo-imagem {
+    display: block;
+    width: 100%;
+    max-width: 150px;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border: 1px solid var(--cmb-line, #e7e1e8);
+    border-radius: 18px;
+    background: #fff;
+    transition: border-color 0.2s ease;
+  }
+
+  #private-inicio .cmb-modulo-imagem img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+  }
+
+  #private-inicio .cmb-modulo-titulo {
+    display: block;
+    width: 100%;
+    max-width: 180px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  #private-inicio .cmb-modulo:hover {
+    color: var(--cmb-magenta, #d5007f);
+  }
+
+  #private-inicio .cmb-modulo:hover .cmb-modulo-imagem {
+    border-color: var(--cmb-magenta, #d5007f);
+  }
+
+  #private-inicio .cmb-modulo:focus-visible {
+    outline: 2px solid var(--cmb-magenta, #d5007f);
+    outline-offset: 5px;
+    border-radius: 18px;
+  }
+
+  @media (max-width: 650px) {
+    #private-inicio .cmb-modulos-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px 16px;
+    }
+
+    #private-inicio .cmb-modulo-titulo {
+      font-size: 15px;
+    }
+  }
+    /* ===== TERMINO DOs botões do painél ===== */
+
+
+
     
   </style>
 </head>
@@ -242,8 +337,146 @@
     
     <div id="cmb-private" hidden><div class="cmb-toolbar"><div><h2 id="cmb-boas-vindas">Olá!</h2><p class="cmb-note" id="cmb-identificacao" hidden ></p>
     
-    </div><button class="cmb-btn secondary" data-logout type="button">Sair</button></div><div class="cmb-tabs" role="tablist"><button class="cmb-tab" data-private-view="inicio" aria-selected="true" type="button">Meu painel</button><button class="cmb-tab" data-private-view="conta" aria-selected="false" type="button">Minha Conta</button></div><section id="private-inicio" class="cmb-card"><h2>Meu painel</h2><p>Bem-vindo à Área do Participante do Comic Market Brasil.</p><div class="cmb-placeholder"><strong>Em breve: inscrições e atividades</strong><p class="cmb-note">Área dos Artistas, Comic Pitch e outras modalidades aparecerão aqui quando forem disponibilizadas.</p></div></section><section id="private-conta" class="cmb-card" hidden><h2>Minha Conta</h2><form id="form-nome"><label>Nome completo<input name="nome" maxlength="120" required></label><label>E-mail<input id="conta-email" type="email" disabled></label><label>CPF<input id="conta-cpf" disabled></label><button class="cmb-btn" type="submit">Salvar nome</button></form><hr><h3>Segurança</h3><p class="cmb-note">Para alterar a senha, enviaremos um link ao e-mail cadastrado.</p><button class="cmb-btn secondary" id="btn-trocar-senha" type="button">Enviar link para alterar senha</button><p class="cmb-note">Para alterar o e-mail ou corrigir o CPF, contate a organização. Essas alterações exigem conferência para manter os registros sincronizados.</p></section></div>
-  </div></section>
+    </div><button class="cmb-btn secondary" data-logout type="button">Sair</button></div><div class="cmb-tabs" role="tablist"><button class="cmb-tab" data-private-view="inicio" aria-selected="true" type="button">Meu painel</button><button class="cmb-tab" data-private-view="conta" aria-selected="false" type="button">Minha Conta</button></div>
+     
+      
+      
+
+
+<!-- INÍCIO: MÓDULOS DO PAINEL -->
+
+<section id="private-inicio" class="cmb-card">
+
+  <div class="cmb-modulos-cabecalho">
+    <h2>Meu painel</h2>
+
+    <p class="cmb-note">
+      Bem-vindo à Área do Participante do Comic Market Brasil.
+      Escolha abaixo como você quer participar.
+    </p>
+  </div>
+
+  <div class="cmb-modulos-grid">
+
+    <!-- 1. EXPOSITOR EM ESTANDE -->
+    <!-- Troque href pelo link e src pelo endereço da imagem. -->
+    <a
+      class="cmb-modulo"
+      href="expositor-estande.html"
+    >
+      <span class="cmb-modulo-imagem">
+        <img
+          src="Assets/painel/bot_expositor.png" alt="Expositor em estande">
+          width="300"
+          height="300"
+          loading="lazy"
+        >
+      </span>
+
+      <span class="cmb-modulo-titulo">
+        Seja um expositor em estande
+      </span>
+    </a>
+
+    <!-- 2. ÁREA DOS ARTISTAS -->
+    <a
+      class="cmb-modulo"
+      href="area-dos-artistas.html"
+    >
+      <span class="cmb-modulo-imagem">
+       <img
+  src="Assets/painel/bot_artista.png"
+  alt="Artistas"
+  width="300"
+  height="300"
+  loading="lazy"
+>
+      </span>
+
+      <span class="cmb-modulo-titulo">
+        Seja um expositor da Área dos Artistas
+      </span>
+    </a>
+
+    <!-- 3. IMPRENSA -->
+    <a
+      class="cmb-modulo"
+      href="imprensa.html"
+    >
+      <span class="cmb-modulo-imagem">
+       <img
+  src="Assets/painel/bot_imprensa.png"
+  alt=""
+  width="300"
+  height="300"
+  loading="lazy"
+>
+      </span>
+
+      <span class="cmb-modulo-titulo">
+        Entre como Imprensa
+      </span>
+    </a>
+
+    <!-- 4. COMIC PITCH -->
+    <a
+      class="cmb-modulo"
+      href="comic-pitch.html"
+    >
+      <span class="cmb-modulo-imagem">
+ <img
+  src="Assets/painel/bot_pitch.png"
+  alt="Comic Pitch"
+  width="300"
+  height="300"
+  loading="lazy"
+>
+      </span>
+
+      <span class="cmb-modulo-titulo">
+        Participe do Comic Pitch
+      </span>
+    </a>
+
+    <!-- 5. ANIMA CMB -->
+    <a
+      class="cmb-modulo"
+      href="anima-cmb.html"
+    >
+      <span class="cmb-modulo-imagem">
+       <img
+  src="Assets/painel/bot_anima.png"
+  alt=""
+  width="300"
+  height="300"
+  loading="lazy"
+>
+      </span>
+
+      <span class="cmb-modulo-titulo">
+        Participe do Anima CMB
+      </span>
+    </a>
+
+    <!--
+      PARA ADICIONAR MAIS MÓDULOS:
+      Duplique um bloco <a class="cmb-modulo">...</a>
+      e cole aqui, antes do fechamento da grade.
+      Depois altere o link, a imagem e o texto.
+    -->
+
+  </div>
+
+</section>
+<!-- FIM: MÓDULOS DO PAINEL -->
+
+
+
+      
+
+
+
+  
 </main>
 <div data-footer-placeholder></div>
 
