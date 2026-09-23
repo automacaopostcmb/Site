@@ -203,7 +203,26 @@
   }
     /* ===== TERMINO DOs botões do painél ===== */
 
+  /* ===== bot sair para baixo e hints para baixo tbm ===== */
 
+ #cmb-rodape-painel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    margin-top: 24px;
+  }
+
+  #cmb-rodape-painel .cmb-alert {
+    width: 100%;
+    margin: 0;
+    text-align: center;
+  }
+
+  #cmb-rodape-painel > button {
+    align-self: center;
+  }
 
     
   </style>
@@ -362,7 +381,7 @@
     <!-- Troque href pelo link e src pelo endereço da imagem. -->
     <a
       class="cmb-modulo"
-      href="expositor-estande.html"
+      href=""
     >
       <span class="cmb-modulo-imagem">
         <img
@@ -381,7 +400,7 @@
     <!-- 2. ÁREA DOS ARTISTAS -->
     <a
       class="cmb-modulo"
-      href="area-dos-artistas.html"
+      href=""
     >
       <span class="cmb-modulo-imagem">
        <img
@@ -401,7 +420,7 @@
     <!-- 3. IMPRENSA -->
     <a
       class="cmb-modulo"
-      href="imprensa.html"
+      href=""
     >
       <span class="cmb-modulo-imagem">
        <img
@@ -421,7 +440,7 @@
     <!-- 4. COMIC PITCH -->
     <a
       class="cmb-modulo"
-      href="comic-pitch.html"
+      href=""
     >
       <span class="cmb-modulo-imagem">
  <img
@@ -441,7 +460,7 @@
     <!-- 5. ANIMA CMB -->
     <a
       class="cmb-modulo"
-      href="anima-cmb.html"
+      href=""
     >
       <span class="cmb-modulo-imagem">
        <img
@@ -565,6 +584,66 @@ document.querySelectorAll('.cmb-password-toggle').forEach(function (botao) {
   });
 });
 </script>
+
+
+<script>
+(function () {
+  function ajustarRodapePainel() {
+    const painel = document.getElementById('cmb-private');
+    const alerta = document.getElementById('cmb-alert');
+    const sair = document.querySelector(
+      '#cmb-private .cmb-toolbar [data-logout]'
+    );
+
+    if (!painel || !alerta || !sair) return;
+    if (document.getElementById('cmb-rodape-painel')) return;
+
+    // Guarda a posição original dos avisos na tela de login.
+    const posicaoOriginal = document.createComment(
+      'Posição original dos avisos'
+    );
+
+    alerta.before(posicaoOriginal);
+
+    // Cria o rodapé abaixo das seções do painel.
+    const rodape = document.createElement('div');
+    rodape.id = 'cmb-rodape-painel';
+
+    painel.appendChild(rodape);
+
+    // Move o botão existente, preservando sua função de sair.
+    rodape.appendChild(sair);
+
+    function posicionarAvisos() {
+      if (painel.hidden) {
+        posicaoOriginal.after(alerta);
+      } else {
+        rodape.insertBefore(alerta, sair);
+      }
+    }
+
+    // Acompanha a entrada e a saída da conta.
+    const observador = new MutationObserver(posicionarAvisos);
+
+    observador.observe(painel, {
+      attributes: true,
+      attributeFilter: ['hidden']
+    });
+
+    posicionarAvisos();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener(
+      'DOMContentLoaded',
+      ajustarRodapePainel,
+      { once: true }
+    );
+  } else {
+    ajustarRodapePainel();
+  }
+})();
+    </script>
   
 </body>
 </html>
