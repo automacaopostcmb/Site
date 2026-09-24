@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#d5007f">
-
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+    
     <title>Área dos Artistas | Comic Market Brasil</title>
 
     <link rel="stylesheet" href="style.css">
@@ -254,6 +256,551 @@
           gap: 4px;
         }
       }
+
+.aa-wrap {
+    --aa-magenta: #d5007f;
+    --aa-ink: #171421;
+    --aa-muted: #635e6b;
+    --aa-line: #e7e1e8;
+    --aa-green: #15c15d;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+
+  .aa-wrap * {
+    box-sizing: border-box;
+  }
+
+  .aa-wrap [hidden] {
+    display: none !important;
+  }
+
+  .aa-top-actions {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 18px;
+  }
+
+  .aa-back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    border: 1px solid #d7ced8;
+    border-radius: 999px;
+    padding: 10px 16px;
+    background: #fff;
+    color: #171421;
+    font-weight: 800;
+    transition: .2s ease;
+  }
+
+  .aa-back-button:hover {
+    border-color: #d5007f;
+    color: #d5007f;
+  }
+
+  .aa-card {
+    background: #fff;
+    border: 1px solid var(--aa-line);
+    border-radius: 18px;
+    padding: clamp(20px, 4vw, 34px);
+    margin-bottom: 22px;
+  }
+
+  .aa-loading {
+    text-align: center;
+    color: var(--aa-muted);
+  }
+
+  .aa-alert {
+    margin: 0 0 20px;
+    padding: 13px 15px;
+    border-radius: 10px;
+    background: #f6f1f5;
+    color: #35263a;
+  }
+
+  .aa-alert[data-type="error"] {
+    background: #fff0f0;
+    color: #8e1723;
+  }
+
+  .aa-alert[data-type="success"] {
+    background: #eaf8f0;
+    color: #165c35;
+  }
+
+  .aa-status-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+
+  .aa-status-top h2,
+  .aa-card h2,
+  .aa-card h3 {
+    margin-top: 0;
+  }
+
+  .aa-status-badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 38px;
+    padding: 8px 13px;
+    border: 1px solid var(--aa-line);
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .aa-status-badge[data-status="em-analise"] {
+    background: #fff8df;
+    border-color: #ead58a;
+    color: #785700;
+  }
+
+  .aa-status-badge[data-status="aprovado"] {
+    background: #eaf8f0;
+    border-color: #a9d9bd;
+    color: #165c35;
+  }
+
+  .aa-status-badge[data-status="analise-do-comprovante"] {
+    background: #eef8ff;
+    border-color: #9ec7ef;
+    color: #0f4f86;
+  }
+
+  .aa-status-badge[data-status="confirmado"] {
+    background: #eaf8f0;
+    border-color: #a9d9bd;
+    color: #165c35;
+  }
+
+  .aa-status-badge[data-status="reprovado"] {
+    background: #fff0f0;
+    border-color: #efb8be;
+    color: #8e1723;
+  }
+
+  .aa-status-badge[data-status="fila-de-espera"] {
+    background: #fff3e4;
+    border-color: #efc892;
+    color: #815000;
+  }
+
+  .aa-muted {
+    color: var(--aa-muted);
+  }
+
+  .aa-admin-message {
+    margin-top: 18px;
+    padding: 16px;
+    border-left: 4px solid var(--aa-magenta);
+    background: #fbf6f9;
+    white-space: pre-line;
+  }
+
+  .aa-card[data-status="aprovado"],
+  .aa-card[data-status="confirmado"] {
+    border-color: #b9e3c8;
+  }
+
+  .aa-card[data-status="aprovado"] .aa-status-text-green,
+  .aa-card[data-status="confirmado"] .aa-status-text-green {
+    color: #165c35;
+  }
+
+  .aa-form {
+    display: grid;
+    gap: 16px;
+  }
+
+  .aa-form label {
+    display: grid;
+    gap: 7px;
+    font-weight: 700;
+  }
+
+  .aa-form input,
+  .aa-form textarea {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #bcb4c0;
+    border-radius: 8px;
+    background: #fff;
+    color: var(--aa-ink);
+    font: inherit;
+  }
+
+  .aa-form textarea {
+    min-height: 130px;
+    resize: vertical;
+  }
+
+  .aa-form input:focus,
+  .aa-form textarea:focus {
+    outline: 2px solid var(--aa-magenta);
+    outline-offset: 2px;
+  }
+
+  .aa-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .aa-note {
+    margin: 0;
+    color: var(--aa-muted);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .aa-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .aa-button {
+    appearance: none;
+    border: 1px solid var(--aa-magenta);
+    border-radius: 9px;
+    padding: 12px 18px;
+    background: var(--aa-magenta);
+    color: #fff;
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .aa-button:disabled {
+    opacity: .55;
+    cursor: wait;
+  }
+
+  .aa-pix-box {
+    display: grid;
+    gap: 12px;
+    margin: 20px 0;
+    padding: 18px;
+    border: 1px solid #b9e3c8;
+    border-radius: 14px;
+    background: #f3fff7;
+  }
+
+  .aa-pix-row {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 12px;
+    align-items: start;
+  }
+
+  .aa-pix-label {
+    font-weight: 800;
+  }
+
+  .aa-pix-value {
+    overflow-wrap: anywhere;
+  }
+
+  .aa-file {
+    padding: 16px;
+    border: 1px dashed #c9b9c8;
+    border-radius: 12px;
+    background: #fff;
+  }
+
+  .aa-file input[type="file"] {
+    padding: 0;
+    border: 0;
+  }
+
+  .aa-success-box {
+    padding: 18px;
+    border-radius: 14px;
+    background: #eaf8f0;
+    color: #165c35;
+  }
+
+  /* OVERLAY DE CARREGAMENTO */
+  .aa-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(16, 12, 18, 0.20);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  .aa-overlay-box {
+    min-width: min(90vw, 340px);
+    padding: 22px 24px;
+    border-radius: 16px;
+    background: #fff;
+    border: 1px solid #e8dfe8;
+    box-shadow: 0 18px 40px rgba(0,0,0,.10);
+    text-align: center;
+  }
+
+  .aa-overlay-spinner {
+    width: 34px;
+    height: 34px;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    border: 4px solid #f1d9ea;
+    border-top-color: #d5007f;
+    animation: aa-spin .8s linear infinite;
+  }
+
+  .aa-overlay-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 800;
+    color: #171421;
+  }
+
+  .aa-overlay-text {
+    margin: 8px 0 0;
+    color: #635e6b;
+    font-size: 14px;
+  }
+
+  @keyframes aa-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Hero com texto melhor no fundo verde */
+  .inner-hero .container.narrow h1 {
+    color: #fff;
+  }
+
+  .inner-hero .container.narrow > p:not(.section-kicker) {
+    color: rgba(255,255,255,.95);
+  }
+
+  @media (max-width: 650px) {
+    .aa-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .aa-pix-row {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+  }
+
+/* ===== TIMELINE ===== */
+
+.aa-timeline {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 30px;
+  padding-top: 6px;
+}
+
+.aa-timeline-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  text-align: center;
+}
+
+.aa-timeline-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 19px;
+  left: calc(50% + 20px);
+  width: calc(100% - 40px);
+  height: 3px;
+  background: #e4dee5;
+  z-index: 0;
+}
+
+.aa-timeline-marker {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 10px;
+  border: 2px solid #d8d0da;
+  border-radius: 50%;
+  background: #fff;
+  color: #8a818c;
+  font-size: 14px;
+  font-weight: 800;
+  transition:
+    background .2s ease,
+    border-color .2s ease,
+    color .2s ease;
+}
+
+.aa-timeline-content {
+  display: grid;
+  gap: 4px;
+  max-width: 150px;
+}
+
+.aa-timeline-content strong {
+  color: #5e5661;
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.aa-timeline-content small {
+  color: #8a818c;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+
+/* ETAPA CONCLUÍDA */
+
+.aa-timeline-item.is-done .aa-timeline-marker {
+  background: #eaf8f0;
+  border-color: #6fc795;
+  color: #165c35;
+}
+
+.aa-timeline-item.is-done .aa-timeline-marker span {
+  font-size: 0;
+}
+
+.aa-timeline-item.is-done .aa-timeline-marker span::after {
+  content: "✓";
+  font-size: 18px;
+}
+
+.aa-timeline-item.is-done .aa-timeline-content strong {
+  color: #165c35;
+}
+
+.aa-timeline-item.is-done:not(:last-child)::after {
+  background: #8bd1a8;
+}
+
+
+/* ETAPA ATUAL */
+
+.aa-timeline-item.is-current .aa-timeline-marker {
+  background: #fff8df;
+  border-color: #e1ba48;
+  color: #785700;
+}
+
+.aa-timeline-item.is-current .aa-timeline-content strong {
+  color: #785700;
+}
+
+
+/* APROVADO */
+
+.aa-timeline[data-status="aprovado"]
+.aa-timeline-item.is-current .aa-timeline-marker {
+  background: #eaf8f0;
+  border-color: #6fc795;
+  color: #165c35;
+}
+
+.aa-timeline[data-status="aprovado"]
+.aa-timeline-item.is-current .aa-timeline-content strong {
+  color: #165c35;
+}
+
+
+/* ANÁLISE DO COMPROVANTE */
+
+.aa-timeline[data-status="analise-do-comprovante"]
+.aa-timeline-item.is-current .aa-timeline-marker {
+  background: #eef8ff;
+  border-color: #78b3e7;
+  color: #0f4f86;
+}
+
+.aa-timeline[data-status="analise-do-comprovante"]
+.aa-timeline-item.is-current .aa-timeline-content strong {
+  color: #0f4f86;
+}
+
+
+/* REPROVADO */
+
+.aa-timeline-item.is-rejected .aa-timeline-marker {
+  background: #fff0f0;
+  border-color: #e18c95;
+  color: #8e1723;
+}
+
+.aa-timeline-item.is-rejected .aa-timeline-content strong {
+  color: #8e1723;
+}
+
+
+/* FILA */
+
+.aa-timeline-item.is-waiting .aa-timeline-marker {
+  background: #fff3e4;
+  border-color: #e4af67;
+  color: #815000;
+}
+
+.aa-timeline-item.is-waiting .aa-timeline-content strong {
+  color: #815000;
+}
+
+
+@media (max-width: 650px) {
+
+  .aa-timeline {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .aa-timeline-item {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    align-items: start;
+    gap: 14px;
+    padding-bottom: 24px;
+    text-align: left;
+  }
+
+  .aa-timeline-item:not(:last-child)::after {
+    top: 40px;
+    left: 19px;
+    width: 3px;
+    height: calc(100% - 22px);
+  }
+
+  .aa-timeline-marker {
+    margin: 0;
+  }
+
+  .aa-timeline-content {
+    max-width: none;
+    padding-top: 3px;
+  }
+
+}
+      
     </style>
   </head>
 
@@ -281,7 +828,11 @@
         <div class="container narrow">
 
           <div class="aa-wrap">
-
+<div class="aa-top-actions">
+  <a class="aa-back-button" href="painel.html">
+    ← Voltar ao painel
+  </a>
+</div>
             <div
               id="aa-loading"
               class="aa-card aa-loading"
@@ -324,6 +875,82 @@
 
               </div>
 
+
+              <div
+  id="aa-timeline"
+  class="aa-timeline"
+  aria-label="Andamento da inscrição"
+>
+
+  <div
+    class="aa-timeline-item"
+    data-step="inscricao"
+  >
+    <div class="aa-timeline-marker">
+      <span>1</span>
+    </div>
+
+    <div class="aa-timeline-content">
+      <strong>Inscrição enviada</strong>
+      <small>
+        Recebemos seus dados.
+      </small>
+    </div>
+  </div>
+
+
+  <div
+    class="aa-timeline-item"
+    data-step="aprovacao"
+  >
+    <div class="aa-timeline-marker">
+      <span>2</span>
+    </div>
+
+    <div class="aa-timeline-content">
+      <strong>Aprovação</strong>
+      <small>
+        A equipe analisa sua participação.
+      </small>
+    </div>
+  </div>
+
+
+  <div
+    class="aa-timeline-item"
+    data-step="comprovante"
+  >
+    <div class="aa-timeline-marker">
+      <span>3</span>
+    </div>
+
+    <div class="aa-timeline-content">
+      <strong>Comprovante</strong>
+      <small>
+        Envio e conferência do pagamento.
+      </small>
+    </div>
+  </div>
+
+
+  <div
+    class="aa-timeline-item"
+    data-step="confirmacao"
+  >
+    <div class="aa-timeline-marker">
+      <span>4</span>
+    </div>
+
+    <div class="aa-timeline-content">
+      <strong>Participação confirmada</strong>
+      <small>
+        Sua vaga está confirmada.
+      </small>
+    </div>
+  </div>
+
+</div>
+              
               <div
                 id="aa-mensagem-admin"
                 class="aa-admin-message"
@@ -615,5 +1242,18 @@
     </main>
 
     <div data-footer-placeholder></div>
+
+    <div id="aa-overlay" class="aa-overlay" hidden>
+  <div class="aa-overlay-box">
+    <div class="aa-overlay-spinner"></div>
+    <p id="aa-overlay-title" class="aa-overlay-title">
+      Carregando informações
+    </p>
+    <p id="aa-overlay-text" class="aa-overlay-text">
+      Aguarde um instante…
+    </p>
+  </div>
+</div>
+    
   </body>
 </html>
