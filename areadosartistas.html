@@ -812,7 +812,38 @@
 #aa-status-card[data-status="confirmado"] #aa-status-texto {
   color: #165c35;
 }
-      
+      /* ===== COR DO HERO CONFORME STATUS ===== */
+
+/*
+ * Antes da aprovação continua com
+ * o fundo padrão preto/magenta do site.
+ */
+
+/*
+ * A partir da aprovação,
+ * todo o topo passa para verde.
+ */
+#aa-hero[data-status="aprovado"],
+#aa-hero[data-status="analise-do-comprovante"],
+#aa-hero[data-status="confirmado"] {
+  background: #00d900;
+}
+
+
+/*
+ * Texto sobre fundo verde.
+ */
+#aa-hero[data-status="aprovado"] h1,
+#aa-hero[data-status="analise-do-comprovante"] h1,
+#aa-hero[data-status="confirmado"] h1 {
+  color: #ffffff;
+}
+
+#aa-hero[data-status="aprovado"] > .container > p,
+#aa-hero[data-status="analise-do-comprovante"] > .container > p,
+#aa-hero[data-status="confirmado"] > .container > p {
+  color: #ffffff;
+}
       
     </style>
   </head>
@@ -822,7 +853,7 @@
 
     <main id="conteudo" class="inner-page">
 
-      <section class="inner-hero">
+<section id="aa-hero" class="inner-hero">
         <div class="container narrow">
           <p class="section-kicker light-kicker">
             Área do Participante
