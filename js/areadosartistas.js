@@ -346,7 +346,12 @@ function renderizar(estado) {
 
   const slug =
     statusSlug(status);
+const hero =
+  $('aa-hero');
 
+if (hero) {
+  hero.dataset.status = slug;
+}
   $('aa-status-badge').textContent =
     status;
 
