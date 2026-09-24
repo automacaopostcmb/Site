@@ -136,6 +136,13 @@ function statusSlug(status) {
     normalizarStatus(status);
 
   if (
+    s === 'confirmado'
+  ) {
+
+    return 'confirmado';
+  }
+
+  if (
     s === 'aprovado'
   ) {
 
@@ -168,6 +175,11 @@ function textoPadraoStatus(status) {
     statusSlug(status)
   ) {
 
+    case 'confirmado':
+
+      return 'Sua participação está confirmada.';
+
+
     case 'aprovado':
 
       return 'Sua inscrição foi aprovada.';
@@ -192,8 +204,6 @@ function textoPadraoStatus(status) {
   }
 
 }
-
-
 
 function setBotaoOcupado(
   botao,
@@ -413,31 +423,46 @@ function renderizar(estado) {
       true;
   }
 
+/*
+ * PARTICIPAÇÃO CONFIRMADA
+ *
+ * O pagamento já foi conferido pela organização.
+ * Não mostramos mais PIX, upload ou aviso de
+ * comprovante em análise.
+ */
+if (
+  slug === 'confirmado'
+) {
 
-  /*
-   * Só existe pagamento quando aprovado.
-   */
-  if (
-    slug !== 'aprovado'
-  ) {
-
-    return;
-  }
+  return;
+}
 
 
-  /*
-   * Se já mandou comprovante,
-   * o input desaparece.
-   */
-  if (
-    estado.comprovanteEnviado
-  ) {
+/*
+ * Só existe pagamento enquanto o status
+ * estiver como Aprovado.
+ */
+if (
+  slug !== 'aprovado'
+) {
 
-    $('aa-comprovante-enviado').hidden =
-      false;
+  return;
+}
 
-    return;
-  }
+
+/*
+ * Aprovado + comprovante já enviado:
+ * fica aguardando conferência da organização.
+ */
+if (
+  estado.comprovanteEnviado
+) {
+
+  $('aa-comprovante-enviado').hidden =
+    false;
+
+  return;
+}
 
 
   /*
