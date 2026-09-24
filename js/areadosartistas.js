@@ -110,12 +110,15 @@ function limparAlerta() {
 
 function esconderTudo() {
 
-  [
-    'aa-status-card',
-    'aa-form-card',
-    'aa-pagamento-card',
-    'aa-comprovante-enviado'
-  ].forEach(id => {
+[
+  'aa-status-card',
+  'aa-form-card',
+  'aa-pagamento-card',
+  'aa-comprovante-enviado',
+  'aa-pos-confirmado-card'
+]
+    
+    .forEach(id => {
 
     $(id).hidden =
       true;
@@ -392,9 +395,13 @@ atualizarTimeline(
    * CONFIRMADO:
    * não mostra mais pagamento nem comprovante em análise.
    */
-  if (slug === 'confirmado') {
-    return;
-  }
+if (slug === 'confirmado') {
+
+  $('aa-pos-confirmado-card').hidden =
+    false;
+
+  return;
+}
 
   /*
    * ANÁLISE DO COMPROVANTE:
