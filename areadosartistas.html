@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#d5007f">
+
+    <title>Área dos Artistas | Comic Market Brasil</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="js/componentes.js" defer></script>
+    <script src="js/script.js" defer></script>
+    <script type="module" src="js/areadosartistas.js"></script>
+
+    <style>
+      .aa-wrap {
+        --aa-magenta: #d5007f;
+        --aa-ink: #171421;
+        --aa-muted: #635e6b;
+        --aa-line: #e7e1e8;
+        max-width: 880px;
+        margin: 0 auto;
+      }
+
+      .aa-wrap * {
+        box-sizing: border-box;
+      }
+
+      .aa-wrap [hidden] {
+        display: none !important;
+      }
+
+      .aa-card {
+        background: #fff;
+        border: 1px solid var(--aa-line);
+        border-radius: 18px;
+        padding: clamp(20px, 4vw, 34px);
+        margin-bottom: 22px;
+      }
+
+      .aa-loading {
+        text-align: center;
+        color: var(--aa-muted);
+      }
+
+      .aa-alert {
+        margin: 0 0 20px;
+        padding: 13px 15px;
+        border-radius: 10px;
+        background: #f6f1f5;
+        color: #35263a;
+      }
+
+      .aa-alert[data-type="error"] {
+        background: #fff0f0;
+        color: #8e1723;
+      }
+
+      .aa-alert[data-type="success"] {
+        background: #eaf8f0;
+        color: #165c35;
+      }
+
+      .aa-status-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 18px;
+        flex-wrap: wrap;
+      }
+
+      .aa-status-top h2,
+      .aa-card h2,
+      .aa-card h3 {
+        margin-top: 0;
+      }
+
+      .aa-status-badge {
+        display: inline-flex;
+        align-items: center;
+        min-height: 38px;
+        padding: 8px 13px;
+        border: 1px solid var(--aa-line);
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .aa-status-badge[data-status="em-analise"] {
+        background: #fff8df;
+        border-color: #ead58a;
+        color: #785700;
+      }
+
+      .aa-status-badge[data-status="aprovado"] {
+        background: #eaf8f0;
+        border-color: #a9d9bd;
+        color: #165c35;
+      }
+
+      .aa-status-badge[data-status="reprovado"] {
+        background: #fff0f0;
+        border-color: #efb8be;
+        color: #8e1723;
+      }
+
+      .aa-status-badge[data-status="fila-de-espera"] {
+        background: #fff3e4;
+        border-color: #efc892;
+        color: #815000;
+      }
+
+      .aa-muted {
+        color: var(--aa-muted);
+      }
+
+      .aa-admin-message {
+        margin-top: 18px;
+        padding: 16px;
+        border-left: 4px solid var(--aa-magenta);
+        background: #fbf6f9;
+        white-space: pre-line;
+      }
+
+      .aa-form {
+        display: grid;
+        gap: 16px;
+      }
+
+      .aa-form label {
+        display: grid;
+        gap: 7px;
+        font-weight: 700;
+      }
+
+      .aa-form input,
+      .aa-form textarea {
+        width: 100%;
+        padding: 13px;
+        border: 1px solid #bcb4c0;
+        border-radius: 8px;
+        background: #fff;
+        color: var(--aa-ink);
+        font: inherit;
+      }
+
+      .aa-form textarea {
+        min-height: 130px;
+        resize: vertical;
+      }
+
+      .aa-form input:focus,
+      .aa-form textarea:focus {
+        outline: 2px solid var(--aa-magenta);
+        outline-offset: 2px;
+      }
+
+      .aa-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .aa-note {
+        margin: 0;
+        color: var(--aa-muted);
+        font-size: 14px;
+        line-height: 1.55;
+      }
+
+      .aa-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .aa-button {
+        appearance: none;
+        border: 1px solid var(--aa-magenta);
+        border-radius: 9px;
+        padding: 12px 18px;
+        background: var(--aa-magenta);
+        color: #fff;
+        font: inherit;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .aa-button:disabled {
+        opacity: .55;
+        cursor: wait;
+      }
+
+      .aa-pix-box {
+        display: grid;
+        gap: 12px;
+        margin: 20px 0;
+        padding: 18px;
+        border: 1px solid var(--aa-line);
+        border-radius: 14px;
+        background: #faf8fa;
+      }
+
+      .aa-pix-row {
+        display: grid;
+        grid-template-columns: 150px minmax(0, 1fr);
+        gap: 12px;
+        align-items: start;
+      }
+
+      .aa-pix-label {
+        font-weight: 800;
+      }
+
+      .aa-pix-value {
+        overflow-wrap: anywhere;
+      }
+
+      .aa-file {
+        padding: 16px;
+        border: 1px dashed #c9b9c8;
+        border-radius: 12px;
+        background: #fff;
+      }
+
+      .aa-file input[type="file"] {
+        padding: 0;
+        border: 0;
+      }
+
+      .aa-success-box {
+        padding: 18px;
+        border-radius: 14px;
+        background: #eaf8f0;
+        color: #165c35;
+      }
+
+      @media (max-width: 650px) {
+        .aa-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .aa-pix-row {
+          grid-template-columns: 1fr;
+          gap: 4px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div data-header-placeholder></div>
+
+    <main id="conteudo" class="inner-page">
+
+      <section class="inner-hero">
+        <div class="container narrow">
+          <p class="section-kicker light-kicker">
+            Área do Participante
+          </p>
+
+          <h1>Área dos Artistas</h1>
+
+          <p>
+            Envie sua inscrição e acompanhe por aqui
+            o andamento da análise.
+          </p>
+        </div>
+      </section>
+
+      <section class="section blank-content">
+        <div class="container narrow">
+
+          <div class="aa-wrap">
+
+            <div
+              id="aa-loading"
+              class="aa-card aa-loading"
+            >
+              Verificando sua conta…
+            </div>
+
+            <p
+              id="aa-alert"
+              class="aa-alert"
+              role="status"
+              aria-live="polite"
+              hidden
+            ></p>
+
+
+            <!-- STATUS -->
+
+            <section
+              id="aa-status-card"
+              class="aa-card"
+              hidden
+            >
+
+              <div class="aa-status-top">
+
+                <div>
+                  <h2>Status da sua inscrição</h2>
+
+                  <p
+                    id="aa-status-texto"
+                    class="aa-muted"
+                  ></p>
+                </div>
+
+                <span
+                  id="aa-status-badge"
+                  class="aa-status-badge"
+                ></span>
+
+              </div>
+
+              <div
+                id="aa-mensagem-admin"
+                class="aa-admin-message"
+                hidden
+              ></div>
+
+            </section>
+
+
+            <!-- FORMULÁRIO -->
+
+            <section
+              id="aa-form-card"
+              class="aa-card"
+              hidden
+            >
+
+              <h2>Inscrição</h2>
+
+              <p class="aa-muted">
+                Preencha os dados abaixo.
+                Depois do envio, o formulário será encerrado
+                e o andamento ficará disponível nesta página.
+              </p>
+
+              <form
+                id="aa-form"
+                class="aa-form"
+              >
+
+                <div class="aa-grid">
+
+                  <label>
+                    Nome Completo*
+
+                    <input
+                      name="nome_completo"
+                      type="text"
+                      maxlength="120"
+                      autocomplete="name"
+                      required
+                    >
+                  </label>
+
+                  <label>
+                    Nome artístico*
+
+                    <input
+                      name="nome_artistico"
+                      type="text"
+                      maxlength="120"
+                      required
+                    >
+                  </label>
+
+                </div>
+
+
+                <label>
+                  Email para contato*
+
+                  <input
+                    name="email"
+                    type="email"
+                    maxlength="160"
+                    autocomplete="email"
+                    required
+                  >
+                </label>
+
+
+                <div class="aa-grid">
+
+                  <label>
+                    Portfólio*
+
+                    <input
+                      name="portfolio"
+                      type="text"
+                      maxlength="500"
+                      placeholder="Link do seu portfólio"
+                      required
+                    >
+                  </label>
+
+                  <label>
+                    Instagram*
+
+                    <input
+                      name="instagram"
+                      type="text"
+                      maxlength="160"
+                      placeholder="@usuario ou link"
+                      required
+                    >
+                  </label>
+
+                </div>
+
+
+                <label>
+                  Sobre você*
+
+                  <textarea
+                    name="sobre"
+                    maxlength="2500"
+                    required
+                  ></textarea>
+                </label>
+
+
+                <label>
+                  Produtos que você vai levar para o evento*
+
+                  <textarea
+                    name="produto"
+                    maxlength="2500"
+                    required
+                  ></textarea>
+                </label>
+
+
+                <p class="aa-note">
+                  Revise as informações antes de enviar.
+                  Após o envio, a inscrição ficará bloqueada
+                  para novas alterações por esta página.
+                </p>
+
+
+                <div class="aa-actions">
+
+                  <button
+                    id="aa-btn-enviar"
+                    class="aa-button"
+                    type="submit"
+                  >
+                    Enviar inscrição
+                  </button>
+
+                </div>
+
+              </form>
+
+            </section>
+
+
+            <!-- PAGAMENTO -->
+
+            <section
+              id="aa-pagamento-card"
+              class="aa-card"
+              hidden
+            >
+
+              <h2>Pagamento</h2>
+
+              <p>
+                Sua inscrição foi aprovada.
+                Faça o pagamento pelos dados abaixo
+                e envie o comprovante.
+              </p>
+
+
+              <div class="aa-pix-box">
+
+                <div class="aa-pix-row">
+
+                  <span class="aa-pix-label">
+                    Valor
+                  </span>
+
+                  <span
+                    id="aa-pix-valor"
+                    class="aa-pix-value"
+                  ></span>
+
+                </div>
+
+
+                <div class="aa-pix-row">
+
+                  <span class="aa-pix-label">
+                    Chave PIX
+                  </span>
+
+                  <span
+                    id="aa-pix-chave"
+                    class="aa-pix-value"
+                  ></span>
+
+                </div>
+
+
+                <div
+                  id="aa-pix-favorecido-row"
+                  class="aa-pix-row"
+                  hidden
+                >
+
+                  <span class="aa-pix-label">
+                    Favorecido
+                  </span>
+
+                  <span
+                    id="aa-pix-favorecido"
+                    class="aa-pix-value"
+                  ></span>
+
+                </div>
+
+              </div>
+
+
+              <form
+                id="aa-form-comprovante"
+                class="aa-form"
+              >
+
+                <label class="aa-file">
+
+                  Enviar comprovante*
+
+                  <input
+                    id="aa-comprovante"
+                    name="comprovante"
+                    type="file"
+                    accept=".png,.jpg,.jpeg,.pdf,image/png,image/jpeg,application/pdf"
+                    required
+                  >
+
+                </label>
+
+
+                <p class="aa-note">
+                  Formatos aceitos:
+                  PNG, JPG/JPEG ou PDF.
+                  Tamanho máximo: 8 MB.
+                </p>
+
+
+                <div class="aa-actions">
+
+                  <button
+                    id="aa-btn-comprovante"
+                    class="aa-button"
+                    type="submit"
+                  >
+                    Enviar comprovante
+                  </button>
+
+                </div>
+
+              </form>
+
+            </section>
+
+
+            <!-- COMPROVANTE JÁ ENVIADO -->
+
+            <section
+              id="aa-comprovante-enviado"
+              class="aa-card"
+              hidden
+            >
+
+              <h2>Comprovante recebido</h2>
+
+              <div class="aa-success-box">
+
+                <strong>
+                  Seu comprovante foi enviado.
+                </strong>
+
+                <p style="margin-bottom:0;">
+                  Ele está em análise pela nossa equipe.
+                  Esse processo pode demorar um pouco,
+                  mas em breve você receberá mais informações por aqui.
+                </p>
+
+              </div>
+
+            </section>
+
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <div data-footer-placeholder></div>
+  </body>
+</html>
