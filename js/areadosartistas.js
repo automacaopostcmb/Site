@@ -59,7 +59,18 @@ const $ =
 
 let usuario = null;
 
+function mostrarOverlay(
+  titulo = 'Carregando informações',
+  texto = 'Aguarde um instante…'
+) {
+  $('aa-overlay-title').textContent = titulo;
+  $('aa-overlay-text').textContent = texto;
+  $('aa-overlay').hidden = false;
+}
 
+function esconderOverlay() {
+  $('aa-overlay').hidden = true;
+}
 
 function mostrarAlerta(
   mensagem,
@@ -135,74 +146,51 @@ function statusSlug(status) {
   const s =
     normalizarStatus(status);
 
-  if (
-    s === 'confirmado'
-  ) {
-
+  if (s === 'confirmado') {
     return 'confirmado';
   }
 
-  if (
-    s === 'aprovado'
-  ) {
+  if (s === 'analise do comprovante') {
+    return 'analise-do-comprovante';
+  }
 
+  if (s === 'aprovado') {
     return 'aprovado';
   }
 
-  if (
-    s === 'reprovado'
-  ) {
-
+  if (s === 'reprovado') {
     return 'reprovado';
   }
 
-  if (
-    s === 'fila de espera'
-  ) {
-
+  if (s === 'fila de espera') {
     return 'fila-de-espera';
   }
 
   return 'em-analise';
-
 }
 
 
-
 function textoPadraoStatus(status) {
-
-  switch (
-    statusSlug(status)
-  ) {
+  switch (statusSlug(status)) {
 
     case 'confirmado':
-
       return 'Sua participação está confirmada.';
 
+    case 'analise-do-comprovante':
+      return 'Recebemos seu comprovante e ele está em análise pela nossa equipe.';
 
     case 'aprovado':
-
       return 'Sua inscrição foi aprovada.';
 
-
     case 'reprovado':
-
       return 'A análise da sua inscrição foi concluída.';
 
-
     case 'fila-de-espera':
-
       return 'Sua inscrição está na fila de espera.';
 
-
     default:
-
-      return (
-        'Recebemos sua inscrição e ela está em análise ' +
-        'pela nossa equipe.'
-      );
+      return 'Recebemos sua inscrição e ela está em análise pela nossa equipe.';
   }
-
 }
 
 function setBotaoOcupado(
@@ -329,133 +317,90 @@ async function chamarApi(
 
 
 function renderizar(estado) {
-
   esconderTudo();
   limparAlerta();
 
-
-  $('aa-loading').hidden =
-    true;
-
+  $('aa-loading').hidden = true;
 
   /*
    * A pessoa ainda não se inscreveu.
    */
   if (!estado.inscricao) {
-
-    $('aa-form-card').hidden =
-      false;
-
+    $('aa-form-card').hidden = false;
 
     const emailInput =
       $('aa-form').elements.email;
 
-
-    if (
-      !emailInput.value &&
-      usuario?.email
-    ) {
-
-      emailInput.value =
-        usuario.email;
+    if (!emailInput.value && usuario?.email) {
+      emailInput.value = usuario.email;
     }
-
 
     return;
   }
-
 
   /*
    * Já possui inscrição.
    */
   const status =
-    estado.status ||
-    'Em análise';
-
+    estado.status || 'Em análise';
 
   const slug =
     statusSlug(status);
 
-
   $('aa-status-badge').textContent =
     status;
-
 
   $('aa-status-badge').dataset.status =
     slug;
 
-
   $('aa-status-texto').textContent =
     textoPadraoStatus(status);
 
+  $('aa-status-card').dataset.status =
+    slug;
 
   $('aa-status-card').hidden =
     false;
 
-
+atualizarTimeline(
+  status
+);
+  
   /*
    * Mensagem personalizada escrita na planilha.
    */
   const mensagem =
-    String(
-      estado.mensagem || ''
-    ).trim();
-
+    String(estado.mensagem || '').trim();
 
   const mensagemEl =
     $('aa-mensagem-admin');
 
-
   if (mensagem) {
-
-    mensagemEl.textContent =
-      mensagem;
-
-    mensagemEl.hidden =
-      false;
-
+    mensagemEl.textContent = mensagem;
+    mensagemEl.hidden = false;
   } else {
-
-    mensagemEl.textContent =
-      '';
-
-    mensagemEl.hidden =
-      true;
+    mensagemEl.textContent = '';
+    mensagemEl.hidden = true;
   }
 
-/*
- * PARTICIPAÇÃO CONFIRMADA
- *
- * O pagamento já foi conferido pela organização.
- * Não mostramos mais PIX, upload ou aviso de
- * comprovante em análise.
- */
+  /*
+   * CONFIRMADO:
+   * não mostra mais pagamento nem comprovante em análise.
+   */
+  if (slug === 'confirmado') {
+    return;
+  }
+
+  /*
+   * ANÁLISE DO COMPROVANTE:
+   * mostra somente o bloco de comprovante recebido.
+   */
 if (
-  slug === 'confirmado'
-) {
-
-  return;
-}
-
-
-/*
- * Só existe pagamento enquanto o status
- * estiver como Aprovado.
- */
-if (
-  slug !== 'aprovado'
-) {
-
-  return;
-}
-
-
-/*
- * Aprovado + comprovante já enviado:
- * fica aguardando conferência da organização.
- */
-if (
-  estado.comprovanteEnviado
+  slug === 'analise-do-comprovante' ||
+  (
+    slug === 'aprovado' &&
+    estado.comprovanteEnviado
+  )
 ) {
 
   $('aa-comprovante-enviado').hidden =
@@ -464,85 +409,67 @@ if (
   return;
 }
 
+  /*
+   * Só existe pagamento quando o status for Aprovado.
+   */
+  if (slug !== 'aprovado') {
+    return;
+  }
 
   /*
-   * Aprovado e ainda não mandou comprovante.
+   * Aprovado e ainda sem comprovante:
+   * mostrar pagamento e upload.
    */
   const pix =
     estado.pix || {};
 
-
   $('aa-pix-valor').textContent =
-    pix.valor ||
-    'Consulte a organização';
-
+    pix.valor || 'Consulte a organização';
 
   $('aa-pix-chave').textContent =
-    pix.chave ||
-    'Consulte a organização';
-
+    pix.chave || 'Consulte a organização';
 
   const favorecido =
-    String(
-      pix.favorecido || ''
-    ).trim();
-
+    String(pix.favorecido || '').trim();
 
   $('aa-pix-favorecido').textContent =
     favorecido;
 
-
   $('aa-pix-favorecido-row').hidden =
     !favorecido;
 
-
-  $('aa-pagamento-card').hidden =
-    false;
-
+  $('aa-pagamento-card').hidden = false;
 }
 
 
-
 async function carregarEstado() {
+  $('aa-loading').hidden = false;
 
-  $('aa-loading').hidden =
-    false;
-
+  mostrarOverlay(
+    'Carregando informações',
+    'Estamos verificando sua inscrição.'
+  );
 
   try {
-
     const resposta =
-      await chamarApi(
-        'status'
-      );
+      await chamarApi('status');
 
-
-    renderizar(
-      resposta
-    );
+    renderizar(resposta);
 
   } catch (erro) {
+    console.error('Área dos Artistas:', erro);
 
-    console.error(
-      'Área dos Artistas:',
-      erro
-    );
-
-
-    $('aa-loading').hidden =
-      true;
-
+    $('aa-loading').hidden = true;
 
     mostrarAlerta(
       erro.message,
       'error'
     );
 
+  } finally {
+    esconderOverlay();
   }
-
 }
-
-
 
 function arquivoParaBase64(file) {
 
@@ -621,43 +548,32 @@ onAuthStateChanged(
   auth,
   async user => {
 
+    mostrarOverlay(
+      'Verificando acesso',
+      'Aguarde enquanto validamos sua conta.'
+    );
+
     /*
      * Não está logado.
      */
     if (!user) {
-
-      window.location.replace(
-        PAINEL_URL
-      );
-
+      window.location.replace(PAINEL_URL);
       return;
     }
-
 
     /*
      * E-mail ainda não foi confirmado.
      */
-    if (
-      !user.emailVerified
-    ) {
-
-      window.location.replace(
-        PAINEL_URL
-      );
-
+    if (!user.emailVerified) {
+      window.location.replace(PAINEL_URL);
       return;
     }
 
-
-    usuario =
-      user;
-
+    usuario = user;
 
     await carregarEstado();
-
   }
 );
-
 
 
 /* =========================================================
@@ -768,12 +684,16 @@ $('aa-form').addEventListener(
     limparAlerta();
 
 
-    setBotaoOcupado(
-      botao,
-      true,
-      'Enviando…'
-    );
+setBotaoOcupado(
+  botao,
+  true,
+  'Enviando…'
+);
 
+mostrarOverlay(
+  'Enviando inscrição',
+  'Estamos salvando suas informações.'
+);
 
     try {
 
@@ -817,14 +737,16 @@ $('aa-form').addEventListener(
         'error'
       );
 
-    } finally {
+} finally {
 
-      setBotaoOcupado(
-        botao,
-        false
-      );
+  setBotaoOcupado(
+    botao,
+    false
+  );
 
-    }
+  esconderOverlay();
+
+}
 
   }
 );
@@ -834,7 +756,6 @@ $('aa-form').addEventListener(
 /* =========================================================
    ENVIO DO COMPROVANTE
    ========================================================= */
-
 $('aa-form-comprovante')
   .addEventListener(
     'submit',
@@ -842,61 +763,40 @@ $('aa-form-comprovante')
 
       event.preventDefault();
 
-
       const input =
         $('aa-comprovante');
-
 
       const file =
         input.files?.[0];
 
-
       const botao =
         $('aa-btn-comprovante');
 
-
       if (!file) {
-
         mostrarAlerta(
           'Selecione o comprovante.',
           'error'
         );
-
         return;
       }
 
-
-      if (
-        !TIPOS_PERMITIDOS.has(
-          file.type
-        )
-      ) {
-
+      if (!TIPOS_PERMITIDOS.has(file.type)) {
         mostrarAlerta(
           'Envie um arquivo PNG, JPG/JPEG ou PDF.',
           'error'
         );
-
         return;
       }
 
-
-      if (
-        file.size >
-        MAX_FILE_BYTES
-      ) {
-
+      if (file.size > MAX_FILE_BYTES) {
         mostrarAlerta(
           'O arquivo deve ter no máximo 8 MB.',
           'error'
         );
-
         return;
       }
 
-
       limparAlerta();
-
 
       setBotaoOcupado(
         botao,
@@ -904,45 +804,32 @@ $('aa-form-comprovante')
         'Enviando comprovante…'
       );
 
+      mostrarOverlay(
+        'Enviando comprovante',
+        'Seu arquivo está sendo enviado. Aguarde.'
+      );
 
       try {
-
         const base64 =
-          await arquivoParaBase64(
-            file
-          );
-
+          await arquivoParaBase64(file);
 
         await chamarApi(
           'enviar_comprovante',
           {
             arquivo: {
-              nome:
-                file.name,
-
-              mimeType:
-                file.type,
-
+              nome: file.name,
+              mimeType: file.type,
               base64
             }
           }
         );
 
-
-        input.value =
-          '';
-
+        input.value = '';
 
         const resposta =
-          await chamarApi(
-            'status'
-          );
+          await chamarApi('status');
 
-
-        renderizar(
-          resposta
-        );
-
+        renderizar(resposta);
 
         mostrarAlerta(
           'Comprovante enviado com sucesso.',
@@ -950,12 +837,10 @@ $('aa-form-comprovante')
         );
 
       } catch (erro) {
-
         console.error(
           'Área dos Artistas — comprovante:',
           erro
         );
-
 
         mostrarAlerta(
           erro.message,
@@ -963,13 +848,266 @@ $('aa-form-comprovante')
         );
 
       } finally {
-
         setBotaoOcupado(
           botao,
           false
         );
 
+        esconderOverlay();
       }
-
     }
   );
+function atualizarTimeline(status) {
+
+  const slug =
+    statusSlug(status);
+
+  const timeline =
+    $('aa-timeline');
+
+  if (!timeline) {
+    return;
+  }
+
+  timeline.dataset.status =
+    slug;
+
+  const itens = {
+
+    inscricao:
+      timeline.querySelector(
+        '[data-step="inscricao"]'
+      ),
+
+    aprovacao:
+      timeline.querySelector(
+        '[data-step="aprovacao"]'
+      ),
+
+    comprovante:
+      timeline.querySelector(
+        '[data-step="comprovante"]'
+      ),
+
+    confirmacao:
+      timeline.querySelector(
+        '[data-step="confirmacao"]'
+      )
+
+  };
+
+
+  /*
+   * PRIMEIRO:
+   * limpa completamente o estado anterior.
+   */
+  Object.values(itens).forEach(item => {
+
+    item.classList.remove(
+      'is-done',
+      'is-current',
+      'is-rejected',
+      'is-waiting'
+    );
+
+  });
+
+
+  /*
+   * Restaura sempre os textos originais.
+   * Assim uma atualização de status não herda
+   * textos do estado anterior.
+   */
+
+  itens.inscricao
+    .querySelector('strong')
+    .textContent =
+      'Inscrição enviada';
+
+  itens.inscricao
+    .querySelector('small')
+    .textContent =
+      'Recebemos seus dados.';
+
+
+  itens.aprovacao
+    .querySelector('strong')
+    .textContent =
+      'Aprovação';
+
+  itens.aprovacao
+    .querySelector('small')
+    .textContent =
+      'A equipe analisa sua participação.';
+
+
+  itens.comprovante
+    .querySelector('strong')
+    .textContent =
+      'Comprovante';
+
+  itens.comprovante
+    .querySelector('small')
+    .textContent =
+      'Envio e conferência do pagamento.';
+
+
+  itens.confirmacao
+    .querySelector('strong')
+    .textContent =
+      'Participação confirmada';
+
+  itens.confirmacao
+    .querySelector('small')
+    .textContent =
+      'Sua vaga está confirmada.';
+
+
+  /*
+   * A inscrição já existe.
+   */
+  itens.inscricao.classList.add(
+    'is-done'
+  );
+
+
+  /*
+   * EM ANÁLISE
+   */
+  if (
+    slug === 'em-analise'
+  ) {
+
+    itens.aprovacao.classList.add(
+      'is-current'
+    );
+
+    return;
+  }
+
+
+  /*
+   * FILA DE ESPERA
+   */
+  if (
+    slug === 'fila-de-espera'
+  ) {
+
+    itens.aprovacao.classList.add(
+      'is-waiting'
+    );
+
+    itens.aprovacao
+      .querySelector('strong')
+      .textContent =
+        'Fila de espera';
+
+    itens.aprovacao
+      .querySelector('small')
+      .textContent =
+        'Sua inscrição aguarda disponibilidade.';
+
+    return;
+  }
+
+
+  /*
+   * REPROVADO
+   */
+  if (
+    slug === 'reprovado'
+  ) {
+
+    itens.aprovacao.classList.add(
+      'is-rejected'
+    );
+
+    itens.aprovacao
+      .querySelector('strong')
+      .textContent =
+        'Não aprovado';
+
+    itens.aprovacao
+      .querySelector('small')
+      .textContent =
+        'A análise desta inscrição foi concluída.';
+
+    return;
+  }
+
+
+  /*
+   * APROVADO
+   */
+  if (
+    slug === 'aprovado'
+  ) {
+
+    itens.aprovacao.classList.add(
+      'is-done'
+    );
+
+    itens.comprovante.classList.add(
+      'is-current'
+    );
+
+    return;
+  }
+
+
+  /*
+   * COMPROVANTE ENVIADO.
+   */
+  if (
+    slug === 'analise-do-comprovante'
+  ) {
+
+    itens.aprovacao.classList.add(
+      'is-done'
+    );
+
+    itens.comprovante.classList.add(
+      'is-done'
+    );
+
+    itens.confirmacao.classList.add(
+      'is-current'
+    );
+
+    itens.confirmacao
+      .querySelector('strong')
+      .textContent =
+        'Conferência';
+
+    itens.confirmacao
+      .querySelector('small')
+      .textContent =
+        'Nossa equipe está conferindo o pagamento.';
+
+    return;
+  }
+
+
+  /*
+   * CONFIRMADO
+   */
+  if (
+    slug === 'confirmado'
+  ) {
+
+    itens.aprovacao.classList.add(
+      'is-done'
+    );
+
+    itens.comprovante.classList.add(
+      'is-done'
+    );
+
+    itens.confirmacao.classList.add(
+      'is-done'
+    );
+
+    return;
+  }
+
+}
